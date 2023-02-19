@@ -1,0 +1,6 @@
+.message {
+    display: table;
+    margin: 100px auto;
+    padding: 10vw;
+    border: 1px solid black;
+}
