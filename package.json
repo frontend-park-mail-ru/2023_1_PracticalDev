@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./server/index.js",
+    "server": "node ./server/index.js",
     "lint": "npx eslint ./**/*.js --ignore-path ./.eslintignore"
   },
   "repository": {
@@ -20,5 +20,6 @@
   "homepage": "https://github.com/frontend-park-mail-ru/2023_1_PracticalDev#readme",
   "devDependencies": {
     "eslint": "^8.34.0"
-  }
+  },
+  "type":"module"
 }
