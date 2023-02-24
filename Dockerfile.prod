@@ -1,0 +1,13 @@
+FROM node:19 AS base
+
+WORKDIR /home/code/
+
+RUN adduser node sudo
+
+COPY *.json /home/code/
+COPY public /home/code/public
+COPY server /home/code/server
+
+EXPOSE 8000
+
+CMD [ "npm", "run", "server" ]
