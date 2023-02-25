@@ -16,5 +16,5 @@ run-sudo: build-docker
 	  node_app
 
 build-docker: Dockerfile
-	docker build . -f Dockerfile -t node_app 
+	DOCKER_BUILDKIT=1 docker build . -f Dockerfile -t node_app 
 	touch $@

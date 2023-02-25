@@ -34,15 +34,12 @@ function lookupContentType(fileName) {
             return 'image/svg+xml';
         case 'webp':
             return 'image/webp';
+        case 'ico':
+            return 'image/x-icon';
         default:
             return '';
     }
 }
-
-// const pages = new Map([
-//     ['/', '/index.html'],
-//     ['/profile', '/profile/index.html'],
-// ]);
 
 const SERVER_PORT = process.env.PORT || 8000;
 
@@ -51,10 +48,8 @@ async_server.on('request', async (req, res) => {
     let url = req.url;
     let response;
 
-    if (url === '/') {
-        url += 'index.html';
-    } else if (lookupContentType(url) === '') {
-        url += '.html';
+    if (url === '/' || lookupContentType(url) === '') {
+        url = '/index.html';
     }
 
     log.debug('got request', url);
@@ -67,25 +62,23 @@ async_server.on('request', async (req, res) => {
         res.end();
     });
 
-    if ((response === 404)) {
+    if (response === 404) {
         return;
     }
 
-    await fs_async
-        .readFile('./public' + url)
-        .then((data) => {
-            res.setHeader('Content-Type', lookupContentType(url));
-            res.write(data);
-            res.statusCode = 200;
-            response = 200;
-            res.end();
-        })
-        .catch((err) => {
-            log.err('failed to open file: ', err);
-            res.statusCode = 500;
-            response = 500;
-            res.end();
-        });
+    try {
+        let data = await fs_async.readFile('./public' + url);
+        res.setHeader('Content-Type', lookupContentType(url));
+        res.write(data);
+        res.statusCode = 200;
+        response = 200;
+        res.end();
+    } catch (error) {
+        log.err('failed to open file: ', error);
+        res.statusCode = 500;
+        response = 500;
+        res.end();
+    }
 
     log.info(response, req.url);
 });

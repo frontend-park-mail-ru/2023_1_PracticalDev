@@ -29,14 +29,12 @@ import Router from './router/router.js';
             const menu = document.getElementById('menu');
             menu.innerHTML = html;
 
-            const links = document.getElementsByTagName('a');
-
-            for (let i = 0; i < links.length; i++) {
-                links[i].addEventListener('click', (e) => {
+            document.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A') {
                     e.preventDefault();
-                    router.goToRoute(links[i].getAttribute('href'));
-                });
-            }
+                    router.goToRoute(e.target.getAttribute('href'));
+                }
+            });
         });
     });
 })();
