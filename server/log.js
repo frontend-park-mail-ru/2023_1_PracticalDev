@@ -12,9 +12,12 @@ const err = (message, data) => {
     console.log(fontColors.get('red'), 'ERR:', fontColors.get('white'), message, fontColors.get('gray'), data);
 };
 
-const debug = (message, data) => {
-    console.log(fontColors.get('black'), 'DEB:', fontColors.get('white'), message, fontColors.get('gray'), data);
-};
+let debug = () => {};
+
+if (process.env.DEBUG) {
+    debug = (message, data) => {
+        console.log(fontColors.get('black'), 'DEB:', fontColors.get('white'), message, fontColors.get('gray'), data);
+    };
+}
 
 export { info, warn, err, debug };
-

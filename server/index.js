@@ -1,5 +1,6 @@
 import * as http from 'http';
 import * as fs from 'fs';
+import * as fs_async from 'fs/promises';
 import * as log from './log.js';
 
 /**
@@ -18,6 +19,7 @@ function lookupContentType(fileName) {
         case 'html':
             return 'text/html';
         case 'js':
+        case 'handlebars':
             return 'text/javascript';
         case 'css':
             return 'text/css';
@@ -37,41 +39,55 @@ function lookupContentType(fileName) {
     }
 }
 
-const pages = new Map([['/', '/index.html'],
-['/profile', '/profile/index.html']]);
-
-const findPage = (page) => {
-    if (pages.has(page)) {
-        return pages.get(page);
-    }
-    return page;
-};
+// const pages = new Map([
+//     ['/', '/index.html'],
+//     ['/profile', '/profile/index.html'],
+// ]);
 
 const SERVER_PORT = process.env.PORT || 8000;
 
-const server = http.createServer((req, res) => {
-    const url = findPage(req.url);
+const async_server = http.createServer();
+async_server.on('request', async (req, res) => {
+    let url = req.url;
+    let response;
+
+    if (url === '/') {
+        url += 'index.html';
+    } else if (lookupContentType(url) === '') {
+        url += '.html';
+    }
+
     log.debug('got request', url);
     log.debug('request method', req.method);
 
-    if (fs.existsSync('./public' + url)) {
-        fs.readFile('./public' + url, (err, data) => {
-            if (err) {
-                log.err('failed to open file: ', err);
-                res.statusCode = 500;
-                res.end();
-            } else {
-                res.setHeader('Content-Type', lookupContentType(url));
-                res.write(data);
-                res.statusCode = 200;
-                res.end();
-            }
-        });
-    } else {
-        log.warn('file does not exist', url);
+    await fs_async.access('./public' + url, fs.constants.R_OK).catch((val) => {
+        log.warn(val, url);
         res.statusCode = 404;
+        response = 404;
         res.end();
+    });
+
+    if ((response === 404)) {
+        return;
     }
+
+    await fs_async
+        .readFile('./public' + url)
+        .then((data) => {
+            res.setHeader('Content-Type', lookupContentType(url));
+            res.write(data);
+            res.statusCode = 200;
+            response = 200;
+            res.end();
+        })
+        .catch((err) => {
+            log.err('failed to open file: ', err);
+            res.statusCode = 500;
+            response = 500;
+            res.end();
+        });
+
+    log.info(response, req.url);
 });
 
-server.listen(SERVER_PORT);
+async_server.listen(SERVER_PORT);
