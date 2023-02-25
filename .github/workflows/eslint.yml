@@ -54,4 +54,4 @@ jobs:
 
             - name: ESLint Checking
               if: ${{(steps.changed-files-js.outputs.added_files || steps.changed-files-js.outputs.modified_files) }}
-              run: npx eslint --config .eslintrc.cjs --ignore-path .eslintignore ${{ steps.changed-files-js.outputs.modified_files }} ${{ steps.changed-files-js.outputs.added_files }}
+              run: npx eslint --config .eslintrc --ignore-path .eslintignore ${{ steps.changed-files-js.outputs.modified_files }} ${{ steps.changed-files-js.outputs.added_files }}
