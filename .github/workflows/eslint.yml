@@ -17,12 +17,12 @@ jobs:
                   fetch-depth: 0
 
             - name: Staring Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v1
+              uses: actions/setup-node@v3
               with:
                   node-version: ${{ matrix.node-version }}
 
             - name: Restoring npm cache
-              uses: actions/cache@v2
+              uses: actions/cache@v3
               with:
                   path: '**/node_modules'
                   key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
@@ -33,7 +33,7 @@ jobs:
 
             - name: Get all file changes
               id: changed-files
-              uses: tj-actions/changed-files@v23.1
+              uses: tj-actions/changed-files@v35
               with:
                 files: |
                   **/*.js
@@ -47,7 +47,7 @@ jobs:
 
             - name: Get changed JavaScript files
               id: changed-files-js
-              uses: tj-actions/changed-files@v23.1
+              uses: tj-actions/changed-files@v35
               with:
                 files: |
                   **/*.js
