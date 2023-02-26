@@ -1,0 +1,57 @@
+name: Frontend
+
+on:
+    push:
+
+jobs:
+    linting:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: [19.x]
+
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+
+            - name: Staring Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Restoring npm cache
+              uses: actions/cache@v3
+              with:
+                  path: '**/node_modules'
+                  key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+
+            - name: Bootstraping packages
+              if: steps.npm-cache.outputs.cache-hit != 'true'
+              run: npm install
+
+            - name: Get all file changes
+              id: changed-files
+              uses: tj-actions/changed-files@v35
+              with:
+                files: |
+                  **/*.js
+
+            - name: Echo file changes
+              id: hello
+              run: |
+                  echo Added files: ${{ steps.changed-files.outputs.added_files }}
+                  echo Changed files: ${{ steps.changed-files.outputs.modified_files }}
+                  echo Removed files: ${{ steps.changed-files.outputs.deleted_files }}
+
+            - name: Get changed JavaScript files
+              id: changed-files-js
+              uses: tj-actions/changed-files@v35
+              with:
+                files: |
+                  **/*.js
+
+            - name: ESLint Checking
+              if: ${{(steps.changed-files-js.outputs.added_files || steps.changed-files-js.outputs.modified_files) }}
+              run: npx eslint --config .eslintrc --ignore-path .eslintignore ${{ steps.changed-files-js.outputs.modified_files }} ${{ steps.changed-files-js.outputs.added_files }}

@@ -1,0 +1,29 @@
+{
+  "name": "practical_dev",
+  "version": "1.0.0",
+  "description": "Проект Pinterest команды \"Practical Dev\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "node ./server/index.js",
+    "dev": "DEBUG=True node ./server/index.js",
+    "lint": "eslint ./**/*.js --ignore-path ./.eslintignore"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frontend-park-mail-ru/2023_1_PracticalDev.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frontend-park-mail-ru/2023_1_PracticalDev/issues"
+  },
+  "homepage": "https://github.com/frontend-park-mail-ru/2023_1_PracticalDev#readme",
+  "devDependencies": {
+    "eslint": "^8.34.0"
+  },
+  "type": "module",
+  "dependencies": {
+    "handlebars": "^4.7.7"
+  }
+}
