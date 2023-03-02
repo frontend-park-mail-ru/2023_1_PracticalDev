@@ -8,6 +8,9 @@ COPY *.json /home/code/
 COPY public /home/code/public
 COPY server /home/code/server
 
+RUN npm install --omit=dev
+RUN npm run compile
+
 EXPOSE 8000
 
 CMD [ "npm", "run", "server" ]

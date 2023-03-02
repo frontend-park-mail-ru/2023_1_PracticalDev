@@ -1,20 +1,10 @@
-import Router from './router/router.js';
+import InitRouter from './router/init.js';
 
 (function () {
-    const router = new Router(null, 'app', '/');
+    const router = InitRouter();
+    window.onload = router.OnWindowLoad();
 
-    fetch('./views/main_page/main_page.handlebars').then((val) => {
-        val.text().then((val) => {
-            // eslint-disable-next-line no-undef
-            let mainTemplate = Handlebars.compile(val);
-            var html = mainTemplate({ time: new Date().toTimeString() });
-
-            const app = document.getElementById('app');
-            app.innerHTML = html;
-        });
-    });
-
-    fetch('./views/menu/menu.handlebars').then((val) => {
+    fetch('/views/menu/menu.handlebars').then((val) => {
         val.text().then((val) => {
             // eslint-disable-next-line no-undef
             let menuTemplate = Handlebars.compile(val);
@@ -23,6 +13,7 @@ import Router from './router/router.js';
                     { link: '/profile', name: 'Профиль' },
                     { link: '/feed', name: 'Лента' },
                     { link: '/chat', name: '<p>Чат</p>' },
+                    { link: '/posts/10', name: '<p>Пост!!!</p>' },
                 ],
             });
 
@@ -32,7 +23,7 @@ import Router from './router/router.js';
             document.addEventListener('click', (e) => {
                 if (e.target.tagName === 'A') {
                     e.preventDefault();
-                    router.goToRoute(e.target.getAttribute('href'));
+                    router.Navigate(e.target.getAttribute('href'));
                 }
             });
         });
