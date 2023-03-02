@@ -4,17 +4,6 @@ import InitRouter from './router/init.js';
     const router = InitRouter();
     window.onload = router.OnWindowLoad();
 
-    // fetch('/views/main_page/main_page.handlebars').then((val) => {
-    //     val.text().then((val) => {
-    //         // eslint-disable-next-line no-undef
-    //         let mainTemplate = Handlebars.compile(val);
-    //         var html = mainTemplate({ time: new Date().toTimeString() });
-
-    //         const app = document.getElementById('app');
-    //         app.innerHTML = html;
-    //     });
-    // });
-
     fetch('/views/menu/menu.handlebars').then((val) => {
         val.text().then((val) => {
             // eslint-disable-next-line no-undef
