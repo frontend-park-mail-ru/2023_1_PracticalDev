@@ -6,21 +6,10 @@ const AJAX_METHODS = {
     DELETE: 'DELETE',
 };
 
-const noll = () => {};
-
 class Ajax {
-    /**Выполняет GET запрос
-     *
-     * @param {string} url
-     * @param {boolean} json - определяет, будет ли ответ JSON объектом.
-     *
-     * @returns {Promise<{status: number, body: Object, ok: boolean}>}
-     */
-    static async get(url, json = true) {
+    static async #fetch(url, options = {}, parseResponse = true) {
         const resp = await fetch(url, {
-            method: AJAX_METHODS.GET,
-            mode: 'cors',
-            credentials: 'same-origin',
+            ...options,
         });
 
         if (!resp.ok) {
@@ -38,18 +27,32 @@ class Ajax {
             };
         }
 
-        let data;
-        if (json) {
-            data = await resp.json();
-        } else {
-            data = await resp.text();
-        }
+        let data = parseResponse ? await resp.json() : await resp.text();
 
         return {
             ok: true,
             status: resp.status,
             body: data,
         };
+    }
+
+    /**Выполняет GET запрос
+     *
+     * @param {string} url
+     * @param {boolean} json - определяет, будет ли ответ JSON объектом.
+     *
+     * @returns {Promise<{status: number, body: Object, ok: boolean}>}
+     */
+    static async get(url, json = true) {
+        return this.#fetch(
+            url,
+            {
+                method: AJAX_METHODS.GET,
+                mode: 'cors',
+                credentials: 'same-origin',
+            },
+            json,
+        );
     }
 
     /** Выполняет POST запрос
@@ -60,35 +63,12 @@ class Ajax {
      * @returns {Promise<{status: number, body: Object, ok: boolean}>}
      */
     static async post(url, body) {
-        const resp = await fetch(url, {
+        return this.#fetch(url, {
             method: AJAX_METHODS.POST,
             mode: 'cors',
             credentials: 'same-origin',
-            body: JSON.stringify(body),
+            body: body,
         });
-
-        if (!resp.ok) {
-            if (resp.status === 404) {
-                return {
-                    ok: false,
-                    status: resp.status,
-                    body: 'Err: Not found',
-                };
-            }
-            return {
-                ok: false,
-                status: resp.status,
-                body: 'Err without description',
-            };
-        }
-
-        const data = await resp.json();
-
-        return {
-            ok: true,
-            status: resp.status,
-            body: data,
-        };
     }
 
     /** Выполняет PUT запрос
@@ -99,35 +79,12 @@ class Ajax {
      * @returns {Promise<{status: number, body: Object, ok: boolean}>}
      */
     static async put(url, body) {
-        const resp = await fetch(url, {
+        return this.#fetch(url, {
             method: AJAX_METHODS.PUT,
             mode: 'cors',
             credentials: 'same-origin',
-            body: JSON.stringify(body),
+            body: body,
         });
-
-        if (!resp.ok) {
-            if (resp.status === 404) {
-                return {
-                    ok: false,
-                    status: resp.status,
-                    body: 'Err: Not found',
-                };
-            }
-            return {
-                ok: false,
-                status: resp.status,
-                body: 'Err without description',
-            };
-        }
-
-        const data = await resp.json();
-
-        return {
-            ok: true,
-            status: resp.status,
-            body: data,
-        };
     }
 
     /** Выполняет PATCH запрос
@@ -137,36 +94,13 @@ class Ajax {
      *
      * @returns {Promise<{status: number, body: Object, ok: boolean}>}
      */
-    static async put(url, body) {
-        const resp = await fetch(url, {
-            method: AJAX_METHODS.PUT,
+    static async patch(url, body) {
+        return this.#fetch(url, {
+            method: AJAX_METHODS.PATCH,
             mode: 'cors',
             credentials: 'same-origin',
-            body: JSON.stringify(body),
+            body: body,
         });
-
-        if (!resp.ok) {
-            if (resp.status === 404) {
-                return {
-                    ok: false,
-                    status: resp.status,
-                    body: 'Err: Not found',
-                };
-            }
-            return {
-                ok: false,
-                status: resp.status,
-                body: 'Err without description',
-            };
-        }
-
-        const data = await resp.json();
-
-        return {
-            ok: true,
-            status: resp.status,
-            body: data,
-        };
     }
 
     /** Выполняет DELETE запрос
@@ -176,34 +110,11 @@ class Ajax {
      * @returns {Promise<{status: number, body: Object, ok: boolean}>}
      */
     static async delete(url) {
-        const resp = await fetch(url, {
+        return this.#fetch(url, {
             method: AJAX_METHODS.DELETE,
             mode: 'cors',
             credentials: 'same-origin',
         });
-
-        if (!resp.ok) {
-            if (resp.status === 404) {
-                return {
-                    ok: false,
-                    status: resp.status,
-                    body: 'Err: Not found',
-                };
-            }
-            return {
-                ok: false,
-                status: resp.status,
-                body: 'Err without description',
-            };
-        }
-
-        const data = await resp.json();
-
-        return {
-            ok: true,
-            status: resp.status,
-            body: data,
-        };
     }
 }
 
