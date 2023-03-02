@@ -71,7 +71,7 @@ class Router {
      */
     OnWindowLoad = () => {
         const path = location.href;
-        const trimmed_path = '/' + path.split('/').slice(3).join('/');
+        let trimmed_path = '/' + path.split('/').slice(3).join('/');
         if (trimmed_path === '/') {
             trimmed_path = '/feed';
         }
