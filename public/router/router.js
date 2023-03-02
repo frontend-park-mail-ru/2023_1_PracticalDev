@@ -1,4 +1,5 @@
 import Ajax from '../util/ajax.js';
+// eslint-disable-next-line no-unused-vars
 import Route from './route.js';
 
 /**

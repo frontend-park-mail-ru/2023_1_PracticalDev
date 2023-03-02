@@ -20,6 +20,7 @@ let errors = new Map([
  * @returns {string}
  */
 let LoadErrorPage = (template, code) => {
+    // eslint-disable-next-line no-undef
     let mainTemplate = Handlebars.compile(template);
     let error = errors.get(code);
     var html = mainTemplate({ title: error.title, description: error.description });
