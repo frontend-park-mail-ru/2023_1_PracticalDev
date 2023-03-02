@@ -1,9 +1,9 @@
 import precompiled_template from './feed.handlebars.js';
 
-let LoadFeed = () => {
+const LoadFeed = () => {
     // eslint-disable-next-line no-undef
-    let mainTemplate = Handlebars.template(precompiled_template);
-    var html = mainTemplate({ time: new Date().toTimeString() });
+    const mainTemplate = Handlebars.template(precompiled_template);
+    const html = mainTemplate({ time: new Date().toTimeString() });
 
     return html;
 };

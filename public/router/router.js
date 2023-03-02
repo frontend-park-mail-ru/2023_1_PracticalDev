@@ -38,8 +38,8 @@ class Router {
      */
     Navigate = (path = '') => {
         window.history.pushState('data', 'title', path);
-        let decomposed_path = path.split('/');
-        let route = this.#routes[decomposed_path[1]];
+        const decomposed_path = path.split('/');
+        const route = this.#routes[decomposed_path[1]];
 
         if (!route) {
             this.RenderErrorPage(404);
@@ -47,7 +47,7 @@ class Router {
         }
 
         try {
-            let html = route.render_fn();
+            const html = route.render_fn();
             this.#rootElem.innerHTML = html;
         } catch (error) {
             console.log(error);
@@ -60,9 +60,9 @@ class Router {
      * @param {number} status
      */
     RenderErrorPage = (status) => {
-        let error_route = this.#routes['error'];
+        const error_route = this.#routes['error'];
 
-        let html = error_route.render_fn(status);
+        const html = error_route.render_fn(status);
         this.#rootElem.innerHTML = html;
     };
 
@@ -70,8 +70,8 @@ class Router {
      * Отрисовывает страницу при изначальной загрузке
      */
     OnWindowLoad = () => {
-        let path = location.href;
-        let trimmed_path = '/' + path.split('/').slice(3).join('/');
+        const path = location.href;
+        const trimmed_path = '/' + path.split('/').slice(3).join('/');
         if (trimmed_path === '/') {
             trimmed_path = '/feed';
         }

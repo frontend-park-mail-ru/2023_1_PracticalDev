@@ -23,11 +23,11 @@ const errors = {
  *
  * @returns {string}
  */
-let LoadErrorPage = (code) => {
+const LoadErrorPage = (code) => {
     // eslint-disable-next-line no-undef
-    let mainTemplate = Handlebars.template(precompiled_template);
-    let error = errors[code];
-    var html = mainTemplate({ title: error.title, description: error.description });
+    const mainTemplate = Handlebars.template(precompiled_template);
+    const error = errors[code];
+    const html = mainTemplate({ title: error.title, description: error.description });
 
     return html;
 };
