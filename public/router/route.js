@@ -5,7 +5,6 @@ class Route {
     name;
     title;
     render_fn;
-    template;
 
     /**
      * 

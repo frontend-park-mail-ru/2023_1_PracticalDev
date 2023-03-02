@@ -20,7 +20,6 @@ class Router {
         this.#routes = routes;
         this.#rootElem = rootElem;
         this.#curPage = curPage;
-        this.#routes = {};
     }
 
     /**
