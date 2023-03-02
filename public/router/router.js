@@ -6,8 +6,8 @@ import Route from './route.js';
  * Роутер для перехода по страницам без перезагрузки
  */
 class Router {
-    /** Хеш-таблица для хранения маршрутов
-     * @type {Map<string, Route>}
+    /** Объект для хранения маршрутов
+     * @type {Object<string, Route>}
      */
     #routes;
     /** Корневой элемент, куда роутер будет загружать приложение
@@ -21,7 +21,7 @@ class Router {
         this.#routes = routes;
         this.#rootElem = rootElem;
         this.#curPage = curPage;
-        this.#routes = new Map();
+        this.#routes = {};
     }
 
     /**
@@ -47,15 +47,13 @@ class Router {
             return;
         }
 
-        Ajax.get(route.template, false).then((response) => {
-            if (!response.ok) {
-                this.RenderErrorPage(response.status);
-                return;
-            }
-
-            let html = route.render_fn(response.body);
+        try {
+            let html = route.render_fn();
             this.#rootElem.innerHTML = html;
-        });
+        } catch (error) {
+            console.log(error);
+            this.RenderErrorPage(500);
+        }
     };
 
     /**
@@ -65,12 +63,13 @@ class Router {
     RenderErrorPage = (status) => {
         let error_route = this.#routes['error'];
 
-        Ajax.get(error_route.template, false).then((response) => {
-            let html = error_route.render_fn(response.body, status);
-            this.#rootElem.innerHTML = html;
-        });
+        let html = error_route.render_fn(status);
+        this.#rootElem.innerHTML = html;
     };
 
+    /**
+     * Отрисовывает страницу при изначальной загрузке
+     */
     OnWindowLoad = () => {
         let path = location.href;
         let trimmed_path = '/' + path.split('/').slice(3).join('/');
