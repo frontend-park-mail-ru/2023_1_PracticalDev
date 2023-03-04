@@ -12,13 +12,14 @@ import LoadErrorPage from '../views/error/error.js';
  * @returns {Router}
  */
 let InitRouter = () => {
-    const router = new Router({}, document.getElementById('app'), '/');
+    const router = new Router({}, document.getElementById('app'), document.getElementById('menu'));
 
     router.Register('feed', new Route('feed', 'Лента', LoadFeed));
     router.Register('posts', new Route('post', 'Пост', LoadPost));
     router.Register('error', new Route('error', 'Ошибка', LoadErrorPage));
-    router.Register('login', new Route('login', 'Вход', LoadLogin));
-    router.Register('signup', new Route('signup', 'Регистрация', LoadSignup));
+    router.Register('login', new Route('login', 'Вход', LoadLogin, false));
+    router.Register('signup', new Route('signup', 'Регистрация', LoadSignup, false));
+    
     return router;
 };
 

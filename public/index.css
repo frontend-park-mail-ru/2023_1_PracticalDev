@@ -3,3 +3,61 @@ body {
     position: relative;
     font-size: 16px;
 }
+
+#menu {
+    z-index: 1000;
+    height: 0;
+}
+
+.menu__box {
+    z-index: 1001;
+    left: 0;
+    width: 120px;
+    display: block;
+    position: fixed;
+    top: 0;
+    height: 100%;
+    margin: 0;
+    list-style: none;
+
+    background-color: #d3e0ea;
+    box-shadow: 1px 0px 6px rgba(0, 0, 0, 0.2);
+
+    transition-duration: 0.25s;
+    padding-inline-start: 0px;
+}
+
+.menu__item {
+    font-size: 16px;
+    font-weight: 600;
+    display: block;
+    padding: calc(16px + 5%) 0px;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    font-family: Roboto;
+    border: 1px solid;
+    margin: 30px 10px;
+}
+
+.menu__item:visited {
+    display: block;
+    padding: calc(16px + 5%) 0px;
+    color: black;
+    text-align: center;
+}
+
+@media screen and (min-width: 769px) {
+    #app {
+        position: absolute;
+        left: 120px;
+        width: calc(100% - 120px);
+        padding: 0px;
+    }
+}
+
+.main__content {
+    font-size: 20px;
+    text-align: center;
+    margin: auto auto;
+}

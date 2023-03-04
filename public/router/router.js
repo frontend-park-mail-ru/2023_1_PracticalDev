@@ -1,3 +1,4 @@
+import LoadMenu from '../views/menu/menu.js';
 // eslint-disable-next-line no-unused-vars
 import Route from './route.js';
 
@@ -13,13 +14,17 @@ class Router {
      * @type {HTMLDivElement}
      */
     #rootElem;
-    /** Текущая открытая страница */
-    #curPage;
+    /** Элемент, куда роутер будет загружать меню
+     * @type {HTMLDivElement}
+     */
+    #menuElem;
+    /** Определяет, отображено ли сейчас меню на странице */
+    #menuMounted;
 
-    constructor(routes, rootElem, curPage) {
+    constructor(routes, rootElem, menuElem) {
         this.#routes = routes;
         this.#rootElem = rootElem;
-        this.#curPage = curPage;
+        this.#menuElem = menuElem;
     }
 
     /**
@@ -41,6 +46,7 @@ class Router {
         const route = this.#routes[decomposed_path[1]];
 
         if (!route) {
+            this.#MountMenu();
             this.RenderErrorPage(404);
             return;
         }
@@ -48,6 +54,12 @@ class Router {
         try {
             const html = route.render_fn();
             this.#rootElem.innerHTML = html;
+
+            if (route.show_menu && !this.#menuMounted) {
+                this.#MountMenu();
+            } else if (!route.show_menu) {
+                this.#UnMountMenu();
+            }
         } catch (error) {
             console.log(error);
             this.RenderErrorPage(500);
@@ -76,6 +88,26 @@ class Router {
         }
 
         this.Navigate(trimmed_path);
+    };
+
+    /**
+     * Отображает меню
+     */
+    #MountMenu = () => {
+        this.#menuMounted = true;
+        this.#menuElem.innerHTML = LoadMenu();
+        this.#rootElem.style.left = '120px';
+        this.#rootElem.style.width = 'calc(100% - 120px)';
+    };
+
+    /**
+     * Скрывает меню
+     */
+    #UnMountMenu = () => {
+        this.#menuMounted = false;
+        this.#menuElem.innerHTML = '';
+        this.#rootElem.style.left = '0px';
+        this.#rootElem.style.width = '100%';
     };
 }
 
