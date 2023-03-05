@@ -1,0 +1,17 @@
+{
+    font-family: -apple-system, Roboto, Oxygen-Suns, Ubuntu, Cantarell ;
+    color: #211922;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    /*background-color: #lelele; */
+}
+
+body,
+div{
+    box-sizing: border-box;
+    margin: 0 ;
+    padding: 0;
+}
