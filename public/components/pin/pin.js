@@ -5,8 +5,8 @@ class Pin {
     #mediaSrc;
     #size;
 
-    constructor({ title, mediaSrc }) {
-        this.#mediaSrc = mediaSrc;
+    constructor({ title, media_source }) {
+        this.#mediaSrc = media_source;
         this.#title = title;
 
         const sizes = ['card_small', 'card_medium', 'card_large'];

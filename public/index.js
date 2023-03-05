@@ -13,6 +13,5 @@ import InitRouter from './router/init.js';
 
     document.addEventListener('submit', (e) => {
         e.preventDefault();
-        document.getElementById('redirect-login').click();
     })
 })();
