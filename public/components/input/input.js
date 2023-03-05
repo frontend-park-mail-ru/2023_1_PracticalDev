@@ -13,7 +13,7 @@ class Input {
   }
 
 
-  getHtml() {
+  getHtml = () => {
     const tmpl = Handlebars.template(precompiled_template)
     return tmpl({
       name: this.#name,

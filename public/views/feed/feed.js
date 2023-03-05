@@ -6,8 +6,7 @@ const LoadFeed = async () => {
     // eslint-disable-next-line no-undef
     const feedTemplate = Handlebars.template(precompiled_template);
 
-    const response = await Ajax.get('http://localhost:8080/posts');
-    console.log(response);
+    const response = await Ajax.get('http://localhost/api/posts');
     if (!response.ok) {
         if (response.status === 401) {
             throw new Error('401');

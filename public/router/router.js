@@ -58,8 +58,9 @@ class Router {
         }
 
         try {
-            const html = await route.render_fn();
+            const html = await route.GetHtml();
             this.#rootElem.innerHTML = html;
+            route.AddListeners();
             if (route.show_menu && !this.#menuMounted) {
                 this.#MountMenu();
             } else if (!route.show_menu) {
@@ -67,7 +68,10 @@ class Router {
             }
         } catch (error) {
             console.log(error);
-            this.RenderErrorPage(500);
+            if (error.message === '401') {
+                this.Navigate('/login');
+            }
+            this.RenderErrorPage(404);
         }
     };
 
@@ -78,7 +82,7 @@ class Router {
     RenderErrorPage = (status) => {
         const error_route = this.#routes['error'];
 
-        const html = error_route.render_fn(status);
+        const html = error_route.GetHtml(status);
         this.#rootElem.innerHTML = html;
     };
 
@@ -105,7 +109,6 @@ class Router {
         this.#rootElem.style.left = '100px';
         this.#rootElem.style.top = '100px';
         this.#rootElem.style.width = 'calc(100% - 100px)';
-
     };
 
     /**

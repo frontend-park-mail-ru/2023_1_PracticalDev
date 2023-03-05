@@ -27,7 +27,7 @@ class Ajax {
             };
         }
 
-        let data = parseResponse ? await resp.json() : await resp.text();
+        let data = parseResponse ? ((resp.status) !== 204 ? await resp.json() : '') : await resp.text();
 
         return {
             ok: true,
@@ -67,7 +67,7 @@ class Ajax {
             method: AJAX_METHODS.POST,
             mode: 'cors',
             credentials: 'same-origin',
-            body: body,
+            body: JSON.stringify(body),
         });
     }
 
