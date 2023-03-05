@@ -12,7 +12,7 @@ import LoadErrorPage from '../views/error/error.js';
  * @returns {Router}
  */
 let InitRouter = () => {
-    const router = new Router({}, document.getElementById('app'), document.getElementById('menu'));
+    const router = new Router({}, document.getElementById('app'), document.getElementById('menu'), document.getElementById('header_wrapper'));
 
     router.Register('feed', new Route('feed', 'Лента', LoadFeed));
     router.Register('posts', new Route('post', 'Пост', LoadPost));

@@ -15,7 +15,6 @@ const LoadSignup = () => {
     emailInput.getHtml(),
     passwordInput.getHtml()
   );
-  console.log(signupForm.getHtml());
   return templ({form: signupForm.getHtml()});
 };
 

@@ -1,5 +1,9 @@
 <ul class='menu__box'>
     {{#each menu_items}}
-        <li><a href='{{link}}' class='menu__item'>{{name}}</a></li>
+        <li>
+          <span  class='menu__item'>
+            <a href='{{link}}' class="material-icons md-32 menu__link"> {{name}} </a>
+          </span>
+        </li>
     {{/each}}
 </ul>

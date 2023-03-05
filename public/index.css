@@ -4,6 +4,76 @@ body {
     font-size: 16px;
 }
 
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-32 { font-size: 32px; }
+.material-icons.md-48 { font-size: 48px; }
+
+#header_wrapper {
+  z-index: 1003;
+  position: fixed;
+}
+
+#header {
+  width: 100vw;
+  height: 80px;
+  background-color: #d3e0ea;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center; 
+}
+
+.header_btn{
+  color: #1687A7;
+  border: none;
+  background-color: inherit;
+}
+
+#pin_creation_btn {
+  width: 64px;
+  height: 64px;
+  border-radius: 15px;
+  border: none;
+  color: #F6F5F5;
+  background-color: #1687A7;
+}
+
+input[name="search"] {
+  margin-top:0;
+  margin-right: 10px;
+  margin-left: 10px;
+  background: #F6F5F5;
+  width: 800px;
+  height: 64px;
+  border-radius: 15px;
+}
+
+
+#header_logo {
+  width: 80px;
+  height: 80px;
+  margin-left: 5px;
+}
+
+#header_search_wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#header_username {
+  font-family: 'Inter';
+  color: #1687A7;
+}
+
+#user_block {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+
 #menu {
     z-index: 1000;
     height: 0;
@@ -12,8 +82,10 @@ body {
 .menu__box {
     z-index: 1001;
     left: 0;
-    width: 120px;
-    display: block;
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     position: fixed;
     top: 0;
     height: 100%;
@@ -32,19 +104,21 @@ body {
     font-weight: 600;
     display: block;
     padding: calc(16px + 5%) 0px;
-    color: black;
+    color: #d3e0ea;
     text-align: center;
-    text-decoration: none;
-    font-family: Roboto;
-    border: 1px solid;
-    margin: 30px 10px;
+    background-color: #1687A7;
 }
 
-.menu__item:visited {
+.menu__link {
+    color: #d3e0ea;
+    text-decoration: none;
+}
+
+.menu__link:visited {
     display: block;
     padding: calc(16px + 5%) 0px;
-    color: black;
     text-align: center;
+    text-decoration: none;
 }
 
 @media screen and (min-width: 769px) {

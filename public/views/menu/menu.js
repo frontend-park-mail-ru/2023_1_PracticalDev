@@ -5,10 +5,10 @@ const LoadMenu = () => {
     const menuTemplate = Handlebars.template(precompiled_template);
     const html = menuTemplate({
         menu_items: [
-            { link: '/profile', name: 'Профиль' },
-            { link: '/feed', name: 'Лента' },
-            { link: '/chat', name: '<p>Чат</p>' },
-            { link: '/posts/10', name: '<p>Пост!!!</p>' },
+            { link: '/profile', name: 'home' },
+            { link: '/feed', name: 'dashboard' },
+            { link: '/chat', name: 'settings' },
+            //{ link: '/posts/10', name: '<p>Пост!!!</p>' },
         ],
     });
 
