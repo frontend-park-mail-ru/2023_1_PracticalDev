@@ -7,28 +7,6 @@
     --card_large: 45;
 }
 
-.navigation_bar{
-    width: 100%;
-    height: 10%;
-    position: fixed;
-    top: 0;
-}
-
-.navigation_bar .add_pin{
-    width: 60px;
-    height: 60px;
-    position: relative;
-    top: 10%;
-    left: 90%;
-
-    transition-duration: 0.3s;
-}
-
-.navigation_bar .add_pin:hover{
-    background-color: #767676;
-    transform: scale(1.2);
-}
-
 .add_pin_modal{
     opacity: 0;
     pointer-events: none;
@@ -38,7 +16,7 @@
 .pin_container{
     margin: 0;
     padding: 0;
-    width: 80vw;
+    width: 100%;
 
     display:grid;
     grid-template-columns: repeat(auto-fill, var(--card_width));
@@ -52,6 +30,8 @@
     position: relative;
     border-radius: var(--card_border_radius);
     overflow: hidden;
+
+    box-shadow: 1px;
 }
 
 .card_small{

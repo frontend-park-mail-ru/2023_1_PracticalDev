@@ -35,7 +35,7 @@ class Router {
      *
      * @param {string} path - строка с адресом и параметрами
      */
-    Navigate = (path = '') => {
+    Navigate = async (path = '') => {
         window.history.pushState('data', 'title', path);
         const decomposed_path = path.split('/');
         const route = this.#routes[decomposed_path[1]];
@@ -46,7 +46,7 @@ class Router {
         }
 
         try {
-            const html = route.render_fn();
+            const html = await route.render_fn();
             this.#rootElem.innerHTML = html;
         } catch (error) {
             console.log(error);
