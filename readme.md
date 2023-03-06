@@ -4,8 +4,7 @@
 
 [Ссылка на репозиторий по бекенду](https://github.com/go-park-mail-ru/2023_1_PracticalDev)
 
-Ссылка на деплой - [сайт](pickpin.ru), [api](pickpin.ru/api), [OpenAPI](pickpin.ru/api/docs)
-
+Ссылка на деплой - [сайт](http://pickpin.ru), [api](http://pickpin.ru/api), [OpenAPI](http://pickpin.ru/api/docs)
 ## Авторы 
 
 - [Гречко Георгий](https://github.com/geogreck)
