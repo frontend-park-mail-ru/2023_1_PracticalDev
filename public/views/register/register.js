@@ -4,6 +4,10 @@ import Form from '../../components/form/form.js';
 import Ajax from '../../util/ajax.js';
 import { isEmail, isPassword, isUsername } from '../../util/validator.js';
 
+/**
+ * Функция для построения страницы регистрация
+ * @return {string} - html код страница
+ * */
 const LoadSignup = () => {
     const templ = Handlebars.template(pageTmpl);
     const usernameInput = new Input('Enter your username', 'username', 'text');
@@ -24,6 +28,9 @@ const LoadSignup = () => {
     return templ({ form: signupForm.getHtml() });
 };
 
+/**
+ * Функция для добавления обработчиков на странице регистрации
+ * */
 const AddRegisterListeners = () => {
     /** @type {HTMLFormElement} */
     const form = document.getElementById('register-form');
@@ -73,7 +80,7 @@ const AddRegisterListeners = () => {
             } else {
                 const redirect = new CustomEvent('navigate', {
                     bubbles: true,
-                    detail: { link: '/login', user: response.body},
+                    detail: { link: '/login', user: response.body },
                 });
                 form.dispatchEvent(redirect);
             }

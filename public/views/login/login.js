@@ -4,6 +4,10 @@ import Form from '../../components/form/form.js';
 import Ajax from '../../util/ajax.js';
 import { isEmail, isPassword } from '../../util/validator.js';
 
+/**
+ * Функция для построения страницы входа
+ * @return {string} - html код страница
+ * */
 const LoadLogin = () => {
     const templ = Handlebars.template(pageTmpl);
     const emailInput = new Input('email', 'email', 'email');
@@ -12,6 +16,9 @@ const LoadLogin = () => {
     return templ({ form: loginForm.getHtml() });
 };
 
+/**
+ * Функция для добавления обработчиков на странице входа
+ * */
 const AddLoginListeners = () => {
     /** @type {HTMLFormElement} */
     const form = document.getElementById('login-form');
@@ -44,7 +51,7 @@ const AddLoginListeners = () => {
             } else {
                 const redirect = new CustomEvent('navigate', {
                     bubbles: true,
-                    detail: { link: '/feed', user: response.body},
+                    detail: { link: '/feed', user: response.body },
                 });
                 form.dispatchEvent(redirect);
             }

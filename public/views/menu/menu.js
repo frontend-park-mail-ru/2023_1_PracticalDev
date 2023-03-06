@@ -1,6 +1,10 @@
 import Ajax from '../../util/ajax.js';
 import precompiled_template from './menu.handlebars.js';
 
+/**
+ * Функция для построения компонента меню
+ * @return {string} - html код компонента
+ * */
 const LoadMenu = () => {
     // eslint-disable-next-line no-undef
     const menuTemplate = Handlebars.template(precompiled_template);
@@ -9,13 +13,15 @@ const LoadMenu = () => {
             { link: '/profile', name: 'home' },
             { link: '/feed', name: 'dashboard' },
             { link: '/chat', name: 'settings' },
-            //{ link: '/posts/10', name: '<p>Пост!!!</p>' },
         ],
     });
 
     return html;
 };
 
+/**
+ * Функция для добавления обратобчиков для компонента меню
+ * */
 const AddMenuListeners = () => {
     /** @type {HTMLButtonElement} */
     const logoutButton = document.getElementById('logout_btn');
@@ -25,7 +31,7 @@ const AddMenuListeners = () => {
             if (response.ok) {
                 const redirect = new CustomEvent('navigate', {
                     bubbles: true,
-                    detail: { link: '/login', user: response.body},
+                    detail: { link: '/login', user: response.body },
                 });
                 logoutButton.dispatchEvent(redirect);
             }
@@ -33,4 +39,4 @@ const AddMenuListeners = () => {
     });
 };
 
-export {LoadMenu, AddMenuListeners};
+export { LoadMenu, AddMenuListeners };
