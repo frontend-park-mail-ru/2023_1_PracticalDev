@@ -1,5 +1,4 @@
 import LoadFeed from '../views/feed/feed.js';
-import LoadPost from '../views/posts/posts.js';
 import { LoadLogin, AddLoginListeners } from '../views/login/login.js';
 import {LoadSignup, AddRegisterListeners} from '../views/register/register.js';
 import Router from './router.js';
@@ -20,7 +19,6 @@ let InitRouter = () => {
     );
 
     router.Register('feed', new Route('feed', 'Лента', LoadFeed, () => {}));
-    router.Register('posts', new Route('post', 'Пост', LoadPost, () => {}));
     router.Register('error', new Route('error', 'Ошибка', LoadErrorPage, () => {}));
     router.Register('login', new Route('login', 'Вход', LoadLogin, AddLoginListeners, false));
     router.Register('signup', new Route('signup', 'Регистрация', LoadSignup, AddRegisterListeners, false));
