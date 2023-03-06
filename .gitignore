@@ -133,3 +133,6 @@ build-docker
 
 # handlebars precompiled templates
 *.handlebars.js
+
+#JetBrains
+.idea

@@ -1,3 +1,5 @@
+import { LoadMenu, AddMenuListeners } from '../views/menu/menu.js';
+import LoadHeader from '../views/header/header.js';
 // eslint-disable-next-line no-unused-vars
 import Route from './route.js';
 
@@ -13,13 +15,26 @@ class Router {
      * @type {HTMLDivElement}
      */
     #rootElem;
-    /** Текущая открытая страница */
-    #curPage;
+    /** Элемент, куда роутер будет загружать меню
+     * @type {HTMLDivElement}
+     */
+    #menuElem;
+    /** Элемент, куда роутер будет загружать header
+     * @type {HTMLDivElement}
+     */
+    #headerElem;
+    /** Определяет, отображено ли сейчас меню на странице */
+    #menuMounted;
+    /** Сохраняет контекст при навигации
+     * @type {Object}
+     */
+    #context;
 
-    constructor(routes, rootElem, curPage) {
+    constructor(routes, rootElem, menuElem, headerElem) {
         this.#routes = routes;
         this.#rootElem = rootElem;
-        this.#curPage = curPage;
+        this.#menuElem = menuElem;
+        this.#headerElem = headerElem;
     }
 
     /**
@@ -35,22 +50,34 @@ class Router {
      *
      * @param {string} path - строка с адресом и параметрами
      */
-    Navigate = (path = '') => {
+    Navigate = async (path = '') => {
         window.history.pushState('data', 'title', path);
         const decomposed_path = path.split('/');
         const route = this.#routes[decomposed_path[1]];
+        console.log(path);
+        console.log(route);
 
         if (!route) {
+            this.#MountMenu();
             this.RenderErrorPage(404);
             return;
         }
 
         try {
-            const html = route.render_fn();
+            const html = await route.GetHtml();
             this.#rootElem.innerHTML = html;
+            route.AddListeners();
+            if (route.show_menu && !this.#menuMounted) {
+                this.#MountMenu();
+            } else if (!route.show_menu) {
+                this.#UnMountMenu();
+            }
         } catch (error) {
-            console.log(error);
-            this.RenderErrorPage(500);
+            if (error.message === '401') {
+                this.Navigate('/login');
+            }
+            console.log(error)
+            this.RenderErrorPage(404);
         }
     };
 
@@ -61,7 +88,7 @@ class Router {
     RenderErrorPage = (status) => {
         const error_route = this.#routes['error'];
 
-        const html = error_route.render_fn(status);
+        const html = error_route.GetHtml(status);
         this.#rootElem.innerHTML = html;
     };
 
@@ -75,7 +102,46 @@ class Router {
             trimmed_path = '/feed';
         }
 
+        console.log(trimmed_path);
         this.Navigate(trimmed_path);
+    };
+
+    /**
+     * Обработчик для события "navigate"
+     * @param {CustomEvent} e событие "navigate"
+     */
+    OnNavigate = (e) => {
+        e.preventDefault();
+        this.Navigate(e.detail.link);
+        if (e.detail != {}) {
+            this.#context = e.detail;
+        }
+    };
+
+    /**
+     * Отображает меню
+     */
+    #MountMenu = () => {
+        this.#menuMounted = true;
+        this.#menuElem.innerHTML = LoadMenu();
+        this.#headerElem.innerHTML = LoadHeader(this.#context);
+        this.#rootElem.style.left = '100px';
+        this.#rootElem.style.top = '80px';
+        this.#rootElem.style.width = 'calc(100% - 100px)';
+
+        AddMenuListeners();
+    };
+
+    /**
+     * Скрывает меню
+     */
+    #UnMountMenu = () => {
+        this.#menuMounted = false;
+        this.#menuElem.innerHTML = '';
+        this.#headerElem.innerHTML = '';
+        this.#rootElem.style.left = '0px';
+        this.#rootElem.style.width = '100%';
+        this.#rootElem.style.top = 0;
     };
 }
 

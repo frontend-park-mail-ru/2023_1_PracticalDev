@@ -1,4 +1,7 @@
 <div class="main__content">
-    <h1>Это главная лента</h1>
-    Время в Москве {{time}}
+     <div class="pin_container">
+        {{#each pins}}
+            {{{this}}}
+        {{/each}}
+     </div>
 </div>
