@@ -23,7 +23,11 @@ const AddMenuListeners = () => {
     logoutButton.addEventListener('click', () => {
         Ajax.delete('/api/auth/logout').then((response) => {
             if (response.ok) {
-                document.getElementById('logout-link').click();
+                const redirect = new CustomEvent('navigate', {
+                    bubbles: true,
+                    detail: { link: '/login', user: response.body},
+                });
+                logoutButton.dispatchEvent(redirect);
             }
         });
     });

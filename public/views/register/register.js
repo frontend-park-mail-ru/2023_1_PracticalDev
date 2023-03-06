@@ -71,7 +71,11 @@ const AddRegisterListeners = () => {
                         return;
                 }
             } else {
-                document.getElementById('redirect-register').click();
+                const redirect = new CustomEvent('navigate', {
+                    bubbles: true,
+                    detail: { link: '/login', user: response.body},
+                });
+                form.dispatchEvent(redirect);
             }
         });
     });

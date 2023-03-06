@@ -22,7 +22,6 @@ const AddLoginListeners = () => {
             return obj;
         }, {});
 
-
         if (!isEmail(formData.email)) {
             errorMsgSpan.textContent = 'Wrong email';
             return;
@@ -40,10 +39,14 @@ const AddLoginListeners = () => {
         }).then((response) => {
             if (!response.ok) {
                 if (response.status === 404) {
-                    errom_msg_span.textContent = 'Wrong email or password';
+                    errorMsgSpan.textContent = 'Wrong email or password';
                 }
             } else {
-                document.getElementById('redirect-login').click();
+                const redirect = new CustomEvent('navigate', {
+                    bubbles: true,
+                    detail: { link: '/feed', user: response.body},
+                });
+                form.dispatchEvent(redirect);
             }
         });
     });

@@ -4,6 +4,12 @@ import InitRouter from './router/init.js';
     const router = InitRouter();
     window.onload = router.OnWindowLoad();
 
+    document.addEventListener('navigate', (e) => {
+        console.log(e);
+        e.preventDefault();
+        router.Navigate(e.detail.link);
+    });
+
     document.addEventListener('click', (e) => {
         if (e.target.tagName === 'A') {
             e.preventDefault();
@@ -13,5 +19,5 @@ import InitRouter from './router/init.js';
 
     document.addEventListener('submit', (e) => {
         e.preventDefault();
-    })
+    });
 })();
