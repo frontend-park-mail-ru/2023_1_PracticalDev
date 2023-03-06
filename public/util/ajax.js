@@ -1,3 +1,6 @@
+/**
+ * @module Ajax Модуль для асинхронного взаимодействия с сестью
+ */
 const AJAX_METHODS = {
     GET: 'GET',
     POST: 'POST',
