@@ -25,6 +25,10 @@ class Router {
     #headerElem;
     /** Определяет, отображено ли сейчас меню на странице */
     #menuMounted;
+    /** Сохраняет контекст при навигации
+     * @type {Object}
+     */
+    #context;
 
     constructor(routes, rootElem, menuElem, headerElem) {
         this.#routes = routes;
@@ -50,6 +54,8 @@ class Router {
         window.history.pushState('data', 'title', path);
         const decomposed_path = path.split('/');
         const route = this.#routes[decomposed_path[1]];
+        console.log(path);
+        console.log(route);
 
         if (!route) {
             this.#MountMenu();
@@ -70,6 +76,7 @@ class Router {
             if (error.message === '401') {
                 this.Navigate('/login');
             }
+            console.log(error)
             this.RenderErrorPage(404);
         }
     };
@@ -95,7 +102,20 @@ class Router {
             trimmed_path = '/feed';
         }
 
+        console.log(trimmed_path);
         this.Navigate(trimmed_path);
+    };
+
+    /**
+     * Обработчик для события "navigate"
+     * @param {CustomEvent} e событие "navigate"
+     */
+    OnNavigate = (e) => {
+        e.preventDefault();
+        this.Navigate(e.detail.link);
+        if (e.detail != {}) {
+            this.#context = e.detail;
+        }
     };
 
     /**
@@ -104,7 +124,7 @@ class Router {
     #MountMenu = () => {
         this.#menuMounted = true;
         this.#menuElem.innerHTML = LoadMenu();
-        this.#headerElem.innerHTML = LoadHeader();
+        this.#headerElem.innerHTML = LoadHeader(this.#context);
         this.#rootElem.style.left = '100px';
         this.#rootElem.style.top = '80px';
         this.#rootElem.style.width = 'calc(100% - 100px)';

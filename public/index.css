@@ -2,6 +2,7 @@ body {
     margin: 0;
     position: relative;
     font-size: 16px;
+    background-color: #f6f5f5;
 }
 
 .material-icons.md-18 {
@@ -172,13 +173,12 @@ input[name='search'] {
     padding: calc(16px + 5%) 0px;
 }
 
-@media screen and (min-width: 769px) {
-    #app {
-        position: absolute;
-        left: 120px;
-        width: calc(100% - 120px);
-        padding: 0px;
-    }
+#app {
+    position: absolute;
+    left: 120px;
+    width: calc(100% - 120px);
+    padding: 0px;
+    background-color: #f6f5f5;
 }
 
 .main__content {
