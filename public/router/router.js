@@ -1,4 +1,4 @@
-import LoadMenu from '../views/menu/menu.js';
+import { LoadMenu, AddMenuListeners } from '../views/menu/menu.js';
 import LoadHeader from '../views/header/header.js';
 // eslint-disable-next-line no-unused-vars
 import Route from './route.js';
@@ -67,7 +67,6 @@ class Router {
                 this.#UnMountMenu();
             }
         } catch (error) {
-            console.log(error);
             if (error.message === '401') {
                 this.Navigate('/login');
             }
@@ -109,6 +108,8 @@ class Router {
         this.#rootElem.style.left = '100px';
         this.#rootElem.style.top = '80px';
         this.#rootElem.style.width = 'calc(100% - 100px)';
+
+        AddMenuListeners();
     };
 
     /**

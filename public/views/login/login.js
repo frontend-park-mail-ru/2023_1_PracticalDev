@@ -16,16 +16,21 @@ const AddLoginListeners = () => {
     /** @type {HTMLFormElement} */
     const form = document.getElementById('login-form');
     form.addEventListener('submit', (event) => {
-        const errom_msg_span = document.querySelector('#error_msg');
+        const errorMsgSpan = document.querySelector('#error_msg');
         const formData = Object.values(form).reduce((obj, field) => {
             obj[field.name] = field.value;
             return obj;
         }, {});
 
-        console.log(!formData.email, !formData.password);
 
-        if (!formData.email || !formData.password) {
-            errom_msg_span.textContent = 'Email or password cannot be empty';
+        if (!isEmail(formData.email)) {
+            errorMsgSpan.textContent = 'Wrong email';
+            return;
+        }
+
+        if (!isPassword(formData.password)) {
+            errorMsgSpan.textContent =
+                'The password must be at least 8 characters long and contain the following characters: [a-z], [A-Z], 0-9, -#!$@%^&*+~=:;?';
             return;
         }
 

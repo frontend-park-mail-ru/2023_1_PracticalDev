@@ -1,4 +1,4 @@
-export const isUsername = (str) => /^[A-Za-z][a-zA-Z0-9_]{4,20}$/.test(str);
+export const isUsername = (str) => /[a-zA-Z0-9_]{4,20}$/.test(str);
 
 export const isPassword = (str) => /^[a-zA-Z0-9_\-#!$@%^&*+~=:;?\\/]{8,}$/.test(str);
 

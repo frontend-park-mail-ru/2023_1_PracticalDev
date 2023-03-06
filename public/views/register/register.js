@@ -52,6 +52,7 @@ const AddRegisterListeners = () => {
 
         if (formData.password != formData.password_repeat) {
             errorMsgSpan.textContent = 'Password mismatch';
+            return;
         }
 
         Ajax.post('/api/auth/signup', {
@@ -60,7 +61,6 @@ const AddRegisterListeners = () => {
             username: formData.username,
             name: formData.name,
         }).then((response) => {
-            console.log(response);
             if (!response.ok) {
                 switch (response.status) {
                     case 400:
