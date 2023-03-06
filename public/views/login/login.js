@@ -16,13 +16,17 @@ const AddLoginListeners = () => {
     /** @type {HTMLFormElement} */
     const form = document.getElementById('login-form');
     form.addEventListener('submit', (event) => {
+        const errom_msg_span = document.querySelector('#error_msg');
         const formData = Object.values(form).reduce((obj, field) => {
             obj[field.name] = field.value;
             return obj;
         }, {});
 
-        if (!(isEmail(formData.email) && isPassword(formData.password))) {
-            // Добавить обработку неправильных данных
+        console.log(!formData.email, !formData.password);
+
+        if (!formData.email || !formData.password) {
+            errom_msg_span.textContent = 'Email or password cannot be empty';
+            return;
         }
 
         Ajax.post('/api/auth/login', {
@@ -31,7 +35,7 @@ const AddLoginListeners = () => {
         }).then((response) => {
             if (!response.ok) {
                 if (response.status === 404) {
-                    // Добавить обработку неправильных данных
+                    errom_msg_span.textContent = 'Wrong email or password';
                 }
             } else {
                 document.getElementById('redirect-login').click();

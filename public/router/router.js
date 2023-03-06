@@ -107,7 +107,7 @@ class Router {
         this.#menuElem.innerHTML = LoadMenu();
         this.#headerElem.innerHTML = LoadHeader();
         this.#rootElem.style.left = '100px';
-        this.#rootElem.style.top = '100px';
+        this.#rootElem.style.top = '80px';
         this.#rootElem.style.width = 'calc(100% - 100px)';
     };
 
