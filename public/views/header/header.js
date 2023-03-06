@@ -9,7 +9,6 @@ const LoadHeader = (context) => {
     // eslint-disable-next-line no-undef
     const headerTemplate = Handlebars.template(precompiled_template);
     const searchInput = new Input('Search', 'search', 'text');
-    console.log(context)
     const html = headerTemplate({ input: searchInput.getHtml(), username: context ? context.user.username: '' });
 
     return html;

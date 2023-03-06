@@ -54,8 +54,6 @@ class Router {
         window.history.pushState('data', 'title', path);
         const decomposed_path = path.split('/');
         const route = this.#routes[decomposed_path[1]];
-        console.log(path);
-        console.log(route);
 
         if (!route) {
             this.#MountMenu();
@@ -76,7 +74,6 @@ class Router {
             if (error.message === '401') {
                 this.Navigate('/login');
             }
-            console.log(error)
             this.RenderErrorPage(404);
         }
     };
@@ -102,7 +99,6 @@ class Router {
             trimmed_path = '/feed';
         }
 
-        console.log(trimmed_path);
         this.Navigate(trimmed_path);
     };
 
