@@ -10,8 +10,8 @@ import { isEmail, isPassword } from '../../util/validator.js';
  * */
 const LoadLogin = () => {
     const templ = Handlebars.template(pageTmpl);
-    const emailInput = new Input('email', 'email', 'email');
-    const passwordInput = new Input('password', 'password', 'password');
+    const emailInput = new Input('email', 'email', 'email', 'alternate_email');
+    const passwordInput = new Input('password', 'password', 'password', 'lock');
     const loginForm = new Form('Sign in', 'post', 'login-form', emailInput.getHtml(), passwordInput.getHtml());
     return templ({ form: loginForm.getHtml() });
 };
@@ -29,14 +29,13 @@ const AddLoginListeners = () => {
             return obj;
         }, {});
 
-        if (!isEmail(formData.email)) {
-            errorMsgSpan.textContent = 'Wrong email';
+        if (formData.email === '' || formData.password === '') {
+            errorMsgSpan.textContent = 'Email or password cannot be empty';
             return;
         }
 
-        if (!isPassword(formData.password)) {
-            errorMsgSpan.textContent =
-                'The password must be at least 8 characters long and contain the following characters: [a-z], [A-Z], 0-9, -#!$@%^&*+~=:;?';
+        if (!isEmail(formData.email) || !isPassword(formData.password)) {
+            errorMsgSpan.textContent = 'Wrong email or password';
             return;
         }
 

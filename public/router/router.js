@@ -76,7 +76,7 @@ class Router {
             if (error.message === '401') {
                 this.Navigate('/login');
             }
-            console.log(error)
+            console.log(error);
             this.RenderErrorPage(404);
         }
     };
@@ -124,6 +124,7 @@ class Router {
     #MountMenu = () => {
         this.#menuMounted = true;
         this.#menuElem.innerHTML = LoadMenu();
+        this.#menuElem.querySelector('.menu__link').classList.add('active');
         this.#headerElem.innerHTML = LoadHeader(this.#context);
         this.#rootElem.style.left = '100px';
         this.#rootElem.style.top = '80px';
