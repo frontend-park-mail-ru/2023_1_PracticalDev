@@ -18,7 +18,7 @@
 ## Менторы
 
 - [Фарис Набиев](https://github.com/rflban) - Frontend
-- 
+
 - [Дмитрий Ильин](https://github.com/Neytrinoo) - Backend
 
 
