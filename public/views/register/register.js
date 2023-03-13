@@ -2,13 +2,31 @@ import pageTmpl from './register.handlebars.js';
 import Input from '../../components/input/input.js';
 import Form from '../../components/form/form.js';
 import Ajax from '../../util/ajax.js';
-import { isEmail, isPassword, isUsername } from '../../util/validator.js';
+import { validateEmail, validateUsername, validatePassword, EmptyStringError } from '../../util/validator.js';
+
+/**
+ * Функция для проверки аутенфикации пользователя
+ */
+const checkAuth = async () => {
+    const response = await Ajax.get('/api/auth/me');
+    if (response.ok) {
+        const redirect = new CustomEvent('navigate', {
+            bubbles: true,
+            detail: { link: '/feed', user: response.body },
+        });
+        const div = document.getElementById('app');
+        div.dispatchEvent(redirect);
+    }
+};
 
 /**
  * Функция для построения страницы регистрация
  * @return {string} - html код страница
  * */
-const LoadSignup = () => {
+
+const LoadSignup = async () => {
+    await checkAuth();
+
     const templ = Handlebars.template(pageTmpl);
     const usernameInput = new Input('Enter your username', 'username', 'text');
     const emailInput = new Input('Enter your email', 'email', 'email');
@@ -41,24 +59,30 @@ const AddRegisterListeners = () => {
             return obj;
         }, {});
 
-        if (!isEmail(formData.email)) {
-            errorMsgSpan.textContent = 'Wrong email';
-            return;
-        }
+        try {
+            if (
+                formData.username == '' ||
+                formData.Email == '' ||
+                formData.name == '' ||
+                formData.password == '' ||
+                formData.password_repeat == ''
+            ) {
+                throw EmptyStringError;
+            }
 
-        if (!isUsername(formData.username)) {
-            errorMsgSpan.textContent = 'Username can be from 4 to 20 characters, and contain only letters and numbers';
-            return;
-        }
+            validateUsername(formData.username);
+            validateEmail(formData.email);
+            validatePassword(formData.password);
 
-        if (!isPassword(formData.password)) {
-            errorMsgSpan.textContent =
-                'The password must be at least 8 characters long and contain the following characters: [a-z], [A-Z], 0-9, -#!$@%^&*+~=:;?';
-            return;
-        }
-
-        if (formData.password != formData.password_repeat) {
-            errorMsgSpan.textContent = 'Password mismatch';
+            if (formData.password_repeat !== formData.password) {
+                throw new Error('Password mismatch');
+            }
+        } catch (err) {
+            if (err === EmptyStringError) {
+                errorMsgSpan.textContent = 'All fields must be not empty';
+            } else {
+                errorMsgSpan.textContent = err.message;
+            }
             return;
         }
 
@@ -80,7 +104,7 @@ const AddRegisterListeners = () => {
             } else {
                 const redirect = new CustomEvent('navigate', {
                     bubbles: true,
-                    detail: { link: '/login', user: response.body },
+                    detail: { link: '/feed', user: response.body },
                 });
                 form.dispatchEvent(redirect);
             }

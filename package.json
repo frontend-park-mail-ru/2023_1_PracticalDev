@@ -4,11 +4,12 @@
   "description": "Проект Pinterest команды \"Practical Dev\"",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "server": "node ./server/index.js",
     "dev": "DEBUG=True node ./server/index.js",
-    "lint": "eslint --ignore-path ./.eslintignore --config .eslintrc public/**/*.js server/**/*.js",
-    "compile": "node ./server/compileTemplates.js"
+    "lint": "eslint --ignore-path ./config/.eslintignore --config ./config/.eslintrc public/**/*.js server/**/*.js",
+    "compile": "node ./server/compileTemplates.js",
+    "mock": "node ./mock/index.js"
   },
   "repository": {
     "type": "git",
@@ -21,10 +22,13 @@
   },
   "homepage": "https://github.com/frontend-park-mail-ru/2023_1_PracticalDev#readme",
   "devDependencies": {
-    "eslint": "^8.34.0"
+    "assert": "^2.0.0",
+    "eslint": "^8.34.0",
+    "mocha": "^10.2.0"
   },
   "type": "module",
   "dependencies": {
+    "express": "^4.18.2",
     "handlebars": "^4.7.7"
   }
 }

@@ -10,9 +10,9 @@ const LoadMenu = () => {
     const menuTemplate = Handlebars.template(precompiled_template);
     const html = menuTemplate({
         menu_items: [
-            { link: '/profile', name: 'home' },
-            { link: '/feed', name: 'dashboard' },
-            { link: '/chat', name: 'settings' },
+            { link: '/feed', name: 'home' },
+            { link: '/profile', name: 'dashboard' },
+            { link: '/settings', name: 'settings' },
         ],
     });
 
@@ -25,7 +25,7 @@ const LoadMenu = () => {
 const AddMenuListeners = () => {
     /** @type {HTMLButtonElement} */
     const logoutButton = document.getElementById('logout_btn');
-
+    const menuBox = document.querySelector('.menu__box');
     logoutButton.addEventListener('click', () => {
         Ajax.delete('/api/auth/logout').then((response) => {
             if (response.ok) {
@@ -36,6 +36,13 @@ const AddMenuListeners = () => {
                 logoutButton.dispatchEvent(redirect);
             }
         });
+    });
+
+    menuBox.addEventListener('click', (event) => {
+        if (event.target.tagName === 'A') {
+            menuBox.querySelector('.active').classList.remove('active');
+            event.target.classList.add('active');
+        }
     });
 };
 

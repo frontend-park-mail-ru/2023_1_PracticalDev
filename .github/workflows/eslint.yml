@@ -55,3 +55,6 @@ jobs:
             - name: ESLint Checking
               if: ${{(steps.changed-files-js.outputs.added_files || steps.changed-files-js.outputs.modified_files) }}
               run: npm run lint
+
+            - name: Run mocha unit-tests Checking
+              run: npm run test

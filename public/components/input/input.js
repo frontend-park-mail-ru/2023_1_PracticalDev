@@ -19,6 +19,7 @@ class Input {
         this.#name = name;
         this.#placeholder = placeholder;
         this.#type = type;
+        this.#icon = icon;
     }
 
     /**
@@ -31,6 +32,7 @@ class Input {
             name: this.#name,
             placeholder: this.#placeholder,
             type: this.#type,
+            icon: this.#icon,
         });
     };
 }

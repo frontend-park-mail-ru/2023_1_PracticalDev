@@ -2,16 +2,33 @@ import pageTmpl from './login.handlebars.js';
 import Input from '../../components/input/input.js';
 import Form from '../../components/form/form.js';
 import Ajax from '../../util/ajax.js';
-import { isEmail, isPassword } from '../../util/validator.js';
+import { validatePassword, validateEmail } from '../../util/validator.js';
+
+/**
+ * Функция для проверки аутенфикации пользователя
+ */
+const checkAuth = async () => {
+    const response = await Ajax.get('/api/auth/me');
+    if (response.ok) {
+        const redirect = new CustomEvent('navigate', {
+            bubbles: true,
+            detail: { link: '/feed', user: response.body },
+        });
+        const div = document.getElementById('app');
+        div.dispatchEvent(redirect);
+    }
+};
 
 /**
  * Функция для построения страницы входа
  * @return {string} - html код страница
  * */
-const LoadLogin = () => {
+const LoadLogin = async () => {
+    await checkAuth();
+
     const templ = Handlebars.template(pageTmpl);
-    const emailInput = new Input('email', 'email', 'email');
-    const passwordInput = new Input('password', 'password', 'password');
+    const emailInput = new Input('email', 'email', 'email', 'alternate_email');
+    const passwordInput = new Input('password', 'password', 'password', 'lock');
     const loginForm = new Form('Sign in', 'post', 'login-form', emailInput.getHtml(), passwordInput.getHtml());
     return templ({ form: loginForm.getHtml() });
 };
@@ -29,14 +46,16 @@ const AddLoginListeners = () => {
             return obj;
         }, {});
 
-        if (!isEmail(formData.email)) {
-            errorMsgSpan.textContent = 'Wrong email';
+        if (formData.email === '' || formData.password === '') {
+            errorMsgSpan.textContent = 'Email or password cannot be empty';
             return;
         }
 
-        if (!isPassword(formData.password)) {
-            errorMsgSpan.textContent =
-                'The password must be at least 8 characters long and contain the following characters: [a-z], [A-Z], 0-9, -#!$@%^&*+~=:;?';
+        try {
+            validateEmail(formData.email);
+            validatePassword(formData.password);
+        } catch {
+            errorMsgSpan.textContent = 'Wrong email or password';
             return;
         }
 
