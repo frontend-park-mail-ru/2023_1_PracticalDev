@@ -4,7 +4,7 @@ export const EmptyStringError = new Error('Empty string');
 // Username errors
 export const TooShortUsernameError = new Error('Username must be at least 4 characters');
 export const TooLongUsernameError = new Error('Username must be no more than 20 characters');
-export const InvalidCharactersError = new Error('Username must contain only letters, digits and \'_\'');
+export const InvalidCharactersError = new Error("Username must contain only letters, digits and '_'");
 
 // Password errors
 export const TooShortPasswordError = new Error('Password must be at least 8 characters');
@@ -65,9 +65,10 @@ export function validateEmail(str) {
     if (str.length === 0) {
         throw EmptyStringError;
     }
-    const valid = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-z\-0-9]+\.)+[a-z]{2,}))$/i.test(
-        str,
-    );
+    const valid =
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-z\-0-9]+\.)+[a-z]{2,}))$/i.test(
+            str,
+        );
     if (!valid) {
         throw InvalidEmailError;
     }

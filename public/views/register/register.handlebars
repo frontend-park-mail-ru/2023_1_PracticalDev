@@ -9,12 +9,16 @@
   <div class="section_login">
     <h1 class="header__login">Welcome to PickPin</h1>
     <hr style="width:70%;;border:1px solid #276678;">
-    <div class="form_wrapper">
-      {{{form}}}
-      <div class="form_help_section">
-        <a href="/login" id="register_link"> Already have an account? </a>
-        <a href="/signup" id="password_recover_link"> Forgot password? </a>
+      <div id="error_msg_wrapper"><span id="error_msg"></span></div>
+       <div class="form_wrapper">
+       <div class="form-content">
+        {{{form}}}
+        <div class="form_help_section">
+          <a href="/login" id="register_link"> Already have an account? </a>
+          <a href="/signup" id="password_recover_link"> Forgot password? </a>
+        </div>
       </div>
+     
     </div>
   </div>
 </div>

@@ -2,7 +2,7 @@ import pageTmpl from './login.handlebars.js';
 import Input from '../../components/input/input.js';
 import Form from '../../components/form/form.js';
 import Ajax from '../../util/ajax.js';
-import { isEmail, isPassword } from '../../util/validator.js';
+import { validatePassword, validateEmail } from '../../util/validator.js';
 
 /**
  * Функция для проверки аутенфикации пользователя
@@ -51,7 +51,10 @@ const AddLoginListeners = () => {
             return;
         }
 
-        if (!isEmail(formData.email) || !isPassword(formData.password)) {
+        try {
+            validateEmail(formData.email);
+            validatePassword(formData.password);
+        } catch {
             errorMsgSpan.textContent = 'Wrong email or password';
             return;
         }

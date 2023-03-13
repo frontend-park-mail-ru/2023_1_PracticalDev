@@ -2,7 +2,7 @@ import pageTmpl from './register.handlebars.js';
 import Input from '../../components/input/input.js';
 import Form from '../../components/form/form.js';
 import Ajax from '../../util/ajax.js';
-import { isEmail, isPassword, isUsername } from '../../util/validator.js';
+import { validateEmail, validateUsername, validatePassword, EmptyStringError } from '../../util/validator.js';
 
 /**
  * Функция для проверки аутенфикации пользователя
@@ -23,6 +23,7 @@ const checkAuth = async () => {
  * Функция для построения страницы регистрация
  * @return {string} - html код страница
  * */
+
 const LoadSignup = async () => {
     await checkAuth();
 
@@ -58,24 +59,30 @@ const AddRegisterListeners = () => {
             return obj;
         }, {});
 
-        if (!isEmail(formData.email)) {
-            errorMsgSpan.textContent = 'Wrong email';
-            return;
-        }
+        try {
+            if (
+                formData.username == '' ||
+                formData.Email == '' ||
+                formData.name == '' ||
+                formData.password == '' ||
+                formData.password_repeat == ''
+            ) {
+                throw EmptyStringError;
+            }
 
-        if (!isUsername(formData.username)) {
-            errorMsgSpan.textContent = 'Username can be from 4 to 20 characters, and contain only letters and numbers';
-            return;
-        }
+            validateUsername(formData.username);
+            validateEmail(formData.email);
+            validatePassword(formData.password);
 
-        if (!isPassword(formData.password)) {
-            errorMsgSpan.textContent =
-                'The password must be at least 8 characters long and contain the following characters: [a-z], [A-Z], 0-9, -#!$@%^&*+~=:;?';
-            return;
-        }
-
-        if (formData.password != formData.password_repeat) {
-            errorMsgSpan.textContent = 'Password mismatch';
+            if (formData.password_repeat !== formData.password) {
+                throw new Error('Password mismatch');
+            }
+        } catch (err) {
+            if (err === EmptyStringError) {
+                errorMsgSpan.textContent = 'All fields must be not empty';
+            } else {
+                errorMsgSpan.textContent = err.message;
+            }
             return;
         }
 
