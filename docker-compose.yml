@@ -1,33 +1,35 @@
 version: "3.9"
 
 services:
-  mock:
-    build: "."
-    command: node mock/index.js
-    volumes:
-      - ./mock/:/home/code/mock
-      - ./package.json:/home/code/package.json
-      - ./node_modules/:/home/code/node_modules/
-    ports:
-      - 8080:8080
-    network_mode: host
-
   frontend:
-    build: "."
-    command: npm run server
+    container_name: frontend
+    build:
+      context: "."
+    command: make compile-serve
     volumes:
       - ./:/home/code/
     ports:
       - 8000:8000
-    network_mode: host
+    networks:
+      - frontend-network
+      - api-network
 
   nginx:
     image: nginx
     container_name: nginx
     volumes:
-      - ./mock/mock.conf:/etc/nginx/conf.d/default.conf
-    network_mode: host
+      - ./config/front.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - api-network
+      - frontend-network
     depends_on:
-      - mock
       - frontend
+    ports:
+      - 80:80
 
+networks:
+  api-network:
+    name: api_network
+    external: true
+  frontend-network:
+    driver: bridge
