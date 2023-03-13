@@ -13,7 +13,6 @@ const LoadHeader = async (context) => {
     if (!context) {
         const response = await Ajax.get('/api/auth/me');
         if (response.ok) {
-            console.log(headerTemplate({ input: searchInput.getHtml(), username: response.body.username }))
             return headerTemplate({ input: searchInput.getHtml(), username: response.body.username });
         }
     }

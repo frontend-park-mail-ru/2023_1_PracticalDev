@@ -20,4 +20,12 @@ const LoadFeed = async () => {
     });
 };
 
-export default LoadFeed;
+const AddFeedListeners = () => {
+    document.getElementById('cors-btn').addEventListener('click', (e) => {
+        Ajax.get('http://pickpin.ru:8080/ping', false).then((response) => {
+            console.log(response);
+        });
+    });
+};
+
+export { LoadFeed, AddFeedListeners };
