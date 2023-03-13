@@ -5,10 +5,27 @@ import Ajax from '../../util/ajax.js';
 import { isEmail, isPassword } from '../../util/validator.js';
 
 /**
+ * Функция для проверки аутенфикации пользователя
+ */
+const checkAuth = async () => {
+    const response = await Ajax.get('/api/auth/me');
+    if (response.ok) {
+        const redirect = new CustomEvent('navigate', {
+            bubbles: true,
+            detail: { link: '/feed', user: response.body },
+        });
+        const div = document.getElementById('app');
+        div.dispatchEvent(redirect);
+    }
+};
+
+/**
  * Функция для построения страницы входа
  * @return {string} - html код страница
  * */
-const LoadLogin = () => {
+const LoadLogin = async () => {
+    await checkAuth();
+
     const templ = Handlebars.template(pageTmpl);
     const emailInput = new Input('email', 'email', 'email', 'alternate_email');
     const passwordInput = new Input('password', 'password', 'password', 'lock');

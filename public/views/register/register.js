@@ -5,10 +5,27 @@ import Ajax from '../../util/ajax.js';
 import { isEmail, isPassword, isUsername } from '../../util/validator.js';
 
 /**
+ * Функция для проверки аутенфикации пользователя
+ */
+const checkAuth = async () => {
+    const response = await Ajax.get('/api/auth/me');
+    if (response.ok) {
+        const redirect = new CustomEvent('navigate', {
+            bubbles: true,
+            detail: { link: '/feed', user: response.body },
+        });
+        const div = document.getElementById('app');
+        div.dispatchEvent(redirect);
+    }
+};
+
+/**
  * Функция для построения страницы регистрация
  * @return {string} - html код страница
  * */
-const LoadSignup = () => {
+const LoadSignup = async () => {
+    await checkAuth();
+
     const templ = Handlebars.template(pageTmpl);
     const usernameInput = new Input('Enter your username', 'username', 'text');
     const emailInput = new Input('Enter your email', 'email', 'email');
@@ -80,7 +97,7 @@ const AddRegisterListeners = () => {
             } else {
                 const redirect = new CustomEvent('navigate', {
                     bubbles: true,
-                    detail: { link: '/login', user: response.body },
+                    detail: { link: '/feed', user: response.body },
                 });
                 form.dispatchEvent(redirect);
             }

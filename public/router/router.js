@@ -117,11 +117,11 @@ class Router {
     /**
      * Отображает меню
      */
-    #MountMenu = () => {
+    #MountMenu = async () => {
         this.#menuMounted = true;
         this.#menuElem.innerHTML = LoadMenu();
         this.#menuElem.querySelector('.menu__link').classList.add('active');
-        this.#headerElem.innerHTML = LoadHeader(this.#context);
+        this.#headerElem.innerHTML = await LoadHeader(this.#context);
         this.#rootElem.style.left = '100px';
         this.#rootElem.style.top = '80px';
         this.#rootElem.style.width = 'calc(100% - 100px)';
