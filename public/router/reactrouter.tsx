@@ -1,5 +1,7 @@
 import { Component, VNode, createElement, renderElement } from '@t1d333/pickpinlib';
 import Feed from '../views/feed/feed';
+import Menu from '../views/menu/menu';
+import Header from '../views/header/header';
 
 interface RouterProps {
     page: string;
@@ -14,7 +16,19 @@ function resolve(path: string = ''): VNode {
         case 'post':
             return <div key="foo1">{'Kirill loh'}</div>;
         default:
-            return <div key="foo1">{'404'}</div>;
+            return <div>
+            <div className="" id="menu">
+                <Menu />
+            </div>
+            <div className="" id="header_wrapper">
+                <Header />
+            </div>
+            <div className="" id="app" style="left: 100px; width: calc(100% - 100px); top: 80px;">
+                <div className="main__content">
+                    {'404'}
+                </div>
+            </div>
+        </div>;
     }
 }
 

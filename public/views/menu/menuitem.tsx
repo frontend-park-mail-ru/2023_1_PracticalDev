@@ -11,7 +11,7 @@ class MenuItem extends Component<MenuItemProps, MenuItemState> {
     render() {
         return (
             <span className="menu__item">
-                <a href={'"' + this.props.link + '"'} className="material-symbols-outlined md-32 menu__link">
+                <a href={this.props.link} className="material-symbols-outlined md-32 menu__link">
                     {this.props.name}
                 </a>
             </span>
