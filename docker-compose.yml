@@ -13,6 +13,8 @@ services:
     networks:
       - frontend-network
       - api-network
+    environment:
+      CHOKIDAR_USEPOLLING: 1
 
   nginx:
     image: nginx
