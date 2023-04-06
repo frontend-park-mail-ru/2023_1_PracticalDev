@@ -3,15 +3,15 @@
  */
 class Route {
     /** @type {string} Имя пути */
-    name;
+    name: string;
     /** @type {string} Заголовок пути для отображения в `title` вкладки */
-    title;
+    title: string;
     /** @type {Function} Функция отрисовки страницы */
-    GetHtml;
+    GetHtml: Function;
     /** @type {Function} Функция добавления обработчиков событий */
-    AddListeners;
+    AddListeners: Function;
     /** @type {boolean} Определяет, нужно ли отображать меню вместе с этой страницей */
-    show_menu;
+    show_menu: boolean;
 
     /**
      * @constructor
@@ -21,7 +21,7 @@ class Route {
      * @param {Function} AddListeners Функция добавления обработчиков событий
      * @param {boolean}  show_menu Определяет, нужно ли отображать меню вместе с этой страницей
      */
-    constructor(name, title, GetHtml,AddListeners, show_menu = true) {
+    constructor(name: string, title: string, GetHtml: Function,AddListeners: Function, show_menu: boolean = true) {
         this.name = name;
         this.GetHtml = GetHtml;
         this.AddListeners = AddListeners;

@@ -10,7 +10,7 @@ const AJAX_METHODS = {
 };
 
 class Ajax {
-    static async #fetch(url, options = {}, parseResponse = true) {
+    static async #fetch(url: string, options = {}, parseResponse = true) {
         const resp = await fetch(url, {
             ...options,
         });
@@ -46,7 +46,7 @@ class Ajax {
      *
      * @returns {Promise<{status: number, body: Object, ok: boolean}>}
      */
-    static async get(url, json = true) {
+    static async get(url: string, json: boolean = true): Promise<{ status: number; body: object; ok: boolean; }> {
         return this.#fetch(
             url,
             {
@@ -65,7 +65,7 @@ class Ajax {
      *
      * @returns {Promise<{status: number, body: Object, ok: boolean}>}
      */
-    static async post(url, body) {
+    static async post(url: string, body: object): Promise<{ status: number; body: object; ok: boolean; }> {
         return this.#fetch(url, {
             method: AJAX_METHODS.POST,
             mode: 'cors',
@@ -81,7 +81,7 @@ class Ajax {
      *
      * @returns {Promise<{status: number, body: Object, ok: boolean}>}
      */
-    static async put(url, body) {
+    static async put(url: string, body: object): Promise<{ status: number; body: object; ok: boolean; }> {
         return this.#fetch(url, {
             method: AJAX_METHODS.PUT,
             mode: 'cors',
@@ -97,7 +97,7 @@ class Ajax {
      *
      * @returns {Promise<{status: number, body: Object, ok: boolean}>}
      */
-    static async patch(url, body) {
+    static async patch(url: string, body: object): Promise<{ status: number; body: object; ok: boolean; }> {
         return this.#fetch(url, {
             method: AJAX_METHODS.PATCH,
             mode: 'cors',
@@ -112,7 +112,7 @@ class Ajax {
      *
      * @returns {Promise<{status: number, body: Object, ok: boolean}>}
      */
-    static async delete(url) {
+    static async delete(url: string): Promise<{ status: number; body: object; ok: boolean; }> {
         return this.#fetch(url, {
             method: AJAX_METHODS.DELETE,
             mode: 'cors',

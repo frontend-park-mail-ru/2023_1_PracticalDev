@@ -5,7 +5,7 @@ services:
     container_name: frontend
     build:
       context: "."
-    command: make compile-serve
+    command: npm run dev
     volumes:
       - ./:/home/code/
     ports:
