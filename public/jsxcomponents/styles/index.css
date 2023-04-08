@@ -1,0 +1,371 @@
+#root {
+    width: 100%;
+    height: 100%;
+} 
+body {
+    margin: 0;
+    position: relative;
+    font-size: 16px;
+    background-color: #f6f5f5;
+}
+
+.material-icons.md-18 {
+    font-size: 18px;
+}
+.material-icons.md-24 {
+    font-size: 24px;
+}
+
+.material-icons.md-32 {
+    font-size: 32px;
+}
+
+.material-icons.md-40 {
+    font-size: 40px;
+}
+
+.material-icons.md-48 {
+    font-size: 48px;
+}
+
+#header_wrapper {
+    position: fixed;
+    left: 100px;
+}
+
+#header {
+    width: calc(100vw - 100px);
+    height: 80px;
+    background-color: #f6f5f5;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.header_btn {
+    color: #1687a7;
+    border: none;
+    cursor: pointer;
+    margin-right: 20px;
+    background-color: inherit;
+}
+
+#pin_creation_btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    color: #f6f5f5;
+    background-color: #1687a7;
+}
+
+#error_msg_wrapper {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    max-width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+#error_msg {
+    font-family: 'Inter';
+    max-width: 100%;
+    font-size: 18px;
+    color: #e90064;
+}
+
+input[name='search'] {
+    margin-top: 0;
+    margin-right: 10px;
+    margin-left: 10px;
+    background: #f6f5f5;
+    width: 90%;
+    height: 50px;
+    border: 2px solid #1687a7;
+    border-radius: 15px;
+}
+
+#sidebar_logo_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#sidebar_logo {
+    width: 80px;
+    height: 80px;
+}
+
+#header_search_wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 70vw;
+}
+
+#header_username {
+    font-family: 'Inter';
+    font-size: 22px;
+    color: #1687a7;
+}
+
+#user_block {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 20px;
+}
+
+#menu {
+    z-index: 1000;
+    height: 0;
+}
+
+#menu {
+    z-index: 1001;
+    left: 0;
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    margin: 0;
+    height: 100%;
+    background-color: #d3e0ea;
+    box-shadow: 1px 0px 6px rgba(0, 0, 0, 0.2);
+    transition-duration: 0.25s;
+    padding-inline-start: 0px;
+}
+
+.menu__box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.menu__item {
+    font-weight: 600;
+    display: block;
+    padding: calc(16px + 5%) 0px;
+    color: #d3e0ea;
+    text-align: center;
+    background-color: #1687a7;
+}
+
+.menu__link {
+    color: #d3e0ea;
+    text-decoration: none;
+}
+
+.menu__link:visited {
+    display: block;
+    padding: calc(16px + 5%) 0px;
+    text-align: center;
+    text-decoration: none;
+}
+
+#logout_btn {
+    border: none;
+    cursor: pointer;
+    background-color: #1687a7;
+    color: #d3e0ea;
+    padding: calc(16px + 5%) 0px;
+}
+
+#app {
+    position: absolute;
+    left: 120px;
+    width: calc(100% - 120px);
+    padding: 0px;
+    background-color: #f6f5f5;
+}
+
+.main__content {
+    font-size: 20px;
+    text-align: center;
+    margin: auto auto;
+}
+
+
+/* Login */
+
+
+
+.wrapper {
+  padding: 0px;
+  display: flex;
+  flex-direction: row;
+  background: #F6F5F5;
+}
+
+.section_logo {
+  height: 100vh;
+  width: 66vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+
+.form_wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.section_login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 67vw;
+  background: #F6F5F5;
+}
+
+.header__login {
+  font-family: 'Inter';
+  color: #276678;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 64px;
+  line-height: 77px;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.logo_span {
+  font-family: 'Inter';
+  color: #276678;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 48px;
+}
+
+
+.btn_submit {
+  font-family: 'Inter';
+  font-size: 24px;
+  margin-top: 20px;
+  width: 200px;
+  height: 50px;
+  border-radius: 15px;
+  background: #276678;
+  color: #D3E0EA;
+  border: 0px;
+}
+
+
+.form_input_group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.form_help_section {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.form_help_section a {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 17px;
+  color: #276678;
+  text-decoration: none;
+}
+
+.form_help_section a:visited {
+  color: #276678;
+}
+
+#register_link #password_recover_link {
+    display: inline-block;
+    width: 100%;
+}
+
+
+
+.btn_submit {
+    font-weight: 600;
+    font-size: 24px;
+    margin-top: 20px;
+    width: 200px;
+    height: 50px;
+    border-radius: 15px;
+    background: #276678;
+    color: #d3e0ea;
+    border: 0px;
+    cursor: pointer;
+}
+
+.form_input_group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.form_help_section {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.form_help_section a {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 17px;
+    color: #276678;
+    text-decoration: none;
+}
+
+.form_help_section a:visited {
+    color: #276678;
+}
+
+#error_msg_wrapper {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    max-width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.form_input_group .input__container {
+    margin-top: 20px;
+}
+
+#error_msg {
+    font-family: 'Inter';
+    max-width: 100%;
+    height: 22px;
+    font-size: 18px;
+    color: #e90064;
+}
+
+#register_link #password_recover_link {
+    display: inline-block;
+    width: 100%;
+}
