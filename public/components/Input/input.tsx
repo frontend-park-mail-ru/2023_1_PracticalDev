@@ -12,15 +12,29 @@ export type InputState = {};
 export class Input extends Component<InputProps, InputState> {
   render() {
     return (
-      <div className="input__container">
+      <div
+        key={"input__container-" + this.props.name}
+        className="input__container"
+      >
         {this.props.icon ? (
-          <div>
-            <span className="input__icon">
-              <span className="material-symbols-outlined" aria-hidden="true">
+          <div
+            key={"input__icon-container-" + this.props.name}
+            className="input__icon-container"
+          >
+            <span
+              key={"input__icon-" + this.props.name}
+              className="input__icon"
+            >
+              <span
+                key="icon"
+                className="material-symbols-outlined"
+                aria-hidden="true"
+              >
                 {this.props.icon}
               </span>
             </span>
             <input
+              key={"input-" + this.props.name}
               className="input__custom input__has_icon"
               placeholder={this.props.placeholder}
               name={this.props.name}
@@ -29,6 +43,7 @@ export class Input extends Component<InputProps, InputState> {
           </div>
         ) : (
           <input
+            key={"input-" + this.props.name}
             className="input__custom "
             placeholder={this.props.placeholder}
             name={this.props.name}

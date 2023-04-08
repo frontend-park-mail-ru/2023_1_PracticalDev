@@ -1,11 +1,10 @@
-import { Component, createElement, renderElement } from '@t1d333/pickpinlib';
+import { Component, createElement } from '@t1d333/pickpinlib';
 import { IPin } from '../../models';
 
 interface PinProps {
     pin: IPin;
 }
 interface PinState {}
-
 
 class Pin extends Component<PinProps, PinState> {
     private sizes = ['card_small', 'card_medium', 'card_large'];

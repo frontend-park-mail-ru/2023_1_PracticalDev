@@ -1,0 +1,153 @@
+
+
+:root {
+    --card_width: 250px;
+    --row_increment: 10px;
+    --card_border_radius: 16px;
+    --card_small: 26;
+    --card_medium: 33;
+    --card_large: 45;
+}
+
+.add_pin_modal {
+    opacity: 0;
+    pointer-events: none;
+    transition-duration: 0.5s;
+}
+
+.pin_container {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background: #f6f5f5;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, var(--card_width));
+    grid-auto-rows: var(--row_increment);
+    justify-content: center;
+}
+
+.card {
+    padding: 0;
+    margin: 15px 10px;
+    position: relative;
+    border-radius: var(--card_border_radius);
+    overflow: hidden;
+
+    box-shadow: 1px;
+}
+
+.card_small {
+    grid-row-end: span var(--card_small);
+}
+
+.card_medium {
+    grid-row-end: span var(--card_medium);
+}
+
+.card_large {
+    grid-row-end: span var(--card_large);
+}
+.card {
+    width: 236px;
+    border-radius: 15px;
+    box-shadow: 1px;
+    position: relative;
+
+    -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+
+    overflow: hidden;
+}
+
+.pin__title {
+    width: 0;
+    height: 0;
+    opacity: 0;
+}
+
+.pin__modal {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    z-index: 9999;
+    background-color: rgb(0, 0, 0, 0.1);
+    opacity: 0;
+    transition-duration: 0.3s;
+}
+
+.pin__modal:hover {
+    opacity: 1;
+}
+
+.pin__modal .pin__modal-head {
+    width: 100%;
+    height: 20%;
+    position: fixed;
+    top: 5px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.pib__save-btn {
+    font-family: 'Inter';
+    font-weight: bold;
+    font-size: 18px;
+    color: #f6f5f5;
+    border-radius: 15px;
+    margin-right: 25px;
+    background: #1687a7;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.pin__modal .pin__modal-foot {
+    width: 100%;
+    height: 20%;
+    position: fixed;
+    bottom: 10px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.pin__icon-btn {
+    text-align: center;
+    height: 45px;
+    width: 45px;
+    border-radius: 15px;
+    border: none;
+    color: #f6f5f5;
+    background: #1687a7;
+    cursor: pointer;
+}
+
+.pin__image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: -1;
+    object-fit: cover;
+}
+
+.pin__author-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
+    object-fit: scale-down;
+}
+
+.card_large .pin__modal-head {
+    top: 0px;
+}
+
+/*.pin_image img{
+    max-height: 100%;
+}*/

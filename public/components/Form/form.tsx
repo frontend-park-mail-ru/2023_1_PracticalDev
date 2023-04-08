@@ -1,5 +1,5 @@
 import { Component, createElement, renderElement } from "@t1d333/pickpinlib";
-import { Input, InputProps } from "./input";
+import { Input, InputProps } from "../Input/input";
 
 type FormProps = {
   id: string;

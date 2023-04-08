@@ -9,6 +9,10 @@ input[name='search'] {
     border-radius: 15px;
 }
 
+.input__icon-container {
+    width: 100%;
+}
+
 .input__custom {
     font-family: 'Inter';
     font-style: normal;

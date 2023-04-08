@@ -28,12 +28,12 @@ body {
     font-variation-settings: 'FILL' 1;
 }
 
-#header_wrapper {
+.header {
     position: fixed;
     left: 100px;
 }
 
-#header {
+.header {
     width: calc(100vw - 100px);
     height: 80px;
     background-color: #f6f5f5;

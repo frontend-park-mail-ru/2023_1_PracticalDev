@@ -1,5 +1,5 @@
 import { Component, createElement, renderElement } from '@t1d333/pickpinlib';
-import Input from '../../components/input/input';
+import { Input } from '../../components/Input/input';
 
 interface HeaderProps {
     selectedTab: 'feed' | 'profile' | 'settings';
@@ -24,7 +24,7 @@ class Header extends Component<HeaderProps, HeaderState> {
                         <span className="material-symbols-outlined md-32">chat</span>
                     </button>
                     <img id="header_avatar" />
-                    <span id="header_username">{"Kirill pomidor"}</span>
+                    <span id="header_username">{'Kirill pomidor'}</span>
                 </div>
             </div>
         );

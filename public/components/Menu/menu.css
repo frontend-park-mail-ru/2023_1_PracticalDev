@@ -47,7 +47,7 @@
     text-decoration: none;
 }
 
-#menu__loguout-btn {
+.menu__loguout-btn {
     border: none;
     cursor: pointer;
     background-color: #1687a7;
@@ -55,13 +55,13 @@
     padding: calc(16px + 5%) 0px;
 }
 
-#menu__logo-container {
+.menu__logo-container {
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
 
-#menu__logo {
+.menu__logo {
     width: 80px;
     height: 80px;
 }
