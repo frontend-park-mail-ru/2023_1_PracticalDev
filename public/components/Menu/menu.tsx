@@ -3,7 +3,7 @@ import { Component, createElement } from '@t1d333/pickpinlib';
 const menuItems = [
     { link: '/feed', name: 'home' },
     { link: '/profile', name: 'dashboard' },
-    { link: '/settings', name: 'settings' },
+    { link: '/board', name: 'settings' },
 ];
 
 export default class Menu extends Component<{}, {}> {

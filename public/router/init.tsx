@@ -1,9 +1,11 @@
-import Feed from '../views/feed/feed';
+import Feed from '../components/Feed/feed';
 import Router from './router';
 import Route from './route';
 import { Component, VAttributes, createElement, renderElement, VNode } from '@t1d333/pickpinlib';
+import { ProfileScreen } from '../components/ProfilePage/profile';
+import { BoardScreen } from '../components/BoardPage/board';
 
-type DisplayProps = {page: any};
+type DisplayProps = { page: any };
 type DisplayState = {};
 
 class Display extends Component<DisplayProps, DisplayState> {
@@ -22,6 +24,18 @@ const InitRouter = (): Router => {
     router.Register('feed', {
         getComponent: () => {
             return <Feed key="feed" />;
+        },
+    });
+
+    router.Register('profile', {
+        getComponent: () => {
+            return <ProfileScreen key="profile-screen" />;
+        },
+    });
+
+    router.Register('board', {
+        getComponent: () => {
+            return <BoardScreen key="board" />;
         },
     });
     router.Register('post', {

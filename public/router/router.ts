@@ -56,7 +56,7 @@ class Router {
         const path = location.href;
         let trimmed_path = '/' + path.split('/').slice(3).join('/');
         if (trimmed_path === '/') {
-            trimmed_path = '/feed';
+            trimmed_path = '/profile';
         }
 
         this.Navigate(trimmed_path);

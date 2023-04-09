@@ -1,8 +1,10 @@
 import { Component, VAttributes, createElement, renderElement } from '@t1d333/pickpinlib';
 import { InitRouter, Display } from './router/init';
-import Feed from './views/feed/feed';
-import Router from './router/reactrouter';
+import { Store } from '@t1d333/pickpinreduxlib';
 import RouterProvider from './router/reactrouter';
+
+
+
 
 declare global {
     namespace JSX {
@@ -15,6 +17,7 @@ declare global {
 document.addEventListener('submit', (e: SubmitEvent) => {
     e.preventDefault();
 });
+
 
 type AppProps = {};
 type AppState = {};

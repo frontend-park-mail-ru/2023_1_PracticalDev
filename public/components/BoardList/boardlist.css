@@ -10,7 +10,8 @@
    cursor: pointer;
    width: 300px;
    height: 300px;
-    background: #F6F5F5;
+   transition-duration: .3s;
+   background: #F6F5F5;
    display: grid; 
    grid-row-gap: 2px;
    grid-column-gap: 2px;

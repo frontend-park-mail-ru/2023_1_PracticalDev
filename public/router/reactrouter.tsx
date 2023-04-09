@@ -1,8 +1,9 @@
 import { Component, VNode, createElement, renderElement } from '@t1d333/pickpinlib';
-import Feed from '../components/Feed/feed';
-import Menu from '../components/Menu/menu';
 import { MainScreen } from '../components/MainPage/main';
-import { Header } from '../components/Header/header';
+import { LoginScreen } from '../components/LoginPage/login';
+import { SignupScreen } from '../components/SignupPage/signup';
+import { ProfileScreen } from '../components/ProfilePage/profile';
+import { BoardPage, BoardScreen } from '../components/BoardPage/board';
 
 interface RouterProps {
     page: string;
@@ -13,8 +14,15 @@ interface RouterState {}
 function resolve(path: string = ''): VNode {
     switch (path) {
         case 'feed':
-            return <MainScreen key="mainscreen" />;
-
+            return <MainScreen key="main" />;
+        case 'profile':
+            return <ProfileScreen key="ProfileScreen" />;
+        case 'board':
+            return <BoardScreen name="Testboard" />;
+        case 'login':
+            return <LoginScreen key="login" />;
+        case 'signup':
+            return <SignupScreen key="signup" />;
         case 'post':
             return <div key="foo1">{'Kirill loh'}</div>;
         default:
@@ -26,7 +34,6 @@ class Router extends Component<RouterProps, RouterState> {
     private routes: { [s: string]: VNode } = {};
 
     navigate(path: string = '') {
-        console.log(path);
         return resolve(path);
     }
 
