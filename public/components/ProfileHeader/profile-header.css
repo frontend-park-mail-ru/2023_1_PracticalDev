@@ -1,0 +1,72 @@
+.profile__avatar {
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+    border-radius: 10px;
+}
+
+.profile__user-info {
+    display: flex;
+    flex-direction: row;
+}
+
+.profile__text-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+
+.profile__username, .profile__name, .profile__surname {
+    font-family: "Inter";
+    color: #276678; 
+    size: 20px;
+} 
+
+.profile__username {
+    text-align: start;
+    font-size: 28px;
+}
+
+.profile__name, .profile__surname {
+    
+    font-size: 22px;
+}
+.profile__name {
+    margin-right: 5px;
+}
+
+.profile__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 10px;
+    
+}
+
+.profile__statistics {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.profile__stat-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px; 
+    
+}
+
+.profile__stat-counter {
+    text-align: start;
+    font-weight: bold;
+    font-size: 28px;
+}
+
+.profile__stat-name {
+    font-size: 22px;
+}
+
+.profile__stat-counter, .profile__stat-name {
+   font-family: "Inter"; 
+    color: #276678;
+}
