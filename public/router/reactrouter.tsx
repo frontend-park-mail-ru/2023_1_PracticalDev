@@ -3,7 +3,8 @@ import { MainScreen } from '../components/MainPage/main';
 import { LoginScreen } from '../components/LoginPage/login';
 import { SignupScreen } from '../components/SignupPage/signup';
 import { ProfileScreen } from '../components/ProfilePage/profile';
-import { BoardPage, BoardScreen } from '../components/BoardPage/board';
+import { BoardScreen } from '../components/BoardPage/board';
+import { store } from '../store/store';
 
 interface RouterProps {
     page: string;
@@ -34,6 +35,7 @@ class Router extends Component<RouterProps, RouterState> {
     private routes: { [s: string]: VNode } = {};
 
     navigate(path: string = '') {
+        console.log(path)
         return resolve(path);
     }
 
@@ -61,35 +63,32 @@ class RouterProvider extends Component<RouterProviderProps, RouterProviderState>
         this.state = { page: 'feed' };
     }
 
-    private OnNavigate(e: CustomEventInit): any {
-        let path = e.detail.link;
-        console.log(path);
+    private Navigate() {
+        let path = store.getState().page;
 
         window.history.pushState('data', 'title', path);
         const decomposed_path = path.split('/');
+        console.log(decomposed_path[1]);
         this.setState((s: RouterProviderState) => {
             return {
                 page: decomposed_path[1],
             };
         });
-        // this.#context = e.detail;
     }
 
-    private preventAnchor(e: MouseEvent): any {
-        if ((e!.target! as HTMLElement).tagName === 'A') {
-            e.preventDefault();
-            const redirect = new CustomEvent('navigate', {
-                bubbles: true,
-                detail: { link: (e!.target! as HTMLElement).getAttribute('href')! },
-            });
-            const div = document.getElementById('app') as HTMLDivElement;
-            div.dispatchEvent(redirect);
-        }
+    componentDidUpdate(): void {
+        console.log(this.state)
     }
 
     componentDidMount(): void {
-        document.addEventListener('navigate', this.OnNavigate.bind(this));
-        document.addEventListener('click', this.preventAnchor.bind(this));
+        store.subscribe(this.Navigate.bind(this));
+
+        let path = window.location.href.replace(/(.+\w\/)(.+)/, '/$2').split('/');
+        this.setState((s: RouterProviderState) => {
+            return {
+                page: path[1],
+            };
+        });
     }
 
     render() {
