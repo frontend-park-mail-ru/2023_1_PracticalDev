@@ -3,14 +3,71 @@ import { Header } from '../Header/header';
 import Menu from '../Menu/menu';
 import { IPin } from '../../models';
 import Feed from '../Feed/feed';
+import { store } from '../../store/store';
+import Ajax from '../../util/ajax';
 
 type BoardScreenProps = {
     name: string;
+};
+type BoardScreenState = {
     pins: IPin[];
 };
-type BoardScreenState = {};
+
+const LoadPins = () => {
+    Ajax.get('/api/pins').then((response) => {
+        if (!response.ok) {
+            if (response.status === 401) {
+                store.dispatch({
+                    type: 'navigate',
+                    payload: {
+                        page: '/login',
+                    },
+                });
+            }
+        }
+        store.dispatch({
+            type: 'loaded_pins',
+            payload: {
+                pins: response.body as IPin[],
+            },
+        });
+    });
+};
 
 export class BoardScreen extends Component<BoardScreenProps, BoardScreenState> {
+    private unsubs: (() => void)[] = [];
+
+    constructor() {
+        super();
+        this.state = {
+            pins: [],
+        };
+    }
+
+    private LoadPinsCallback() {
+        const pins = store.getState().pins;
+        if (pins === this.state.pins) {
+            return;
+        }
+        this.setState((s: BoardScreenState) => {
+            return {
+                ...s,
+                pins: pins,
+            };
+        });
+    }
+
+    componentDidMount(): void {
+        this.unsubs.push(store.subscribe(this.LoadPinsCallback.bind(this)));
+        LoadPins();
+    }
+
+    componentWillUnmount(): void {
+        this.unsubs.forEach((fun) => {
+            fun();
+        });
+    }
+    
     render() {
         return (
             <div key="wrapper">
@@ -29,7 +86,7 @@ export class BoardScreen extends Component<BoardScreenProps, BoardScreenState> {
                                 <button className="board-header__btn material-symbols-outlined md-24">delete</button>
                             </div>
                         </div>
-                        <Feed key="feed" />
+                        <Feed pins={this.state.pins} key="feed" />
                     </div>
                 </div>
             </div>

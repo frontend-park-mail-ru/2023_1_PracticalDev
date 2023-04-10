@@ -25,7 +25,7 @@ export const InvalidImageError = new Error('Invalid image');
  * @param {string} str Проверяет, является ли входная строка валидным именем пользователя
  * @returns
  */
-export function validateUsername(str) {
+export function validateUsername(str: string) {
     if (str.length < 4) {
         throw TooShortUsernameError;
     } else if (str.length > 20) {
@@ -40,7 +40,7 @@ export function validateUsername(str) {
  * @param {string} str Проверяет, является ли входная строка валидным паролем
  * @returns
  */
-export function validatePassword(str) {
+export function validatePassword(str: string) {
     if (str.length < 8) {
         throw TooShortPasswordError;
     } else if (str.length > 32) {
@@ -61,7 +61,7 @@ export function validatePassword(str) {
  * @param {string} str Проверяет, является ли входная строка валидным адресом электронной почтой
  * @returns
  */
-export function validateEmail(str) {
+export function validateEmail(str: string) {
     if (str.length === 0) {
         throw EmptyStringError;
     }
@@ -79,7 +79,7 @@ export function validateEmail(str) {
  * @param {string} str Проверяет, является ли входная строка валидным номером телефона
  * @returns
  */
-export function validateMobilePhone(str) {
+export function validateMobilePhone(str: string) {
     if (str.length === 0) {
         throw EmptyStringError;
     } else if (!/^(\+?7|8)?9\d{9}$/.test(str)) {
@@ -92,7 +92,7 @@ export function validateMobilePhone(str) {
  * @param {string} str Проверяет, является ли входная строка валидной ссылкой
  * @returns
  */
-export function validateUrl(str) {
+export function validateUrl(str: string) {
     if (str.length === 0) {
         throw EmptyStringError;
     }
@@ -107,7 +107,7 @@ export function validateUrl(str) {
  * @param {string} str Проверяет, является ли входная строка валидной ссылкой на изображение
  * @returns
  */
-export function validateImage(str) {
+export function validateImage(str: string) {
     if (str.length === 0) {
         throw EmptyStringError;
     } else if (!/.+\.(?=png|jpe?g|gif|svg)/i.test(str)) {

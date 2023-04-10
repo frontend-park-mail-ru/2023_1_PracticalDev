@@ -2,6 +2,10 @@ import { Component, createElement, renderElement } from '@t1d333/pickpinlib';
 import { Form } from '../Form/form';
 import { Input } from '../Input/input';
 import AuthLogoSection from '../AuthLogoSection/authLogoSection';
+import { store } from '../../store/store';
+import { validateEmail, validatePassword } from '../../util/validator';
+import Ajax from '../../util/ajax';
+import CheckAuth from '../../util/check';
 type AuthProps = {};
 type AuthState = {};
 
@@ -28,6 +32,78 @@ const formProps = {
 };
 
 export class LoginScreen extends Component<AuthProps, AuthState> {
+    private prevData: any;
+    private unsubs: (() => void)[] = [];
+
+    private SubmitCallback() {
+        if (store.getState().type != 'loginFormSubmit') {
+            return;
+        }
+        const formData = store.getState().formData;
+        
+        if (formData === this.prevData) {
+            return;
+        }
+        this.prevData = formData;
+
+        if (!formData && Object.keys(formData).length === 0) {
+            return;
+        }
+
+        try {
+            validateEmail(formData.email);
+            validatePassword(formData.password);
+        } catch (error: any) {
+            store.dispatch({
+                type: 'validationErrorMessage',
+                payload: {
+                    message: error.message,
+                },
+            });
+        }
+
+        store.dispatch({
+            type: 'validationErrorMessage',
+            payload: {
+                message: '',
+            },
+        });
+
+        Ajax.post('/api/auth/login', {
+            email: formData.email,
+            password: formData.password,
+        }).then((response) => {
+            if (!response.ok) {
+                if (response.status === 404) {
+                    store.dispatch({
+                        type: 'validationErrorMessage',
+                        payload: {
+                            message: 'Wrong email or password',
+                        },
+                    });
+                }
+            } else {
+                store.dispatch({
+                    type: 'navigate',
+                    payload: {
+                        page: '/feed',
+                    },
+                });
+            }
+        });
+    }
+
+    componentDidMount(): void {
+        this.unsubs.push(store.subscribe(this.SubmitCallback.bind(this)));
+        CheckAuth();
+    }
+
+    componentWillUnmount(): void {
+        this.unsubs.forEach((fun) => {
+            fun();
+        });
+    }
+
     render() {
         return (
             <div key="login-wrapper" className="wrapper">

@@ -1,37 +1,28 @@
 import { Component, createElement } from '@t1d333/pickpinlib';
 import { Pin, IPin } from '../Pin/pin';
 import Ajax from '../../util/ajax';
-interface FeedProps {}
-interface FeedState {
-    Pins: IPin[];
+import { store } from '../../store/store';
+
+interface FeedProps {
+    pins: IPin[];
 }
+interface FeedState {}
 
 export default class Feed extends Component<FeedProps, FeedState> {
-    protected state: FeedState;
+    private unsubs: (() => void)[] = [];
+
     constructor() {
         super();
-        this.state = { Pins: [] };
     }
 
-    componentDidMount(): void {
-        Ajax.get('/api/posts').then((response) => {
-            console.log(response.body as IPin[]);
-            this.setState((s: FeedState) => {
-                return {
-                    Pins: response.body as IPin[],
-                };
-            });
-        });
-    }
+    componentDidMount(): void {}
 
-    componentWillUnmount(): void {
-        console.log('Bye!');
-    }
+    componentWillUnmount(): void {}
 
     render() {
         return (
             <div key="pin_container" className="pin_container">
-                {...this.state.Pins.map((pin) => {
+                {...this.props.pins.map((pin) => {
                     return <Pin key={pin.id} pin={pin} />;
                 })}
             </div>

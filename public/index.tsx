@@ -13,6 +13,7 @@ declare global {
 
 document.addEventListener('submit', (e: SubmitEvent) => {
     e.preventDefault();
+        
 });
 
 document.addEventListener('click', (e: MouseEvent) => {

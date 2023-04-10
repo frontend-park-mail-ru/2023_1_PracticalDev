@@ -46,7 +46,10 @@ class Ajax {
      *
      * @returns {Promise<{status: number, body: Object, ok: boolean}>}
      */
-    static async get(url: string, json: boolean = true): Promise<{ status: number; body: object; ok: boolean; }> {
+    static async get(
+        url: string,
+        json: boolean = true,
+    ): Promise<{ status: number; body: { [_: string]: any }; ok: boolean }> {
         return this.#fetch(
             url,
             {
@@ -65,7 +68,7 @@ class Ajax {
      *
      * @returns {Promise<{status: number, body: Object, ok: boolean}>}
      */
-    static async post(url: string, body: object): Promise<{ status: number; body: object; ok: boolean; }> {
+    static async post(url: string, body: object): Promise<{ status: number; body: { [_: string]: any }; ok: boolean }> {
         return this.#fetch(url, {
             method: AJAX_METHODS.POST,
             mode: 'cors',
@@ -81,7 +84,7 @@ class Ajax {
      *
      * @returns {Promise<{status: number, body: Object, ok: boolean}>}
      */
-    static async put(url: string, body: object): Promise<{ status: number; body: object; ok: boolean; }> {
+    static async put(url: string, body: object): Promise<{ status: number; body: { [_: string]: any }; ok: boolean }> {
         return this.#fetch(url, {
             method: AJAX_METHODS.PUT,
             mode: 'cors',
@@ -97,7 +100,10 @@ class Ajax {
      *
      * @returns {Promise<{status: number, body: Object, ok: boolean}>}
      */
-    static async patch(url: string, body: object): Promise<{ status: number; body: object; ok: boolean; }> {
+    static async patch(
+        url: string,
+        body: object,
+    ): Promise<{ status: number; body: { [_: string]: any }; ok: boolean }> {
         return this.#fetch(url, {
             method: AJAX_METHODS.PATCH,
             mode: 'cors',
@@ -112,7 +118,7 @@ class Ajax {
      *
      * @returns {Promise<{status: number, body: Object, ok: boolean}>}
      */
-    static async delete(url: string): Promise<{ status: number; body: object; ok: boolean; }> {
+    static async delete(url: string): Promise<{ status: number; body: { [_: string]: any }; ok: boolean }> {
         return this.#fetch(url, {
             method: AJAX_METHODS.DELETE,
             mode: 'cors',

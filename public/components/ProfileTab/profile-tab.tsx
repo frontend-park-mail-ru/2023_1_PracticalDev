@@ -91,8 +91,8 @@ type ProfileTabState = {
 };
 type ProfileTabProps = {};
 const tabs = {
-    pins: <Feed key="feed" />,
-    boards: <BoardList boards={testBoards} />,
+    pins: <Feed pins={[]} key="feed" />,
+    boards: <BoardList pins={[]} boards={testBoards} />,
 };
 
 export class ProfileTab extends Component<ProfileTabProps, ProfileTabState> {

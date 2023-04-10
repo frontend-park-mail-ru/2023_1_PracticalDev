@@ -7,4 +7,10 @@ interface IPin {
     author_id: number;
 }
 
-export { IPin };
+interface IUser {
+    id: number;
+    email: string;
+    username: string;
+}
+
+export { IPin, IUser };

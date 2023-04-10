@@ -35,12 +35,11 @@ class Router extends Component<RouterProps, RouterState> {
     private routes: { [s: string]: VNode } = {};
 
     navigate(path: string = '') {
-        console.log(path)
         return resolve(path);
     }
 
     render() {
-        return <div key="route">{this.navigate(this.props.page)}</div>;
+        return this.navigate(this.props.page);
     }
 }
 
@@ -58,17 +57,26 @@ interface RouterProviderState {
 }
 
 class RouterProvider extends Component<RouterProviderProps, RouterProviderState> {
+    private unsubs: (() => void)[] = [];
+
     constructor() {
         super();
-        this.state = { page: 'feed' };
+        if (!window.location.href.match(/(.+\w\/)(.+)/)) {
+            window.history.pushState('data', 'title', '/feed');
+        }
+        this.state = { page: window.location.href.replace(/(.+\w\/)(.+)/, '/$2').split('/')[1] };
     }
 
     private Navigate() {
-        let path = store.getState().page;
+        const path = store.getState().page;
+        if (path === this.state.page) {
+            return;
+        }
+
+        console.log('ghe')
 
         window.history.pushState('data', 'title', path);
         const decomposed_path = path.split('/');
-        console.log(decomposed_path[1]);
         this.setState((s: RouterProviderState) => {
             return {
                 page: decomposed_path[1],
@@ -76,19 +84,14 @@ class RouterProvider extends Component<RouterProviderProps, RouterProviderState>
         });
     }
 
-    componentDidUpdate(): void {
-        console.log(this.state)
+    componentDidMount(): void {
+        this.unsubs.push(store.subscribe(this.Navigate.bind(this)));
     }
 
-    componentDidMount(): void {
-        store.subscribe(this.Navigate.bind(this));
-
-        let path = window.location.href.replace(/(.+\w\/)(.+)/, '/$2').split('/');
-        this.setState((s: RouterProviderState) => {
-            return {
-                page: path[1],
-            };
-        });
+    componentWillUnmount(): void {
+        this.unsubs.forEach((fun) => {
+            fun()
+        })
     }
 
     render() {
