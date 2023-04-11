@@ -67,7 +67,7 @@ export class BoardScreen extends Component<BoardScreenProps, BoardScreenState> {
             fun();
         });
     }
-    
+
     render() {
         return (
             <div key="wrapper">

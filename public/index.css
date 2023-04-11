@@ -24,9 +24,6 @@ body {
     font-size: 48px;
 }
 
-.material-symbols-outlined.active {
-    font-variation-settings: 'FILL' 1;
-}
 
 .header {
     position: fixed;

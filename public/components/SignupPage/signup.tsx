@@ -1,6 +1,12 @@
 import { Component, createElement } from '@t1d333/pickpinlib';
 import { Form } from '../Form/form';
 import AuthLogoSection from '../AuthLogoSection/authLogoSection';
+import User from '../../models/user';
+import { store } from '../../store/store';
+import { validateEmail } from '../../util/validator';
+import { validateUsername } from '../../util/validator';
+import { validatePassword } from '../../util/validator';
+import { loginUser } from '../../actions/user';
 type SignupProps = {};
 type SignupState = {};
 
@@ -9,26 +15,19 @@ const formInputs = [
         name: 'username',
         type: 'text',
         placeholder: 'Enter your username',
-    },
-    {
-        name: 'username',
-        type: 'text',
-        placeholder: 'Enter your name',
+        icon: 'person',
     },
     {
         name: 'email',
         type: 'email',
         placeholder: 'Enter your email',
+        icon: 'alternate_email',
     },
     {
         name: 'password',
         type: 'password',
         placeholder: 'Enter your password',
-    },
-    {
-        name: 'password_repeat',
-        type: 'password',
-        placeholder: 'Repeat your password',
+        icon: 'lock',
     },
 ];
 
@@ -40,7 +39,59 @@ const formProps = {
 };
 
 export class SignupScreen extends Component<SignupProps, SignupState> {
-    componentDidMount(): void {}
+    private unsubs: Function[] = [];
+    private signupHandler = () => {
+        if (store.getState().type !== 'loginFormSubmit') {
+            return;
+        }
+        const formData = store.getState().formData;
+
+        try {
+            //TODO: поправить empty string в валидации
+            validateUsername(formData.username);
+            validateEmail(formData.email);
+            //TODO: добавить чекбокс для просмотра пароля
+            validatePassword(formData.password);
+        } catch (err: any) {
+            store.dispatch({
+                type: 'validationErrorMessage',
+                payload: {
+                    message: err.message,
+                },
+            });
+            return;
+        }
+
+        User.signup(formData.username, formData.email.split('@')[0], formData.email, formData.password)
+            .then((res) => {
+                console.log(res);
+                loginUser(res);
+            })
+            .catch((res) => {
+                console.log(res);
+                let errMsg = '';
+                if (res.status === 400) {
+                    errMsg = 'Such user already exists';
+                } else {
+                    errMsg = 'Server error';
+                }
+                store.dispatch({
+                    type: 'validationErrorMessage',
+                    payload: {
+                        message: errMsg,
+                    },
+                });
+            });
+    };
+    componentDidMount(): void {
+        this.unsubs.push(store.subscribe(this.signupHandler.bind(this)));
+    }
+
+    componentWillUnmount(): void {
+        for (const unsub of this.unsubs) {
+            unsub();
+        }
+    }
     render() {
         return (
             <div key="signup-wrapper" className="wrapper">

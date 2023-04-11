@@ -13,7 +13,6 @@ declare global {
 
 document.addEventListener('submit', (e: SubmitEvent) => {
     e.preventDefault();
-        
 });
 
 document.addEventListener('click', (e: MouseEvent) => {
@@ -32,7 +31,6 @@ type AppProps = {};
 type AppState = {};
 
 class App extends Component<AppProps, AppState> {
-    componentDidMount(): void {}
     render() {
         return <RouterProvider routes={{}} key="routerprovider" />;
     }

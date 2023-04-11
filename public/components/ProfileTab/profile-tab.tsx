@@ -1,6 +1,8 @@
 import { createElement, Component } from '@t1d333/pickpinlib';
 import Feed from '../Feed/feed';
 import { BoardList } from '../BoardList/boardlist';
+import { IPin } from '../Pin/pin';
+import { store } from '../../store/store';
 
 const testBoards = [
     {
@@ -43,63 +45,30 @@ const testBoards = [
             'https://i.pinimg.com/736x/86/f9/d3/86f9d34a8f6ae41717dfa98e4a8e7eaa.jpg',
         ],
     },
-    {
-        name: 'Boartest',
-        id: 6,
-        images: [
-            'https://i.pinimg.com/736x/03/af/05/03af0502f6bcf205a6235d77acb0a4d6.jpg',
-            'https://i.pinimg.com/736x/86/f9/d3/86f9d34a8f6ae41717dfa98e4a8e7eaa.jpg',
-        ],
-    },
-    {
-        name: 'Boartest',
-        id: 7,
-        images: [
-            'https://i.pinimg.com/736x/03/af/05/03af0502f6bcf205a6235d77acb0a4d6.jpg',
-            'https://i.pinimg.com/736x/86/f9/d3/86f9d34a8f6ae41717dfa98e4a8e7eaa.jpg',
-        ],
-    },
-    {
-        name: 'Boartest',
-        id: 8,
-        images: [
-            'https://i.pinimg.com/736x/03/af/05/03af0502f6bcf205a6235d77acb0a4d6.jpg',
-            'https://i.pinimg.com/736x/86/f9/d3/86f9d34a8f6ae41717dfa98e4a8e7eaa.jpg',
-        ],
-    },
-    {
-        name: 'Boartest',
-        id: 9,
-        images: [
-            'https://i.pinimg.com/736x/03/af/05/03af0502f6bcf205a6235d77acb0a4d6.jpg',
-            'https://i.pinimg.com/736x/86/f9/d3/86f9d34a8f6ae41717dfa98e4a8e7eaa.jpg',
-        ],
-    },
-
-    {
-        name: 'Boartest',
-        id: 10,
-        images: [
-            'https://i.pinimg.com/736x/03/af/05/03af0502f6bcf205a6235d77acb0a4d6.jpg',
-            'https://i.pinimg.com/736x/86/f9/d3/86f9d34a8f6ae41717dfa98e4a8e7eaa.jpg',
-        ],
-    },
 ];
 
 type ProfileTabState = {
     currentTab: 'pins' | 'boards';
 };
-type ProfileTabProps = {};
-const tabs = {
-    pins: <Feed pins={[]} key="feed" />,
-    boards: <BoardList pins={[]} boards={testBoards} />,
-};
+type ProfileTabProps = { userPins: IPin[] };
 
 export class ProfileTab extends Component<ProfileTabProps, ProfileTabState> {
     constructor() {
         super();
         this.state = { currentTab: 'pins' };
     }
+
+    private tagToComponent = (tag: string) => {
+        switch (tag) {
+            case 'pins':
+                return <Feed pins={this.props.userPins} key="feed" />;
+            case 'boards':
+                return <BoardList pins={[]} boards={testBoards} />;
+            default:
+                break;
+        }
+    };
+
     switchTab = (newTab: 'pins' | 'boards') => {
         if (newTab !== this.state.currentTab) {
             this.setState((s: ProfileTabState) => {
@@ -107,6 +76,8 @@ export class ProfileTab extends Component<ProfileTabProps, ProfileTabState> {
             });
         }
     };
+
+    componentDidMount(): void {}
 
     render() {
         return (
@@ -146,7 +117,7 @@ export class ProfileTab extends Component<ProfileTabProps, ProfileTabState> {
                         </button>
                     )}
                 </div>
-                <div className="profile__tab-content">{tabs[this.state.currentTab]}</div>
+                <div className="profile__tab-content">{this.tagToComponent(this.state.currentTab)}</div>
             </div>
         );
     }

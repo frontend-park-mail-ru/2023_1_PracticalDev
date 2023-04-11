@@ -30,6 +30,9 @@ body {
     font-size: 48px;
 }
 
+.material-symbols-outlined.active {
+    font-variation-settings: 'FILL' 1;
+}
 
 
 #error_msg_wrapper {

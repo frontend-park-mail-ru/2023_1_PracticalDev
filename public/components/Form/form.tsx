@@ -13,9 +13,8 @@ type FormState = {};
 
 export class Form extends Component<FormProps, FormState> {
     private BindedHandler: (e: SubmitEvent) => void = this.HandleSubmit.bind(this); // TODO: не помогает
-
-    HandleSubmit(e: SubmitEvent) {
-        console.log('handled form');
+    private unsubs: Function[] = [];
+    HandleSubmit(_: SubmitEvent) {
         const form = document.getElementById(this.props.id);
         const formData = Object.values(form!).reduce((obj, field) => {
             obj[field.name] = field.value;
@@ -30,22 +29,27 @@ export class Form extends Component<FormProps, FormState> {
     }
 
     HandleValidationError() {
-        const msg = store.getState().validationErrorMessage;
-        const msgBox = document.getElementById('error_msg') as HTMLSpanElement;
-        msgBox.textContent = msg;
+        if (store.getState().type === 'validationErrorMessage') {
+            const msgBox = document.getElementById('error_msg') as HTMLSpanElement;
+            const msg = store.getState().validationErrorMessage;
+            msgBox.innerHTML = msg;
+        }
     }
 
     componentDidMount(): void {
-        document.addEventListener('submit', this.BindedHandler);
+        this.unsubs.push(store.subscribe(this.HandleValidationError.bind(this)));
     }
 
-    componentWillUnmount(): void {
-        document.removeEventListener('submit', this.BindedHandler);
-    }
+    componentWillUnmount(): void {}
 
     render() {
         return (
-            <form key={`form_${this.props.id}`} id={this.props.id} method={this.props.method}>
+            <form
+                key={`form_${this.props.id}`}
+                id={this.props.id}
+                onsubmit={this.BindedHandler}
+                method={this.props.method}
+            >
                 <div key="error_msg_wrapper" id="error_msg_wrapper">
                     <span key="error_msg" id="error_msg"></span>
                 </div>

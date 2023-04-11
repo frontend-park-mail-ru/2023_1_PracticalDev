@@ -12,11 +12,13 @@ const CheckAuth = () => {
                     },
                 });
             }
+            return;
         }
+
         store.dispatch({
-            type: 'navigate',
+            type: 'authCheck',
             payload: {
-                page: '/feed',
+                user: response.body,
             },
         });
     });

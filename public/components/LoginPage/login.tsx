@@ -1,11 +1,12 @@
-import { Component, createElement, renderElement } from '@t1d333/pickpinlib';
+import { Component, createElement } from '@t1d333/pickpinlib';
 import { Form } from '../Form/form';
-import { Input } from '../Input/input';
 import AuthLogoSection from '../AuthLogoSection/authLogoSection';
 import { store } from '../../store/store';
 import { validateEmail, validatePassword } from '../../util/validator';
 import Ajax from '../../util/ajax';
 import CheckAuth from '../../util/check';
+import { IBoard, IPin, IUser } from '../../models';
+import User from '../../models/user';
 type AuthProps = {};
 type AuthState = {};
 
@@ -30,17 +31,46 @@ const formProps = {
     inputs: loginInputs,
     submitBtnText: 'login',
 };
+//
+//
+// const loginUser = (email: string, password: string) => {
+//     Ajax.post('/api/auth/login', {
+//         email: email,
+//         password: password,
+//     }).then((response) => {
+//         if (!response.ok) {
+//             if (response.status === 404) {
+//                 store.dispatch({
+//                     type: 'validationErrorMessage',
+//                     payload: {
+//                         message: 'Wrong email or password',
+//                     },
+//                 });
+//             }
+//         } else {
+//             const user: IUser = response.body as IUser;
+//             store.dispatch({
+//                 type: 'navigate',
+//                 payload: {
+//                     page: '/feed',
+//                     user: user,
+//                 },
+//             });
+//         }
+//     });
+// };
 
 export class LoginScreen extends Component<AuthProps, AuthState> {
     private prevData: any;
     private unsubs: (() => void)[] = [];
 
     private SubmitCallback() {
-        if (store.getState().type != 'loginFormSubmit') {
+        if (store.getState().type !== 'loginFormSubmit') {
             return;
         }
+
         const formData = store.getState().formData;
-        
+
         if (formData === this.prevData) {
             return;
         }
@@ -50,47 +80,26 @@ export class LoginScreen extends Component<AuthProps, AuthState> {
             return;
         }
 
-        try {
-            validateEmail(formData.email);
-            validatePassword(formData.password);
-        } catch (error: any) {
-            store.dispatch({
-                type: 'validationErrorMessage',
-                payload: {
-                    message: error.message,
-                },
-            });
-        }
+        //TODO: добавить проверку на пустые строки
 
-        store.dispatch({
-            type: 'validationErrorMessage',
-            payload: {
-                message: '',
-            },
-        });
-
-        Ajax.post('/api/auth/login', {
-            email: formData.email,
-            password: formData.password,
-        }).then((response) => {
-            if (!response.ok) {
-                if (response.status === 404) {
-                    store.dispatch({
-                        type: 'validationErrorMessage',
-                        payload: {
-                            message: 'Wrong email or password',
-                        },
-                    });
-                }
-            } else {
+        User.login(formData.email, formData.password)
+            .then((res) => {
                 store.dispatch({
                     type: 'navigate',
                     payload: {
                         page: '/feed',
+                        user: res,
                     },
                 });
-            }
-        });
+            })
+            .catch((err) => {
+                store.dispatch({
+                    type: 'validationErrorMessage',
+                    payload: {
+                        message: 'Wrong email or password',
+                    },
+                });
+            });
     }
 
     componentDidMount(): void {

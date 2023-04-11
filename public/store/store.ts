@@ -1,5 +1,7 @@
 import { Store, Reducer, Action } from '@t1d333/pickpinreduxlib';
-import { IPin, IUser } from '../models';
+import { IPin, IUser, IBoard } from '../models';
+
+type Map = { [_: string]: any };
 
 interface StoreState {
     page: string;
@@ -7,15 +9,19 @@ interface StoreState {
     formData: { [_: string]: any };
     validationErrorMessage: string;
     user: IUser | undefined;
+    profileBoards: IBoard[];
+    profilePins: IPin[];
     type: string;
 }
 
 const initialState: StoreState = {
-    page: 'feed',
+    page: '/feed',
     pins: [],
     formData: {},
     validationErrorMessage: '',
     user: undefined,
+    profilePins: [],
+    profileBoards: [],
     type: '',
 };
 
@@ -24,7 +30,7 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
         case 'navigate':
             return {
                 ...state,
-                page: action.payload?.page,
+                ...(action.payload || {}),
                 type: 'navigate',
             };
         case 'loadedPins':
@@ -57,11 +63,26 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 validationErrorMessage: action.payload?.message,
                 type: 'validationErrorMessage',
             };
-        case 'user':
+        case 'getUserPins':
+            return {
+                ...state,
+                userPins: action.payload?.pins,
+                type: 'getUserPins',
+            };
+
+        case 'loadedUser':
             return {
                 ...state,
                 user: action.payload?.user,
-                type: 'user',
+                type: 'loadedUser',
+            };
+        case 'loadedProfile':
+            console.log(action);
+            return {
+                ...state,
+                profilePins: action.payload?.profilePins,
+                profileBoards: action.payload?.profileBoards,
+                type: 'loadedProfile',
             };
         default:
             return state;

@@ -1,6 +1,23 @@
 import { Component, createElement } from '@t1d333/pickpinlib';
+import { store } from '../../store/store';
+import { IUser } from '../../models';
 
-export class ProfileHeader extends Component<{}, {}> {
+type ProfileHeaderState = {};
+
+type ProfileHeaderProps = {
+    user: IUser;
+    boardsCount: number;
+    pinsCount: number;
+};
+export class ProfileHeader extends Component<ProfileHeaderProps, ProfileHeaderState> {
+    componentDidMount(): void {
+        console.log(this.props);
+    }
+
+    componentDidUpdate(): void {
+        console.log(this.props);
+    }
+
     render() {
         return (
             <div key="profile__header" className="profile__header">
@@ -12,22 +29,20 @@ export class ProfileHeader extends Component<{}, {}> {
                     />
                     <div key="profile__text-container" className="profile__text-container">
                         <div key="profile__username" className="profile__username">
-                            Test
+                            {this.props.user.username || ''}
                         </div>
                         <div key="profile__fullname" className="profile__fullname">
                             <span key="name" className="profile__name">
-                                Test
+                                {this.props.user.name || ''}
                             </span>
-                            <span key="surname" className="profile__surname">
-                                Testov
-                            </span>
+                            <span key="surname" className="profile__surname"></span>
                         </div>
                     </div>
                 </div>
                 <div key="stat" className="profile__statistics">
                     <div key="boards-stat" className="profile__stat-container">
                         <span key="profile__stat-counter" className="profile__stat-counter">
-                            132
+                            {`${this.props.pinsCount}`}
                         </span>
                         <span key="profile__stat-name" className="profile__stat-name">
                             pins
@@ -35,7 +50,7 @@ export class ProfileHeader extends Component<{}, {}> {
                     </div>
                     <div key="pins-stat" className="profile__stat-container">
                         <span key="profile__stat-counter" className="profile__stat-counter">
-                            2.3k
+                            {`${this.props.boardsCount}`}
                         </span>
                         <span key="profile__stat-name" className="profile__stat-name">
                             boards
