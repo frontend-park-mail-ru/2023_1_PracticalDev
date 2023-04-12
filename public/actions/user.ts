@@ -2,7 +2,7 @@ import { IBoard, IPin, IUser } from '../models';
 import { store } from '../store/store';
 
 export const loginUser = (user: IUser) => {
-    store.dispatch({ type: 'navigate', payload: { user: user } });
+    store.dispatch({ type: 'navigate', payload: { page: '/feed', user: user } });
 };
 
 export const logoutUser = () => {
@@ -20,6 +20,5 @@ export const loadUser = (user: IUser) => {
 };
 
 export const loadProfile = (pins: IPin[], boards: IBoard[]) => {
-    console.log(pins);
     store.dispatch({ type: 'loadedProfile', payload: { profilePins: pins, profileBoards: boards } });
 };
