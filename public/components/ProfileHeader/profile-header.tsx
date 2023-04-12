@@ -22,7 +22,6 @@ export class ProfileHeader extends Component<ProfileHeaderProps, ProfileHeaderSt
             return;
         }
 
-        console.log(store);
         this.setState((s) => {
             return {
                 ...s,

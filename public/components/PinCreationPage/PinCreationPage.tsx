@@ -26,7 +26,7 @@ export default class PinCreationScreen extends Component<{}, PinCreationScreenSt
             return 'The maximum title length is 100 characters';
         }
 
-        if (!fl || fl.length !== 1) return 'Select images';
+        if (!fl || fl.length !== 1) return 'Select image';
         return '';
     };
 
@@ -34,11 +34,11 @@ export default class PinCreationScreen extends Component<{}, PinCreationScreenSt
         if (store.getState().type !== 'pinCreationError') {
             return;
         }
-        console.log(1);
+
         this.setState((s) => {
             return {
                 ...s,
-                errorMsg: store.getState().validationErrorMessage,
+                errorMsg: store.getState().pinCreationErrorMsg,
             };
         });
     };
@@ -48,9 +48,8 @@ export default class PinCreationScreen extends Component<{}, PinCreationScreenSt
         const imgInput = document.getElementById('pin-image') as HTMLInputElement;
         const fd = new FormData();
         const errMsg = this.validate(form.pinTitle.value, form.description.value, imgInput.files);
-        if (errMsg) {
+        if (errMsg != '') {
             //TODO: добавить action
-            console.log(1234);
             store.dispatch({ type: 'pinCreationError', payload: { message: errMsg } });
             return;
         }
@@ -86,7 +85,7 @@ export default class PinCreationScreen extends Component<{}, PinCreationScreenSt
     }
 
     componentDidMount(): void {
-        this.unsubs.push(this.onErrorCallback.bind(this));
+        this.unsubs.push(store.subscribe(this.onErrorCallback.bind(this)));
     }
 
     render() {
@@ -101,7 +100,6 @@ export default class PinCreationScreen extends Component<{}, PinCreationScreenSt
                 <div key="app" id="app">
                     <div key="main__content" className="main__content">
                         <div className="pin-builder__container">
-                            <div className="pin-builder__error-msg-container">{this.state.errorMsg}</div>
                             <form key="form" className="pin-builder__form" onsubmit={this.onSubmitCallback.bind(this)}>
                                 <div key="container" className="pin-builder__img-input-container">
                                     <label
@@ -138,7 +136,11 @@ export default class PinCreationScreen extends Component<{}, PinCreationScreenSt
                                         Create a pin
                                     </h2>
                                     <div className="pin-builder__inputs-container">
+                                        <div key="errMsg" className="pin-builder__error-msg-container">
+                                            {this.state.errorMsg}
+                                        </div>
                                         <input
+                                            key="pin-title-input"
                                             type="text"
                                             name="pinTitle"
                                             placeholder="Add name of the pin"
@@ -146,7 +148,7 @@ export default class PinCreationScreen extends Component<{}, PinCreationScreenSt
                                             value={this.state.name}
                                         />
                                         <textarea
-                                            key="description-input"
+                                            key="pin-description-input"
                                             className="pin-builder__description-input"
                                             name="description"
                                             placeholder="Add a Pin Description"

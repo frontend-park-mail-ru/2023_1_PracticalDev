@@ -15,9 +15,16 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    height: 30%;
+    height: 50%;
     justify-content: space-around;
     align-items: center;
+}
+
+.pin-builder__error-msg-container {
+    height: 21px;
+    font-family: 'Inter';
+    font-size: 20px;
+    color: #f00;
 }
 
 .pin-builder__submit-btn {

@@ -9,6 +9,7 @@ interface StoreState {
     formData: { [_: string]: any };
     validationErrorMessage: string;
     user: IUser | undefined;
+    pinCreationErrorMsg: string;
     profileBoards: IBoard[];
     profilePins: IPin[];
     type: string;
@@ -22,6 +23,7 @@ const initialState: StoreState = {
     user: undefined,
     profilePins: [],
     profileBoards: [],
+    pinCreationErrorMsg: '',
     type: '',
 };
 
@@ -66,7 +68,7 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
         case 'pinCreationError':
             return {
                 ...state,
-                error: action.payload?.message,
+                pinCreationErrorMsg: action.payload?.message,
                 type: 'pinCreationError',
             };
         case 'getUserPins':
