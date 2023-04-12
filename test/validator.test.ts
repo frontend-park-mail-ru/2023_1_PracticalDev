@@ -8,7 +8,7 @@ import {
     NoUppercaseError, TooLongPasswordError, TooLongUsernameError, TooShortPasswordError,
     TooShortUsernameError, InvalidEmailError, EmptyStringError, InvalidMobilePhoneError,
     InvalidUrlError, InvalidImageError,
-} from '../public/util/validator.js';
+} from '../public/util/validator';
 
 describe('validateUsername tests', function() {
     // positive
