@@ -48,12 +48,12 @@ export default class User {
     static getUserProfile = (id: number) => {
         const pinsReq = Ajax.get(`/api/users/${id}/pins`).then((resp) => {
             if (resp.ok) {
-                return resp.body.pins as IPin[];
+                return resp.body.pins || [];
             }
         });
         const boardsReq = Ajax.get('/api/boards').then((resp) => {
             if (resp.ok) {
-                return resp.body.boards as IBoard[];
+                return resp.body.boards || [];
             }
         });
         return Promise.all([pinsReq, boardsReq]);

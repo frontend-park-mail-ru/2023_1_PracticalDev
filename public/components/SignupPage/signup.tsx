@@ -64,17 +64,16 @@ export class SignupScreen extends Component<SignupProps, SignupState> {
 
         User.signup(formData.username, formData.email.split('@')[0], formData.email, formData.password)
             .then((res) => {
-                console.log(res);
                 loginUser(res);
             })
             .catch((res) => {
-                console.log(res);
                 let errMsg = '';
                 if (res.status === 400) {
                     errMsg = 'Such user already exists';
                 } else {
                     errMsg = 'Server error';
                 }
+
                 store.dispatch({
                     type: 'validationErrorMessage',
                     payload: {

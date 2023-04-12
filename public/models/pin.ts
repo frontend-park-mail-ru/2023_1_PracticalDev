@@ -17,10 +17,9 @@ export default class Pin {
         return Ajax.get(`/api/pins/${id}`).then();
     }
 
-    //
-    // static updatePin(pin :IPin) {
-    //     return Ajax.put(`/pins/${pin.id}`, pin)
-    // }
+    static uploadPin(fd: FormData) {
+        return fetch('/api/pins', { method: 'POST', body: fd });
+    }
 
     static deletePin(id: number) {
         return Ajax.get(`/api/pins/${id}`).then((res) => {
@@ -35,7 +34,6 @@ export default class Pin {
             if (!response.ok) {
                 return Promise.reject(response);
             } else {
-                console.log(response.body.pins);
                 return response.body.pins;
             }
         });

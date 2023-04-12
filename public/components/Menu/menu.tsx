@@ -20,7 +20,7 @@ export default class Menu extends Component<{}, {}> {
         return (
             <div key="menu" className="menu">
                 <div key="menu__logo-container" className="menu__logo-container">
-                    <img key="menu__logo" className="menu__logo" src="public/static/img/Logo2.svg" />
+                    <img key="menu__logo" className="menu__logo" src="/static/img/Logo2.svg" />
                 </div>
                 <div key="menu__box" className="menu__box">
                     {...menuItems.map((item) => {
@@ -29,9 +29,7 @@ export default class Menu extends Component<{}, {}> {
                                 <a
                                     href={item.link}
                                     key={'symbol-' + item.name}
-                                    className={`material-symbols-outlined md-32 menu__link ${
-                                        store.getState().page === item.link ? 'active' : ' '
-                                    }`}
+                                    className={'material-symbols-outlined md-32 menu__link'}
                                 >
                                     {item.name}
                                 </a>

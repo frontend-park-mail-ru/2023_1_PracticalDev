@@ -49,9 +49,7 @@ export class MainScreen extends Component<MainScreenProps, MainScreenState> {
                 loadUser(res as IUser);
             })
             .catch((res) => {
-                if (res.status === 401) {
-                    store.dispatch({ type: 'navigate', payload: { page: '/login' } });
-                }
+                store.dispatch({ type: 'navigate', payload: { page: '/login' } });
             });
 
         Pin.getFeed().then((res) => {

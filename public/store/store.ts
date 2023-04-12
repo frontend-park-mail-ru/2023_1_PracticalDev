@@ -63,6 +63,12 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 validationErrorMessage: action.payload?.message,
                 type: 'validationErrorMessage',
             };
+        case 'pinCreationError':
+            return {
+                ...state,
+                error: action.payload?.message,
+                type: 'pinCreationError',
+            };
         case 'getUserPins':
             return {
                 ...state,
@@ -77,7 +83,6 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 type: 'loadedUser',
             };
         case 'loadedProfile':
-            console.log(action);
             return {
                 ...state,
                 profilePins: action.payload?.profilePins,

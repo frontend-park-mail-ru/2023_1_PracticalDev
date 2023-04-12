@@ -5,6 +5,7 @@ import { SignupScreen } from '../components/SignupPage/signup';
 import { ProfileScreen } from '../components/ProfilePage/profile';
 import { BoardScreen } from '../components/BoardPage/board';
 import { store } from '../store/store';
+import PinCreationScreen from '../components/PinCreationPage/PinCreationPage';
 
 interface RouterProps {
     page: string;
@@ -24,6 +25,8 @@ function resolve(path: string = ''): VNode {
             return <LoginScreen key="login" />;
         case 'signup':
             return <SignupScreen key="signup" />;
+        case 'pin-builder':
+            return <PinCreationScreen key="pin-builder" />;
         case 'settings':
             return <div>{'Comming soon...'}</div>;
         default:

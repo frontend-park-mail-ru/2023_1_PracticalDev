@@ -67,7 +67,6 @@ class Router {
      * @param {CustomEventInit} e событие "navigate"
      */
     public OnNavigate(e: CustomEventInit): any {
-        console.log('hey!');
         this.Navigate(e.detail.link);
         this.#context = e.detail;
     }
