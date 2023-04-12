@@ -62,13 +62,15 @@ export class ProfileTab extends Component<ProfileTabProps, ProfileTabState> {
                             boards
                         </button>
                     </div>
-                    <a
-                        key="pin-creation-btn"
-                        href={this.state.currentTab === 'pins' ? '/pin-builder' : '/board-builder'}
-                        className="profile__creation-btn"
-                    >
-                        <span className="material-symbols-outlined profile__creation-btn-icon md-32">add</span>
-                    </a>
+                    <span className="profile__creation-btn">
+                        <a
+                            key="pin-creation-btn"
+                            href={this.state.currentTab === 'pins' ? '/pin-builder' : '/board-builder'}
+                            className="material-symbols-outlined profile__creation-btn-icon md-32"
+                        >
+                            add
+                        </a>
+                    </span>
                 </div>
                 <div className="profile__tab-content">{this.tagToComponent(this.state.currentTab)}</div>
             </div>
