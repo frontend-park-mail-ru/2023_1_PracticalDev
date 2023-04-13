@@ -34,9 +34,19 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
         });
     };
     componentDidMount(): void {
-        console.log(window.history.state);
         if (!this.state.pin) {
-            navigate('/feed');
+            const id = Number(location.href.split('/')[4]);
+            Pin.getPin(id).then((resp) => {
+                Pin.getPinAuhtor((resp.body as IPin)).then((author) => {
+                    this.setState((s) => {
+                        return {
+                            author: author,
+                            pin: resp.body as IPin,
+                        };
+                    });
+                });
+                
+            });
             return;
         }
         this.unsubs.push(store.subscribe(this.onPinLoad.bind(this)));
