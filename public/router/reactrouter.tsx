@@ -100,7 +100,7 @@ class RouterProvider extends Component<RouterProviderProps, RouterProviderState>
         store.dispatch({
             type: 'navigate',
             payload: {
-                page: location.href.substring(16)
+                page: location.href.substring(location.href.indexOf('/', 15))
             }
         })
     }
