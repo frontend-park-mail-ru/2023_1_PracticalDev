@@ -10,8 +10,10 @@ interface StoreState {
     validationErrorMessage: string;
     user: IUser | undefined;
     pinCreationErrorMsg: string;
+    pinChangingErrorMsg: string;
     profileBoards: IBoard[];
     profilePins: IPin[];
+    changingPin: IPin | undefined;
     type: string;
 }
 
@@ -24,6 +26,8 @@ const initialState: StoreState = {
     profilePins: [],
     profileBoards: [],
     pinCreationErrorMsg: '',
+    changingPin: undefined,
+    pinChangingErrorMsg: '',
     type: '',
 };
 
@@ -90,6 +94,17 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 profilePins: action.payload?.profilePins,
                 profileBoards: action.payload?.profileBoards,
                 type: 'loadedProfile',
+            };
+        case 'pinChanging':
+            return {
+                ...state,
+                changingPin: action.payload?.changingPin,
+            };
+        case 'pinChangingError':
+            return {
+                ...state,
+                type: 'pinChangingError',
+                pinChangingErrorMsg: action.payload?.message,
             };
         default:
             return state;

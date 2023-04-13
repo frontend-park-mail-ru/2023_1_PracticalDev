@@ -47,7 +47,7 @@ export default class PinCreationScreen extends Component<{}, PinCreationScreenSt
         const form = document.querySelector('.pin-builder__form') as HTMLFormElement;
         const imgInput = document.getElementById('pin-image') as HTMLInputElement;
         const fd = new FormData();
-        const errMsg = this.validate(form.pinTitle.value, form.description.value, imgInput.files);
+        const errMsg = this.validate(form.pinTitle.value, form.pinDescription.value, imgInput.files);
         if (errMsg != '') {
             //TODO: добавить action
             store.dispatch({ type: 'pinCreationError', payload: { message: errMsg } });
@@ -55,8 +55,8 @@ export default class PinCreationScreen extends Component<{}, PinCreationScreenSt
         }
 
         imgInput.files?.length;
-        fd.append('name', form.pinTitle);
-        fd.append('description', form.pinTitle);
+        fd.append('title', form.pinTitle.value);
+        fd.append('description', form.pinDescription.value);
         fd.append('bytes', imgInput.files![0]);
         Pin.uploadPin(fd).then((res) => {
             if (res.ok) {
@@ -72,7 +72,7 @@ export default class PinCreationScreen extends Component<{}, PinCreationScreenSt
             return {
                 ...s,
                 name: form.pinTitle.value,
-                description: form.description.value,
+                description: form.pinDescription.value,
                 imgUrl: window.URL.createObjectURL(imgInput.files![0]),
             };
         });
@@ -150,12 +150,12 @@ export default class PinCreationScreen extends Component<{}, PinCreationScreenSt
                                         <textarea
                                             key="pin-description-input"
                                             className="pin-builder__description-input"
-                                            name="description"
+                                            name="pinDescription"
                                             placeholder="Add a Pin Description"
                                             value={this.state.description}
                                         />
                                     </div>
-                                    <div className="pin-builder__submit-btn-container">
+                                    <div className="pin-builder__btn-container">
                                         <button className="pin-builder__submit-btn">save</button>
                                     </div>
                                 </div>

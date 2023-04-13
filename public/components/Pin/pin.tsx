@@ -1,5 +1,6 @@
 import { Component, createElement } from '@t1d333/pickpinlib';
-
+import { navigate } from '../../actions/navigation';
+import { store } from '../../store/store';
 export interface IPin {
     id: number;
     title: string;
@@ -13,11 +14,15 @@ interface PinState {}
 
 interface PinProps {
     pin: IPin;
+    page: string;
 }
 
 export class Pin extends Component<PinProps, PinState> {
     private sizes = ['card_small', 'card_medium', 'card_large'];
-
+    private onChangePin = (e: MouseEvent) => {
+        store.dispatch({ type: 'pinChanging', payload: { changingPin: this.props.pin } });
+        navigate('/pin-changing');
+    };
     render() {
         return (
             <div
@@ -32,7 +37,11 @@ export class Pin extends Component<PinProps, PinState> {
                     <div key={'pin-head'} className="pin__modal-head"></div>
 
                     <div key={'pin-foot'} className="pin__modal-foot">
-                        <button key="share_btn" className="pin__icon-btn material-symbols-outlined md-24">
+                        <button
+                            key="share_btn"
+                            className="pin__icon-btn material-symbols-outlined md-24"
+                            href="/pin-changing"
+                        >
                             share
                         </button>
                         <img
@@ -41,9 +50,19 @@ export class Pin extends Component<PinProps, PinState> {
                             alt=""
                             className="pin__author-avatar"
                         />
-                        <button key="like_btn" className="pin__icon-btn material-symbols-outlined md-24">
-                            favorite
-                        </button>
+                        {store.getState().page === '/profile' ? (
+                            <button
+                                key="change_btn"
+                                onclick={this.onChangePin.bind(this)}
+                                className="pin__icon-btn material-symbols-outlined md-24"
+                            >
+                                edit
+                            </button>
+                        ) : (
+                            <button key="like_btn" className="pin__icon-btn material-symbols-outlined md-24">
+                                favorite
+                            </button>
+                        )}
                     </div>
                 </div>
                 <img key="pin_img" className="pin__image" src={this.props.pin.media_source} alt="abc" srcset="" />

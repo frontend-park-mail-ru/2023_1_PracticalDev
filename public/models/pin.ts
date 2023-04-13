@@ -22,11 +22,12 @@ export default class Pin {
     }
 
     static deletePin(id: number) {
-        return Ajax.get(`/api/pins/${id}`).then((res) => {
-            if (res.status !== 200) {
-                Promise.reject(res);
-            }
-        });
+        //TODO: пофиксить ajax
+        return fetch(`/api/pins/${id}`, { method: 'delete' });
+    }
+
+    static updatePin(pin: IPin) {
+        return Ajax.put(`/api/pins/${pin.id}`, pin);
     }
 
     static getFeed() {

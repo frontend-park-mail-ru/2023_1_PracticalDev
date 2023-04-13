@@ -22,7 +22,7 @@ export default class Feed extends Component<FeedProps, FeedState> {
     render() {
         return (
             <div key="pin_container" className="pin_container">
-                {...this.props.pins.map((pin) => {
+                {...(this.props.pins || []).map((pin) => {
                     return <Pin key={pin.id} pin={pin} />;
                 })}
             </div>

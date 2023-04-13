@@ -6,6 +6,7 @@ import { ProfileScreen } from '../components/ProfilePage/profile';
 import { BoardScreen } from '../components/BoardPage/board';
 import { store } from '../store/store';
 import PinCreationScreen from '../components/PinCreationPage/PinCreationPage';
+import PinChangingScreen from '../components/PinChangingPage/PinChangingPage';
 
 interface RouterProps {
     page: string;
@@ -26,7 +27,9 @@ function resolve(path: string = ''): VNode {
         case 'signup':
             return <SignupScreen key="signup" />;
         case 'pin-builder':
-            return <PinCreationScreen key="pin-builder" />;
+            return <PinCreationScreen key="pin-creation" />;
+        case 'pin-changing':
+            return <PinChangingScreen key="pin-changing" />;
         case 'settings':
             return <div>{'Comming soon...'}</div>;
         default:
@@ -72,9 +75,9 @@ class RouterProvider extends Component<RouterProviderProps, RouterProviderState>
         if (store.getState().type !== 'navigate') {
             return;
         }
-
         const path = store.getState().page;
 
+        console.log(path);
         if (path === this.state.page) {
             return;
         }
