@@ -51,8 +51,9 @@ export default class Board {
     }
 
     static deletePinFromBoard(boardId: number, pinId: number) {
-        return Ajax.delete(`/boards/${boardId}/${pinId}`).then((res) => {
-            if (res.status !== 200) {
+        console.log(boardId, pinId)
+        return Ajax.delete(`/api/boards/${boardId}/pins/${pinId}`).then((res) => {
+            if (res.status !== 204) {
                 return Promise.reject(res);
             }
         });

@@ -28,13 +28,12 @@ export class BoardScreen extends Component<BoardScreenProps, BoardScreenState> {
     }
 
     private LoadPinsCallback() {
-        if (store.getState().type != 'loadedPins') {
+        if (store.getState().type !== 'loadedPins') {
             return;
         }
         const pins = store.getState().pins;
         this.setState((s: BoardScreenState) => {
             return {
-                ...s,
                 pins: pins,
             };
         });
@@ -54,6 +53,15 @@ export class BoardScreen extends Component<BoardScreenProps, BoardScreenState> {
             });
 
         this.id = Number(location.href.split('/')[4]);
+
+        if ((store.getState().boardId === 0)) {
+            store.dispatch({
+                type: 'boardView',
+                payload: {
+                    boardId: this.id,
+                },
+            });
+        }
         Board.getBoardPins(this.id).then((res) => {
             store.dispatch({
                 type: 'loadedPins',

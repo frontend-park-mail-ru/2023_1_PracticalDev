@@ -97,6 +97,12 @@ class RouterProvider extends Component<RouterProviderProps, RouterProviderState>
 
     componentDidMount(): void {
         this.unsubs.push(store.subscribe(this.Navigate.bind(this)));
+        store.dispatch({
+            type: 'navigate',
+            payload: {
+                page: location.href.substring(16)
+            }
+        })
     }
 
     componentWillUnmount(): void {

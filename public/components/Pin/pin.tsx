@@ -2,6 +2,7 @@ import { Component, createElement } from '@t1d333/pickpinlib';
 import { navigate } from '../../actions/navigation';
 import { store } from '../../store/store';
 import { Pin as PinModel } from '../../models/pin';
+import Board from '../../models/board';
 
 export interface IPin {
     id: number;
@@ -22,7 +23,7 @@ interface PinProps {
 export class Pin extends Component<PinProps, PinState> {
     private sizes = ['card_small', 'card_medium', 'card_large'];
     private onClick = (e: MouseEvent) => {
-        switch (e.target.tagName) {
+        switch ((e.target as HTMLElement).tagName) {
             case 'DIV':
                 store.dispatch({ type: 'pinView', payload: { pin: this.props.pin } });
                 navigate(`/pin/${this.props.pin.id}`);
@@ -34,9 +35,59 @@ export class Pin extends Component<PinProps, PinState> {
         }
     };
 
+    private resolveSecondaryBtn = () => {
+        const page = store.getState().page.split('/')[1];
+        switch (page) {
+            case 'profile': {
+                return (
+                    <button
+                        key="change_btn"
+                        onclick={this.onChangePin.bind(this)}
+                        className="pin__icon-btn material-symbols-outlined md-24"
+                    >
+                        edit
+                    </button>
+                );
+            }
+            case 'board': {
+                return (
+                    <button
+                        key="delete_btn"
+                        onclick={this.onDeletePin.bind(this)}
+                        className="pin__icon-btn material-symbols-outlined md-24"
+                    >
+                        delete
+                    </button>
+                );
+            }
+            default:
+                return (
+                    <button key="like_btn" className="pin__icon-btn material-symbols-outlined md-24">
+                        favorite
+                    </button>
+                );
+        }
+    };
+
     private onChangePin = (e: MouseEvent) => {
         store.dispatch({ type: 'pinChanging', payload: { changingPin: this.props.pin } });
         navigate('/pin-changing');
+    };
+
+    private onDeletePin = (e: MouseEvent) => {
+        Board.deletePinFromBoard(store.getState().boardId, this.props.pin.id).then((resp) => {
+            const pins = store.getState().pins;
+            const ind = pins.indexOf(this.props.pin);
+
+            pins.splice(ind, 1);
+            console.log(pins);
+            store.dispatch({
+                type: 'loadedPins',
+                payload: {
+                    pins: pins,
+                },
+            });
+        });
     };
     render() {
         return (
@@ -66,19 +117,7 @@ export class Pin extends Component<PinProps, PinState> {
                             alt=""
                             className="pin__author-avatar"
                         />
-                        {store.getState().page === '/profile' ? (
-                            <button
-                                key="change_btn"
-                                onclick={this.onChangePin.bind(this)}
-                                className="pin__icon-btn material-symbols-outlined md-24"
-                            >
-                                edit
-                            </button>
-                        ) : (
-                            <button key="like_btn" className="pin__icon-btn material-symbols-outlined md-24">
-                                favorite
-                            </button>
-                        )}
+                        {this.resolveSecondaryBtn()}
                     </div>
                 </div>
                 <img key="pin_img" className="pin__image" src={this.props.pin.media_source} alt="abc" srcset="" />
