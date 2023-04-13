@@ -2,7 +2,7 @@ import { Component, VNode, createElement } from '@t1d333/pickpinlib';
 import { Header } from '../Header/header';
 import Menu from '../Menu/menu';
 import { Input } from '../Input/input';
-import Pin from '../../models/pin';
+import {Pin} from '../../models/pin';
 import { store } from '../../store/store';
 
 type PinCreationScreenState = {

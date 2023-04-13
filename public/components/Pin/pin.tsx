@@ -1,6 +1,8 @@
 import { Component, createElement } from '@t1d333/pickpinlib';
 import { navigate } from '../../actions/navigation';
 import { store } from '../../store/store';
+import { Pin as PinModel } from '../../models/pin';
+
 export interface IPin {
     id: number;
     title: string;
@@ -19,6 +21,19 @@ interface PinProps {
 
 export class Pin extends Component<PinProps, PinState> {
     private sizes = ['card_small', 'card_medium', 'card_large'];
+    private onClick = (e: MouseEvent) => {
+        switch (e.target.tagName) {
+            case 'DIV':
+                store.dispatch({ type: 'pinView', payload: { pin: this.props.pin } });
+                navigate(`/pin/${this.props.pin.id}`);
+                break;
+            case 'BUTTON':
+                break;
+            default:
+                break;
+        }
+    };
+
     private onChangePin = (e: MouseEvent) => {
         store.dispatch({ type: 'pinChanging', payload: { changingPin: this.props.pin } });
         navigate('/pin-changing');
@@ -28,6 +43,7 @@ export class Pin extends Component<PinProps, PinState> {
             <div
                 key={'pin-' + this.props.pin.id}
                 className={'card ' + this.sizes[Math.floor(Math.random() * this.sizes.length)]}
+                onclick={this.onClick.bind(this)}
             >
                 <div key={'pin-title'} className="pin__title">
                     {this.props.pin.title}

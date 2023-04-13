@@ -19,8 +19,7 @@ interface IUser {
     username: string;
     name: string;
     surname: string;
-    pins: IPin[];
-    boards: IBoard[];
+    profile_image: string;
 }
 
 export { IPin, IUser, IBoard };

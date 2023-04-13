@@ -6,7 +6,7 @@ import { IPin, IUser } from '../../models';
 
 import { store } from '../../store/store';
 import Ajax from '../../util/ajax';
-import Pin from '../../models/pin';
+import { Pin } from '../../models/pin';
 import User from '../../models/user';
 import { loadUser } from '../../actions/user';
 type MainScreenProps = {};

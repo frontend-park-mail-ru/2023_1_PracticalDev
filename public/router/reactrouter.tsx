@@ -16,6 +16,7 @@ interface RouterProps {
 interface RouterState {}
 
 function resolve(path: string = ''): VNode {
+    console.log(path);
     switch (path) {
         case 'feed':
             return <MainScreen key="main" />;
@@ -71,6 +72,7 @@ class RouterProvider extends Component<RouterProviderProps, RouterProviderState>
         if (!window.location.href.match(/(.+\w\/)(.+)/)) {
             window.history.pushState('data', 'title', '/feed');
         }
+        console.log(window.location.href);
         this.state = { page: window.location.href.replace(/(.+\w\/)(.+)/, '/$2').split('/')[1] };
     }
 

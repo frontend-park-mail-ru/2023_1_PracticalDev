@@ -1,6 +1,6 @@
 import Ajax from '../util/ajax';
-import { IPin } from '../models';
-export default class Pin {
+import { IPin, IUser } from '../models';
+export class Pin {
     static getUserPins(id: number) {
         return Ajax.get(`/api/users/${id}/pins`).then((response) => {
             if (!response.ok) {
@@ -27,7 +27,17 @@ export default class Pin {
     }
 
     static updatePin(pin: IPin) {
-        return Ajax.put(`/api/pins/${pin.id}`, pin);
+        const fd = new FormData();
+        fd.append('title', pin.title);
+        fd.append('description', pin.description);
+        return Ajax.put(`/api/pins/${pin.id}`, fd);
+    }
+
+    static getPinAuhtor(pin: IPin) {
+        const author = Ajax.get(`/api/users/${pin.author_id}`).then((res) => {
+            return res.body as IUser;
+        });
+        return author;
     }
 
     static getFeed() {

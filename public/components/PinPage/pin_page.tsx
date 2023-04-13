@@ -2,56 +2,100 @@ import { Component, createElement } from '@t1d333/pickpinlib';
 
 import { Header } from '../Header/header';
 import Menu from '../Menu/menu';
+import { IPin, IUser } from '../../models';
+import { store } from '../../store/store';
+import { Pin } from '../../models/pin';
+import { navigate } from '../../actions/navigation';
+
+type PinScreenState = {
+    pin: IPin | undefined;
+    author: IUser | undefined;
+};
 
 type PinScreenProps = {};
-type PinScreenState = {};
 
 export class PinScreen extends Component<PinScreenProps, PinScreenState> {
+    private unsubs: Function[] = [];
+    constructor() {
+        super();
+        this.state = { pin: store.getState().pinView, author: undefined };
+    }
+
+    private getPin = () => {};
+    private onPinLoad = () => {
+        if (store.getState().type !== 'loadedPinInfo') {
+            return;
+        }
+        this.setState((s) => {
+            return {
+                ...s,
+                author: store.getState().author,
+            };
+        });
+    };
+    componentDidMount(): void {
+        console.log(window.history.state);
+        if (!this.state.pin) {
+            navigate('/feed');
+            return;
+        }
+        this.unsubs.push(store.subscribe(this.onPinLoad.bind(this)));
+        Pin.getPinAuhtor(this.state.pin!).then((author) => {
+            store.dispatch({ type: 'loadedPinInfo', payload: { author: author } });
+        });
+    }
+
+    componentWillUnmount(): void {
+        for (const func of this.unsubs) {
+            func();
+        }
+    }
+
     render() {
         return (
-            <div key='wrapper'>
-                <Menu key='menu' />
-                <Header key='header' />
-                <div key='app' id='app'>
-                    <div key='main__content' className='main__content'>
-                        <div className='pin-view'>
-                            <img className='pin-view__image'
-                                 src='/static/img/loginimg.jpg' alt='Pin image'>
-                            </img>
-                            <div className='pin-view__info'>
-                                <div className='pin-view__actions'>
-                                    <button
-                                        className='pin-view__actions-more-btn material-symbols-outlined md-32'>
+            <div key="wrapper">
+                <Menu key="menu" />
+                <Header key="header" />
+                <div key="app" id="app">
+                    <div key="main__content" className="main__content">
+                        <div className="pin-view">
+                            <img className="pin-view__image" src={this.state.pin?.media_source!} alt="Pin image"></img>
+                            <div className="pin-view__info">
+                                <div className="pin-view__actions">
+                                    <button className="pin-view__actions-more-btn material-symbols-outlined md-32">
                                         more_horiz
                                     </button>
-                                    <button
-                                        className='pin-view__actions-share-btn material-symbols-outlined md-32'>
+                                    <button className="pin-view__actions-share-btn material-symbols-outlined md-32">
                                         share
                                     </button>
-                                    <button
-                                        className='pin-view__actions-like-btn material-symbols-outlined md-32'>
+                                    <button className="pin-view__actions-like-btn material-symbols-outlined md-32">
                                         favorite
                                     </button>
-                                    <p className='pin-view__actions-stat'>1.2k</p>
-                                    <button className='pin-view__actions-save-btn'>Save</button>
+                                    <p className="pin-view__actions-stat">{'0'}</p>
+                                    <button className="pin-view__actions-save-btn">Save</button>
                                 </div>
-                                <p className='pin-view__title'>Улыбочку)</p>
-                                <p className='pin-view__description'>#PickPin #фоточки #настроение #обои</p>
-                                <div className='pin-view__author'>
-                                    <div className='pin-view__author-avatar'>
-                                        <img className='pin-view__author-avatar-img'
-                                             src='https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdnb.artstation.com%2Fp%2Fassets%2Fimages%2Fimages%2F002%2F488%2F931%2Flarge%2Fjoo-yann-ang-pudge-final.jpg%3F1462351306&f=1&nofb=1&ipt=8936a27eed33b56c3ad763d110d2b2edb817ceab874b153eee08a16dbd873093&ipo=images'
-                                             alt='Pin author avatar'>
-                                        </img>
+                                <p className="pin-view__title">
+                                    {this.state.pin?.title ? this.state.pin?.title.slice(0, 20) : ''}
+                                </p>
+                                <p className="pin-view__description">
+                                    {this.state.pin?.description ? this.state.pin?.description.slice(0, 40) : ''}
+                                </p>
+                                <div className="pin-view__author">
+                                    <div className="pin-view__author-avatar">
+                                        <img
+                                            className="pin-view__author-avatar-img"
+                                            src={this.state.author?.profile_image ?? ''}
+                                            alt="Pin author avatar"
+                                        ></img>
                                     </div>
-                                    <p className='pin-view__author-name'>Postperson</p>
-                                    <button className='pin-view__author-subscribe-btn'>Subscribe</button>
+                                    <p className="pin-view__author-name">{this.state.author?.username ?? ''}</p>
+                                    <button className="pin-view__author-subscribe-btn">Subscribe</button>
                                 </div>
-                                <p className='pin-view__comments-header'>Comments</p>
-                                <div className='pin-view__comments'></div>
-                                <div className='pin-view__add-comment'>
-                                    <div className='pin-view__add-comment-avatar'></div>
-                                    <div className='pin-view__add-comment-input'></div>
+                                <p className="pin-view__comments-header">Comments</p>
+                                <div className="pin-view__comments"></div>
+                                <div className="pin-view__add-comment">
+                                    <div className="pin-view__add-comment-avatar"></div>
+                                    <div className="pin-view__add-comment-input"></div>
                                 </div>
                             </div>
                         </div>
