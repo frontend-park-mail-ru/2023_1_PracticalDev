@@ -41,9 +41,9 @@ export default class Board {
     }
 
     static getBoardPins(id: number) {
-        return Ajax.get(`/boards/${id}`).then((res) => {
+        return Ajax.get(`/api/boards/${id}/pins`).then((res) => {
             if (res.status === 200) {
-                return res.body.pins as IPin[];
+                return res.body as IPin[];
             } else {
                 return Promise.reject(res);
             }

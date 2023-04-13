@@ -72,8 +72,7 @@ class RouterProvider extends Component<RouterProviderProps, RouterProviderState>
         if (!window.location.href.match(/(.+\w\/)(.+)/)) {
             window.history.pushState('data', 'title', '/feed');
         }
-        console.log(window.location.href);
-        this.state = { page: window.location.href.replace(/(.+\w\/)(.+)/, '/$2').split('/')[1] };
+        this.state = { page: location.href.split('/')[3] };
     }
 
     private Navigate() {

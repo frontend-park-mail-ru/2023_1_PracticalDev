@@ -17,6 +17,7 @@ interface StoreState {
     changingPin: IPin | undefined;
     type: string;
     pinView: IPin | undefined;
+    boardId: number;
 }
 
 const initialState: StoreState = {
@@ -33,6 +34,7 @@ const initialState: StoreState = {
     changingPin: undefined,
     pinChangingErrorMsg: '',
     type: '',
+    boardId: 0,
 };
 
 const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: Action) => {
@@ -120,6 +122,12 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 ...state,
                 author: action.payload?.author,
                 type: 'loadedPinInfo',
+            };
+        case 'boardView':
+            return {
+                ...state,
+                boardId: action.payload?.boardId,
+                type: 'boardView',
             };
         default:
             return state;

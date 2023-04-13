@@ -47,6 +47,7 @@ export class BoardList extends Component<BoardListProps, BoardListState> {
     render() {
         return (
             <div className="boardlist">
+                <a href={'/board/1'}>Ну и *****</a>
                 {...this.props.boards.map((board) => {
                     return <BoardListItem key={board.id} board={board} />;
                 })}

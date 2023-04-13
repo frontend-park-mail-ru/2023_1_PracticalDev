@@ -1,10 +1,13 @@
 import { Component, createElement } from '@t1d333/pickpinlib';
 import { Header } from '../Header/header';
 import Menu from '../Menu/menu';
-import { IPin } from '../../models';
+import { IPin, IUser } from '../../models';
 import Feed from '../Feed/feed';
 import { store } from '../../store/store';
 import Ajax from '../../util/ajax';
+import User from '../../models/user';
+import { loadUser } from '../../actions/user';
+import Board from '../../models/board';
 
 type BoardScreenProps = {
     name: string;
@@ -13,29 +16,9 @@ type BoardScreenState = {
     pins: IPin[];
 };
 
-const LoadPins = () => {
-    Ajax.get('/api/pins').then((response) => {
-        if (!response.ok) {
-            if (response.status === 401) {
-                store.dispatch({
-                    type: 'navigate',
-                    payload: {
-                        page: '/login',
-                    },
-                });
-            }
-        }
-        store.dispatch({
-            type: 'loaded_pins',
-            payload: {
-                pins: response.body as IPin[],
-            },
-        });
-    });
-};
-
 export class BoardScreen extends Component<BoardScreenProps, BoardScreenState> {
     private unsubs: (() => void)[] = [];
+    private id: number = 0;
 
     constructor() {
         super();
@@ -45,10 +28,10 @@ export class BoardScreen extends Component<BoardScreenProps, BoardScreenState> {
     }
 
     private LoadPinsCallback() {
-        const pins = store.getState().pins;
-        if (pins === this.state.pins) {
+        if (store.getState().type != 'loadedPins') {
             return;
         }
+        const pins = store.getState().pins;
         this.setState((s: BoardScreenState) => {
             return {
                 ...s,
@@ -59,7 +42,24 @@ export class BoardScreen extends Component<BoardScreenProps, BoardScreenState> {
 
     componentDidMount(): void {
         this.unsubs.push(store.subscribe(this.LoadPinsCallback.bind(this)));
-        LoadPins();
+
+        User.getMe()
+            .then((res) => {
+                loadUser(res as IUser);
+            })
+            .catch((res) => {
+                if (res.status === 401) {
+                    store.dispatch({ type: 'navigate', payload: { page: '/login' } });
+                }
+            });
+
+        this.id = Number(location.href.split('/')[4]);
+        Board.getBoardPins(this.id).then((res) => {
+            store.dispatch({
+                type: 'loadedPins',
+                payload: res,
+            });
+        });
     }
 
     componentWillUnmount(): void {
