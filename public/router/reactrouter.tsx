@@ -4,6 +4,7 @@ import { LoginScreen } from '../components/LoginPage/login';
 import { SignupScreen } from '../components/SignupPage/signup';
 import { ProfileScreen } from '../components/ProfilePage/profile';
 import { BoardScreen } from '../components/BoardPage/board';
+import { PinScreen } from '../components/PinPage/pin_page';
 import { store } from '../store/store';
 import PinCreationScreen from '../components/PinCreationPage/PinCreationPage';
 import PinChangingScreen from '../components/PinChangingPage/PinChangingPage';
@@ -32,6 +33,8 @@ function resolve(path: string = ''): VNode {
             return <PinChangingScreen key="pin-changing" />;
         case 'settings':
             return <div>{'Comming soon...'}</div>;
+        case 'pin':
+            return <PinScreen key="pin" />;
         default:
             return <div>404</div>;
     }
