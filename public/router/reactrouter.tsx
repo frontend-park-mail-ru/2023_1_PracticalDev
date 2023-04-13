@@ -4,28 +4,32 @@ import { LoginScreen } from '../components/LoginPage/login';
 import { SignupScreen } from '../components/SignupPage/signup';
 import { ProfileScreen } from '../components/ProfilePage/profile';
 import { BoardScreen } from '../components/BoardPage/board';
+import { PinScreen } from '../components/PinPage/pin_page';
 import { store } from '../store/store';
 
 interface RouterProps {
     page: string;
 }
 
-interface RouterState {}
+interface RouterState {
+}
 
 function resolve(path: string = ''): VNode {
     switch (path) {
         case 'feed':
-            return <MainScreen key="main" />;
+            return <MainScreen key='main' />;
         case 'profile':
-            return <ProfileScreen key="profilescreen" />;
+            return <ProfileScreen key='profilescreen' />;
         case 'board':
-            return <BoardScreen name="board" />;
+            return <BoardScreen name='board' />;
         case 'login':
-            return <LoginScreen key="login" />;
+            return <LoginScreen key='login' />;
         case 'signup':
-            return <SignupScreen key="signup" />;
+            return <SignupScreen key='signup' />;
         case 'settings':
             return <div>{'Comming soon...'}</div>;
+        case 'pin':
+            return <PinScreen key='pin' />;
         default:
             return <div>404</div>;
     }
@@ -96,7 +100,7 @@ class RouterProvider extends Component<RouterProviderProps, RouterProviderState>
     }
 
     render() {
-        return <Router key="router" page={this.state.page} />;
+        return <Router key='router' page={this.state.page} />;
     }
 }
 
