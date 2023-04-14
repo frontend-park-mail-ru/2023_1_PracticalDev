@@ -27,11 +27,11 @@ export default class PinChangingScreen extends Component<PinChangingScreenProps,
         if (title.trim() === '' || description.trim() === '') {
             return 'All fields must be filled';
         }
-        if (title.length > 50) {
-            return 'The maximum title length is 50 characters';
+        if (title.length > 25) {
+            return 'The maximum title length is 25 characters';
         }
-        if (title.length > 100) {
-            return 'The maximum description length is 100 characters';
+        if (title.length > 50) {
+            return 'The maximum description length is 50 characters';
         }
         return '';
     };
@@ -82,7 +82,13 @@ export default class PinChangingScreen extends Component<PinChangingScreenProps,
 
     componentDidMount(): void {
         if (!this.state.pin) {
-            store.dispatch({ type: 'navigate', payload: { page: '/feed' } });
+            const id = Number(location.href.split('/')[4]);
+            Pin.getPin(id).then((pin) => {
+                this.setState((s) => {
+                    return { ...s, pin: pin };
+                });
+            });
+
             return;
         }
 

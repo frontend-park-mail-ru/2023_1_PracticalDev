@@ -89,13 +89,13 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
 
         if (!this.state.pin) {
             const id = Number(location.href.split('/')[4]);
-            Pin.getPin(id).then((resp) => {
-                Pin.getPinAuhtor(resp.body as IPin).then((author) => {
+            Pin.getPin(id).then((pin) => {
+                Pin.getPinAuhtor(pin).then((author) => {
                     this.setState((s) => {
                         return {
                             ...s,
                             author: author,
-                            pin: resp.body as IPin,
+                            pin: pin,
                         };
                     });
                 });

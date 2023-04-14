@@ -14,7 +14,12 @@ export class Pin {
     }
 
     static getPin(id: number) {
-        return Ajax.get(`/api/pins/${id}`).then();
+        return Ajax.get(`/api/pins/${id}`).then((res) => {
+            if (res.ok) {
+                return res.body as IPin;
+            }
+            return Promise.reject(res);
+        });
     }
 
     static uploadPin(fd: FormData) {

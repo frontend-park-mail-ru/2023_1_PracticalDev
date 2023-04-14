@@ -2,16 +2,8 @@ import { Component, createElement } from '@t1d333/pickpinlib';
 import { navigate } from '../../actions/navigation';
 import { store } from '../../store/store';
 import { Pin as PinModel } from '../../models/pin';
+import { IPin } from '../../models';
 import Board from '../../models/board';
-
-export interface IPin {
-    id: number;
-    title: string;
-    description: string;
-    created_at: Date;
-    media_source: string;
-    author_id: number;
-}
 
 interface PinState {}
 
@@ -67,7 +59,7 @@ export class Pin extends Component<PinProps, PinState> {
 
     private onChangePin = (e: MouseEvent) => {
         store.dispatch({ type: 'pinChanging', payload: { changingPin: this.props.pin } });
-        navigate('/pin-changing');
+        navigate(`/pin-changing/${this.props.pin.id}`);
     };
 
     private onDeletePin = (e: MouseEvent) => {
