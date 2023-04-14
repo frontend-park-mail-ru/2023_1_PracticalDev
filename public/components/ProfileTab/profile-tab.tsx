@@ -3,11 +3,12 @@ import Feed from '../Feed/feed';
 import { BoardList } from '../BoardList/boardlist';
 import { IPin } from '../Pin/pin';
 import { store } from '../../store/store';
+import { IBoardWithPins } from '../../models';
 
 type ProfileTabState = {
     currentTab: 'pins' | 'boards';
 };
-type ProfileTabProps = { userPins: IPin[] };
+type ProfileTabProps = { userContent: { pins: IPin[]; boards: IBoardWithPins[] } };
 
 export class ProfileTab extends Component<ProfileTabProps, ProfileTabState> {
     constructor() {
@@ -18,9 +19,9 @@ export class ProfileTab extends Component<ProfileTabProps, ProfileTabState> {
     private tagToComponent = (tag: string) => {
         switch (tag) {
             case 'pins':
-                return <Feed pins={this.props.userPins} key="feed" />;
+                return <Feed pins={this.props.userContent.pins} key="feed" />;
             case 'boards':
-                return <BoardList pins={[]} boards={[]} />;
+                return <BoardList boards={this.props.userContent.boards} />;
             default:
                 break;
         }

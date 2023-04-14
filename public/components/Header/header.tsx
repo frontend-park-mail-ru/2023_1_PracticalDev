@@ -5,11 +5,14 @@ import { store } from '../../store/store';
 type HeaderProps = {};
 
 type HeaderState = {
-    username: string;
-    avatarSrc: string;
+    avatarSrc: string | undefined;
 };
 
 export class Header extends Component<HeaderProps, HeaderState> {
+    constructor() {
+        super();
+        this.state = { avatarSrc: store.getState().user?.profile_image };
+    }
     private unsubs: Function[] = [];
     private userLoadHandler = () => {
         if (store.getState().type !== 'loadedUser') {
@@ -17,7 +20,10 @@ export class Header extends Component<HeaderProps, HeaderState> {
         }
 
         this.setState((s) => {
-            return { ...s, username: store.getState().user?.username || '' };
+            return {
+                ...s,
+                avatarSrc: store.getState().user?.profile_image || undefined,
+            };
         });
     };
 
@@ -45,7 +51,10 @@ export class Header extends Component<HeaderProps, HeaderState> {
                     <img
                         className="header__avatar"
                         key="header__avatar"
-                        src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fronaldmottram.co.nz%2Fwp-content%2Fuploads%2F2019%2F01%2Fdefault-user-icon-8.jpg&f=1&nofb=1&ipt=0f4bb63803b8e35bc0848494b5d7e5350abf5edd0d8284b2b2f305a3766a02fc&ipo=images"
+                        src={
+                            this.state.avatarSrc ??
+                            'https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fronaldmottram.co.nz%2Fwp-content%2Fuploads%2F2019%2F01%2Fdefault-user-icon-8.jpg&f=1&nofb=1&ipt=0f4bb63803b8e35bc0848494b5d7e5350abf5edd0d8284b2b2f305a3766a02fc&ipo=images'
+                        }
                     />
                 </div>
             </div>

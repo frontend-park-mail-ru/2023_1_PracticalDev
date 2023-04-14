@@ -37,7 +37,7 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
         if (!this.state.pin) {
             const id = Number(location.href.split('/')[4]);
             Pin.getPin(id).then((resp) => {
-                Pin.getPinAuhtor((resp.body as IPin)).then((author) => {
+                Pin.getPinAuhtor(resp.body as IPin).then((author) => {
                     this.setState((s) => {
                         return {
                             author: author,
@@ -45,7 +45,6 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
                         };
                     });
                 });
-                
             });
             return;
         }
@@ -72,16 +71,20 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
                             <img className="pin-view__image" src={this.state.pin?.media_source!} alt="Pin image"></img>
                             <div className="pin-view__info">
                                 <div className="pin-view__actions">
-                                    <button className="pin-view__actions-more-btn material-symbols-outlined md-32">
-                                        more_horiz
-                                    </button>
-                                    <button className="pin-view__actions-share-btn material-symbols-outlined md-32">
-                                        share
-                                    </button>
                                     <button className="pin-view__actions-like-btn material-symbols-outlined md-32">
                                         favorite
                                     </button>
+
                                     <p className="pin-view__actions-stat">{'0'}</p>
+
+                                    <select name="boardName" className="pin-view__board-list">
+                                        <option value="1">Синий</option>
+                                        <option value="2">Зеленый</option>
+                                        <option value="3">Желтый</option>
+                                        <option value="4">Красный</option>
+                                        <option value="5">Оранжевый</option>
+                                        <option value="6">Черный</option>
+                                    </select>
                                     <button className="pin-view__actions-save-btn">Save</button>
                                 </div>
                                 <p className="pin-view__title">
@@ -101,7 +104,7 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
                                     <p className="pin-view__author-name">{this.state.author?.username ?? ''}</p>
                                     <button className="pin-view__author-subscribe-btn">Subscribe</button>
                                 </div>
-                                <p className="pin-view__comments-header">Comments</p>
+                                <p className="pin-view__comments-header"></p>
                                 <div className="pin-view__comments"></div>
                                 <div className="pin-view__add-comment">
                                     <div className="pin-view__add-comment-avatar"></div>

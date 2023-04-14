@@ -55,8 +55,9 @@ class Router {
     public OnWindowLoad(): any {
         const path = location.href;
         let trimmed_path = '/' + path.split('/').slice(3).join('/');
+        console.log(trimmed_path);
         if (trimmed_path === '/') {
-            trimmed_path = '/profile';
+            trimmed_path = '/feed';
         }
 
         this.Navigate(trimmed_path);
@@ -66,7 +67,7 @@ class Router {
      * Обработчик для события "navigate"
      * @param {CustomEventInit} e событие "navigate"
      */
-    public OnNavigate(e: CustomEventInit): any {
+   public OnNavigate(e: CustomEventInit): any {
         this.Navigate(e.detail.link);
         this.#context = e.detail;
     }

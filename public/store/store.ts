@@ -1,5 +1,5 @@
 import { Store, Reducer, Action } from '@t1d333/pickpinreduxlib';
-import { IPin, IUser, IBoard } from '../models';
+import { IPin, IUser, IBoard, IBoardWithPins } from '../models';
 
 type Map = { [_: string]: any };
 
@@ -11,7 +11,7 @@ interface StoreState {
     user: IUser | undefined;
     pinCreationErrorMsg: string;
     pinChangingErrorMsg: string;
-    profileBoards: IBoard[];
+    profileBoards: IBoardWithPins[];
     author: IUser | undefined;
     profilePins: IPin[];
     changingPin: IPin | undefined;

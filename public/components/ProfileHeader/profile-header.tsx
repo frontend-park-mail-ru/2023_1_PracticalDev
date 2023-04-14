@@ -48,7 +48,10 @@ export class ProfileHeader extends Component<ProfileHeaderProps, ProfileHeaderSt
                     <img
                         key="profile__avatar"
                         className="profile__avatar"
-                        src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fronaldmottram.co.nz%2Fwp-content%2Fuploads%2F2019%2F01%2Fdefault-user-icon-8.jpg&f=1&nofb=1&ipt=0f4bb63803b8e35bc0848494b5d7e5350abf5edd0d8284b2b2f305a3766a02fc&ipo=images"
+                        src={
+                            this.state.user?.profile_image ??
+                            'https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fronaldmottram.co.nz%2Fwp-content%2Fuploads%2F2019%2F01%2Fdefault-user-icon-8.jpg&f=1&nofb=1&ipt=0f4bb63803b8e35bc0848494b5d7e5350abf5edd0d8284b2b2f305a3766a02fc&ipo=images'
+                        }
                     />
                     <div key="profile__text-container" className="profile__text-container">
                         <div key="profile__username" className="profile__username">

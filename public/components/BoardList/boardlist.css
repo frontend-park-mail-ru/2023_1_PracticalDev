@@ -1,8 +1,9 @@
 .boardlist {
     display: grid; 
-    grid-template-columns: repeat(4, 1fr); 
-    justify-items: center;
+    grid-template-columns: repeat(auto-fill, 300px); 
+    justify-content: space-between;
     grid-row-gap: 2em;
+    grid-column-gap: 1em;
 }
 
 

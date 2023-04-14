@@ -11,6 +11,7 @@ interface IBoard {
     id: number;
     name: string;
     description: string;
+    pins: IPin[];
 }
 
 interface IUser {
@@ -22,4 +23,6 @@ interface IUser {
     profile_image: string;
 }
 
-export { IPin, IUser, IBoard };
+type IBoardWithPins = IBoard & { pins: IPin[] };
+
+export { IPin, IUser, IBoard, IBoardWithPins };

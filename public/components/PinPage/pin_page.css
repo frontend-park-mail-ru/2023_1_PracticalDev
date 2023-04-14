@@ -12,7 +12,7 @@
 .pin-view__image {
     width: 50%;
     height: auto;
-    object-fit: fill;
+    object-fit: cover;
 }
 
 .pin-view__info {
@@ -68,14 +68,27 @@
     color: #E8E8E8;
     background: #1687A7;
     align-self: end;
-    height: 48px;
-    width: 152px;
-    border-radius: 15px;
-    font-size: 24px;
-    font-weight: bold;
+    height: 1.5em; 
+    width: 6em;
+    border-radius: 0.25em;
+    font-size: 1.2em;
     font-family: 'Inter', sans-serif;
     border: none;
     margin-left: auto;
+    cursor: pointer;
+}
+
+.pin-view__board-list {
+    border: none;
+    font-family: "Inter";
+    font-size: 1em;
+    outline: 0;
+    border: 0;
+    box-shadow: none;
+    height: 1.5em;
+    
+    color: #1687a7;;
+    background-color: #D3E0EA;
     cursor: pointer;
 }
 
@@ -109,10 +122,10 @@
 }
 
 .pin-view__author-avatar {
-    width: 85px;
-    height: 85px;
+    width: 5vw;
+    height: 5vw;
     margin-right: 5px;
-    border-radius: 50%;
+    border-radius: 20%;
     overflow: hidden;
 }
 
@@ -133,13 +146,12 @@
 
 .pin-view__author-subscribe-btn {
     margin-left: auto;
-    height: 48px;
-    width: 152px;
+    height: 3em;
+    width: 20em;
     color: #3C3B3B;
     background: #D3E0EA;
-    font-size: 20px;
+    font-size: 1em;
     font-weight: 600;
-    line-height: 24px;
     font-family: 'Inter', sans-serif;
     border-radius: 15px;
     border: none;

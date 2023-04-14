@@ -1,5 +1,7 @@
 import Ajax from '../util/ajax';
 import { IUser, IPin, IBoard } from '../models';
+import { IBoardListItem } from '../components/BoardList/boardlist';
+import Board from './board';
 
 export default class User {
     static getMe() {
@@ -51,11 +53,20 @@ export default class User {
                 return resp.body.pins || [];
             }
         });
-        const boardsReq = Ajax.get('/api/boards').then((resp) => {
-            if (resp.ok) {
-                return resp.body.boards || [];
-            }
-        });
+
+        const boardsReq = Board.getBoards()
+            .then((boards) => {
+                return boards;
+            })
+            .then((boards) => {
+                return Promise.all(
+                    boards.map((board: IBoard) => {
+                        return Board.getBoardPins(board.id).then((res) => {
+                            return { ...board, pins: res || [] };
+                        });
+                    }),
+                );
+            });
         return Promise.all([pinsReq, boardsReq]);
     };
 }

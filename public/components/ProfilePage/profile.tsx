@@ -5,12 +5,12 @@ import { ProfileTab } from '../ProfileTab/profile-tab';
 import { ProfileHeader } from '../ProfileHeader/profile-header';
 
 import { store } from '../../store/store';
-import { IPin, IBoard, IUser } from '../../models';
+import { IPin, IBoard, IUser, IBoardWithPins } from '../../models';
 import User from '../../models/user';
 import { loadProfile, loadUser } from '../../actions/user';
 
 type ProfileProps = {};
-type ProfileState = { user: IUser | undefined; pins: IPin[]; boards: IBoard[] };
+type ProfileState = { user: IUser | undefined; pins: IPin[]; boards: IBoardWithPins[] };
 export class ProfileScreen extends Component<ProfileProps, ProfileState> {
     private unsubs: Function[] = [];
     constructor() {
@@ -27,7 +27,13 @@ export class ProfileScreen extends Component<ProfileProps, ProfileState> {
         }
 
         this.setState((s) => {
-            return { ...s, user: store.getState().user!, pins: store.getState().profilePins };
+            console.log(store);
+            return {
+                ...s,
+                user: store.getState().user!,
+                pins: store.getState().profilePins,
+                boards: store.getState().profileBoards,
+            };
         });
     }
 
@@ -69,7 +75,10 @@ export class ProfileScreen extends Component<ProfileProps, ProfileState> {
                     <div key="main__content" className="main__content">
                         <div className="profile__container">
                             <ProfileHeader key="profile-header" user={this.state.user} />
-                            <ProfileTab key="profile-tab" userPins={this.state.pins || []} />
+                            <ProfileTab
+                                key="profile-tab"
+                                userContent={{ pins: this.state.pins || [], boards: this.state.boards || [] }}
+                            />
                         </div>
                     </div>
                 </div>
