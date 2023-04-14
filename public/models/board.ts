@@ -56,6 +56,15 @@ export default class Board {
         });
     }
 
+    static createBoard(name: string) {
+        return Ajax.post('/api/boards', { name: name, description: '' }).then((res) => {
+            if (res.status !== 200) {
+                return Promise.reject(res);
+            }
+            return res.body as IBoard;
+        });
+    }
+
     static addPinToBoard(boardId: number, pinId: number) {
         return fetch(`/api/boards/${boardId}/pins/${pinId}`, { method: 'post' });
     }

@@ -1,0 +1,83 @@
+.createBoard__form{  
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    border: 4px solid #D9D9D9;
+    width: 40vw;
+    height: 30vh;
+    position: absolute;
+    top: 28vh;
+    right: 30vw;
+    
+}
+
+.createBoard__header{
+    font-family: 'Inter';
+    font-size: 2vw;
+    color: #276678;
+    text-align: center
+    
+
+}
+.createBoard_error{
+    font-family: 'Inter';
+    font-size: 1em;
+    height: 1em;
+    color: #D8564E;
+    justify-content: left;
+    align-items: left;
+}
+
+.createBoard__input{
+    
+    margin-bottom: 20px;
+    width: 30vw;
+    height: 4vh;
+    border-radius: 15px;
+    border: 1px solid #1687A7;
+    outline: none;
+    align-items: center;
+    margin-left: 5vw;
+
+    font-family: Inter;
+    font-size: 130%;
+    font-weight:lighter;
+    color: #1687A7;
+    
+    max-width: 100%;
+    max-height: 100%;
+
+    font-family: 'Inter';
+    font-size: 1vw;
+    color: #276678;
+}
+
+.createBoard__button{
+    font-family: 'Inter';
+    font-size: 1em;
+    color: #D3E0EA;
+    width: 8vw;
+    max-width: 100px;
+    height: 4vh;
+ 
+    margin-right: 4.8vw;
+    margin-left: auto;
+    margin-bottom: 1vh;
+
+    border: 2px solid #1687A7;
+    border-radius: 10px;
+    background-color: #1687A7; 
+
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.createBoard__button:active{
+
+    transform: scale(0.98);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+
+
+}

@@ -116,7 +116,6 @@ export class BoardScreen extends Component<BoardScreenProps, BoardScreenState> {
                         <div className="board-header">
                             <h2 className="board-header__name">{this.state.board?.name || ''}</h2>
                             <div className="board-header__buttons-container">
-                                <button className="board-header__btn material-symbols-outlined md-24">edit</button>
                                 <button
                                     className="board-header__btn material-symbols-outlined md-24"
                                     onclick={this.DeleteBoardCallback.bind(this)}

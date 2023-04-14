@@ -40,7 +40,6 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
         }
 
         Board.addPinToBoard(parseInt(select.value), this.state.pin?.id!).then((res) => {
-            console.log(res.status);
             switch (res.status) {
                 case 200:
                     this.setState((s) => {
