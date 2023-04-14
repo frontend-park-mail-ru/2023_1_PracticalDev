@@ -14,6 +14,7 @@ type PinScreenState = {
     availableBoards: IBoard[];
     author: IUser | undefined;
     response: string;
+    isLiked: boolean;
 };
 
 type PinScreenProps = {};
@@ -27,6 +28,7 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
             availableBoards: store.getState().availableBoards,
             author: undefined,
             response: '',
+            isLiked: false,
         };
     }
 
@@ -102,6 +104,7 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
                             ...s,
                             author: author,
                             pin: pin,
+                            isLiked: pin.liked,
                         };
                     });
                 });
@@ -113,6 +116,38 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
             store.dispatch({ type: 'loadedPinInfo', payload: { author: author } });
         });
     }
+
+    private onLikePin = (e: MouseEvent) => {
+        Pin.LikePin(this.state.pin?.id!).then((resp) => {
+            if (resp.ok) {
+                const pin = this.state.pin;
+                pin!.n_likes += 1;
+                this.setState((s: PinScreenState) => {
+                    return {
+                        ...s,
+                        pin: pin,
+                        isLiked: true,
+                    };
+                });
+            }
+        });
+    };
+
+    private onDislikePin = (e: MouseEvent) => {
+        Pin.UnLikePin(this.state.pin?.id!).then((resp) => {
+            if (resp.ok) {
+                const pin = this.state.pin;
+                pin!.n_likes -= 1;
+                this.setState((s: PinScreenState) => {
+                    return {
+                        ...s,
+                        pin: pin,
+                        isLiked: false,
+                    };
+                });
+            }
+        });
+    };
 
     componentWillUnmount(): void {
         for (const func of this.unsubs) {
@@ -133,13 +168,21 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
                                 <div className="pin-view__actions">
                                     <button
                                         key="like-btn"
-                                        className="pin-view__actions-like-btn material-symbols-outlined md-32"
+                                        onclick={
+                                            this.state.isLiked
+                                                ? this.onDislikePin.bind(this)
+                                                : this.onLikePin.bind(this)
+                                        }
+                                        className={
+                                            'pin-view__actions-like-btn material-symbols-outlined md-32 ' +
+                                            (this.state.isLiked ? 'active' : '')
+                                        }
                                     >
                                         favorite
                                     </button>
 
                                     <p key="like-counter" className="pin-view__actions-stat">
-                                        {'0'}
+                                        {String(this.state.pin ? this.state.pin.n_likes : '')}
                                     </p>
 
                                     <select key="available-boards" name="boardName" className="pin-view__board-list">
