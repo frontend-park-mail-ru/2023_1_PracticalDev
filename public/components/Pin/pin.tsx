@@ -150,7 +150,7 @@ export class Pin extends Component<PinProps, PinState> {
                         </button>
                         <img
                             key="author_avatar"
-                            src="https://forum.golangbridge.org/uploads/default/original/2X/0/03cbc1a9f9178055093eb0c25ba9df2c29611671.jpg"
+                            src="https://pickpin.hb.bizmrg.com/default-user-icon-8-4024862977"
                             alt=""
                             className="pin__author-avatar"
                         />

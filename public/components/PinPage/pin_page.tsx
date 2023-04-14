@@ -95,25 +95,18 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
             loadAvailableBoards(boards);
         });
 
-        if (!this.state.pin) {
-            const id = Number(location.href.split('/')[4]);
-            Pin.getPin(id).then((pin) => {
-                Pin.getPinAuhtor(pin).then((author) => {
-                    this.setState((s) => {
-                        return {
-                            ...s,
-                            author: author,
-                            pin: pin,
-                            isLiked: pin.liked,
-                        };
-                    });
+        const id = Number(location.href.split('/')[4]);
+        Pin.getPin(id).then((pin) => {
+            Pin.getPinAuhtor(pin).then((author) => {
+                this.setState((s) => {
+                    return {
+                        ...s,
+                        author: author,
+                        pin: pin,
+                        isLiked: pin.liked,
+                    };
                 });
             });
-
-            return;
-        }
-        Pin.getPinAuhtor(this.state.pin!).then((author) => {
-            store.dispatch({ type: 'loadedPinInfo', payload: { author: author } });
         });
     }
 
