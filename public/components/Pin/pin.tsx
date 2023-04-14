@@ -5,7 +5,9 @@ import { Pin as PinModel } from '../../models/pin';
 import { IPin } from '../../models';
 import Board from '../../models/board';
 
-interface PinState {}
+interface PinState {
+    isLiked: boolean;
+}
 
 interface PinProps {
     pin: IPin;
@@ -14,6 +16,16 @@ interface PinProps {
 
 export class Pin extends Component<PinProps, PinState> {
     private sizes = ['card_small', 'card_medium', 'card_large'];
+    private cardSize: string;
+
+    constructor() {
+        super();
+        this.state = {
+            isLiked: false,
+        };
+        this.cardSize = this.sizes[Math.floor(Math.random() * this.sizes.length)];
+    }
+
     private onClick = (e: MouseEvent) => {
         switch ((e.target as HTMLElement).tagName) {
             case 'DIV':
@@ -50,11 +62,41 @@ export class Pin extends Component<PinProps, PinState> {
             }
             default:
                 return (
-                    <button key="like_btn" className="pin__icon-btn material-symbols-outlined md-24">
+                    <button
+                        key="like_btn"
+                        onclick={this.state.isLiked ? this.onDislikePin.bind(this) : this.onLikePin.bind(this)}
+                        className={
+                            'pin__icon-btn material-symbols-outlined md-24 ' + (this.state.isLiked ? 'active' : '')
+                        }
+                    >
                         favorite
                     </button>
                 );
         }
+    };
+
+    private onLikePin = (e: MouseEvent) => {
+        PinModel.LikePin(this.props.pin.id).then((resp) => {
+            if (resp.ok) {
+                this.setState((_: PinState) => {
+                    return {
+                        isLiked: true,
+                    };
+                });
+            }
+        });
+    };
+
+    private onDislikePin = (e: MouseEvent) => {
+        PinModel.UnLikePin(this.props.pin.id).then((resp) => {
+            if (resp.ok) {
+                this.setState((_: PinState) => {
+                    return {
+                        isLiked: false,
+                    };
+                });
+            }
+        });
     };
 
     private onChangePin = (e: MouseEvent) => {
@@ -80,13 +122,17 @@ export class Pin extends Component<PinProps, PinState> {
         // });
     };
 
+    componentDidMount(): void {
+        this.setState((_: PinState) => {
+            return {
+                isLiked: this.props.pin.liked,
+            };
+        });
+    }
+
     render() {
         return (
-            <div
-                key={'pin-' + this.props.pin.id}
-                className={'card ' + this.sizes[Math.floor(Math.random() * this.sizes.length)]}
-                onclick={this.onClick.bind(this)}
-            >
+            <div key={'pin-' + this.props.pin.id} className={'card ' + this.cardSize} onclick={this.onClick.bind(this)}>
                 <div key={'pin-title'} className="pin__title">
                     {this.props.pin.title}
                 </div>

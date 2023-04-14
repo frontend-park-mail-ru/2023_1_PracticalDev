@@ -5,6 +5,8 @@ interface IPin {
     created_at: Date;
     media_source: string;
     author_id: number;
+    liked: boolean;
+    n_likes: number;
 }
 
 interface IBoard {
