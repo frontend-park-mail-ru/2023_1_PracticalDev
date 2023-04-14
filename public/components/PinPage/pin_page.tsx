@@ -2,14 +2,18 @@ import { Component, createElement } from '@t1d333/pickpinlib';
 
 import { Header } from '../Header/header';
 import Menu from '../Menu/menu';
-import { IPin, IUser } from '../../models';
+import { IBoard, IPin, IUser } from '../../models';
 import { store } from '../../store/store';
 import { Pin } from '../../models/pin';
 import { navigate } from '../../actions/navigation';
+import Board from '../../models/board';
+import { loadAvailableBoards } from '../../actions/board';
 
 type PinScreenState = {
     pin: IPin | undefined;
+    availableBoards: IBoard[];
     author: IUser | undefined;
+    response: string;
 };
 
 type PinScreenProps = {};
@@ -18,14 +22,43 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
     private unsubs: Function[] = [];
     constructor() {
         super();
-        this.state = { pin: store.getState().pinView, author: undefined };
+        this.state = {
+            pin: store.getState().pinView,
+            availableBoards: store.getState().availableBoards,
+            author: undefined,
+            response: '',
+        };
     }
 
-    private getPin = () => {};
+    private onSaveCallback = () => {
+        const select = document.querySelector('.pin-view__board-list') as HTMLSelectElement;
+        Board.addPinToBoard(parseInt(select.value), this.state.pin?.id!).then((res) => {
+            console.log(res.status);
+            switch (res.status) {
+                case 200:
+                    this.setState((s) => {
+                        return { ...s, response: 'Pin saved successfully!' };
+                    });
+                    break;
+
+                case 409:
+                    this.setState((s) => {
+                        return { ...s, response: 'the pin has already been saved on this board' };
+                    });
+                    break;
+                default:
+                    this.setState((s) => {
+                        return { ...s, response: 'server error' };
+                    });
+            }
+        });
+    };
+
     private onPinLoad = () => {
         if (store.getState().type !== 'loadedPinInfo') {
             return;
         }
+
         this.setState((s) => {
             return {
                 ...s,
@@ -33,22 +66,43 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
             };
         });
     };
+
+    private onLoadAvailableBoards = () => {
+        if (store.getState().type !== 'loadedAvailableBoards') {
+            return;
+        }
+        this.setState((s) => {
+            return {
+                ...s,
+                availableBoards: store.getState().availableBoards,
+            };
+        });
+    };
+
     componentDidMount(): void {
+        this.unsubs.push(store.subscribe(this.onPinLoad.bind(this)));
+        this.unsubs.push(store.subscribe(this.onLoadAvailableBoards.bind(this)));
+
+        Board.getBoards().then((boards) => {
+            loadAvailableBoards(boards);
+        });
+
         if (!this.state.pin) {
             const id = Number(location.href.split('/')[4]);
             Pin.getPin(id).then((resp) => {
                 Pin.getPinAuhtor(resp.body as IPin).then((author) => {
                     this.setState((s) => {
                         return {
+                            ...s,
                             author: author,
                             pin: resp.body as IPin,
                         };
                     });
                 });
             });
+
             return;
         }
-        this.unsubs.push(store.subscribe(this.onPinLoad.bind(this)));
         Pin.getPinAuhtor(this.state.pin!).then((author) => {
             store.dispatch({ type: 'loadedPinInfo', payload: { author: author } });
         });
@@ -71,22 +125,35 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
                             <img className="pin-view__image" src={this.state.pin?.media_source!} alt="Pin image"></img>
                             <div className="pin-view__info">
                                 <div className="pin-view__actions">
-                                    <button className="pin-view__actions-like-btn material-symbols-outlined md-32">
+                                    <button
+                                        key="like-btn"
+                                        className="pin-view__actions-like-btn material-symbols-outlined md-32"
+                                    >
                                         favorite
                                     </button>
 
-                                    <p className="pin-view__actions-stat">{'0'}</p>
+                                    <p key="like-counter" className="pin-view__actions-stat">
+                                        {'0'}
+                                    </p>
 
-                                    <select name="boardName" className="pin-view__board-list">
-                                        <option value="1">Синий</option>
-                                        <option value="2">Зеленый</option>
-                                        <option value="3">Желтый</option>
-                                        <option value="4">Красный</option>
-                                        <option value="5">Оранжевый</option>
-                                        <option value="6">Черный</option>
+                                    <select key="available-boards" name="boardName" className="pin-view__board-list">
+                                        {...this.state.availableBoards.map((board) => {
+                                            return (
+                                                <option key={board.id} value={board.id}>
+                                                    {board.name}
+                                                </option>
+                                            );
+                                        })}
                                     </select>
-                                    <button className="pin-view__actions-save-btn">Save</button>
+                                    <button
+                                        key="save-btn"
+                                        className="pin-view__actions-save-btn"
+                                        onclick={this.onSaveCallback.bind(this)}
+                                    >
+                                        Save
+                                    </button>
                                 </div>
+                                <p className="pin-view__response-container">{this.state.response}</p>
                                 <p className="pin-view__title">
                                     {this.state.pin?.title ? this.state.pin?.title.slice(0, 20) : ''}
                                 </p>
@@ -94,15 +161,12 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
                                     {this.state.pin?.description ? this.state.pin?.description.slice(0, 40) : ''}
                                 </p>
                                 <div className="pin-view__author">
-                                    <div className="pin-view__author-avatar">
-                                        <img
-                                            className="pin-view__author-avatar-img"
-                                            src={this.state.author?.profile_image ?? ''}
-                                            alt="Pin author avatar"
-                                        ></img>
-                                    </div>
+                                    <img
+                                        className="pin-view__author-avatar-img"
+                                        src={this.state.author?.profile_image ?? ''}
+                                        alt="Pin author avatar"
+                                    ></img>
                                     <p className="pin-view__author-name">{this.state.author?.username ?? ''}</p>
-                                    <button className="pin-view__author-subscribe-btn">Subscribe</button>
                                 </div>
                                 <p className="pin-view__comments-header"></p>
                                 <div className="pin-view__comments"></div>

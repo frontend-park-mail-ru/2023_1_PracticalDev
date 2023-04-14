@@ -16,7 +16,6 @@ interface RouterProps {
 interface RouterState {}
 
 function resolve(path: string = ''): VNode {
-    console.log(path);
     switch (path) {
         case 'feed':
             return <MainScreen key="main" />;
@@ -81,7 +80,6 @@ class RouterProvider extends Component<RouterProviderProps, RouterProviderState>
         }
         const path = store.getState().page;
 
-        console.log(path);
         if (path === this.state.page) {
             return;
         }

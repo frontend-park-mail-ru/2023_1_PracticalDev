@@ -63,7 +63,6 @@ export default class PinChangingScreen extends Component<PinChangingScreenProps,
 
         if (errMsg != '') {
             //TODO: добавить action
-            console.log(errMsg);
             store.dispatch({ type: 'pinChangingError', payload: { message: errMsg } });
             return;
         }

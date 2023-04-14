@@ -16,7 +16,7 @@ export class ProfileScreen extends Component<ProfileProps, ProfileState> {
     constructor() {
         super();
         this.state = {
-            user: {},
+            user: undefined,
             pins: [],
             boards: [],
         };
@@ -27,7 +27,6 @@ export class ProfileScreen extends Component<ProfileProps, ProfileState> {
         }
 
         this.setState((s) => {
-            console.log(store);
             return {
                 ...s,
                 user: store.getState().user!,

@@ -12,7 +12,6 @@ export class BoardListItem extends Component<BoardListItemProps, BoardListItemSt
         const result: VNode[] = [];
         let i = 0;
         for (; i < this.props.board.pins.length && i < 3; ++i) {
-            console.log(this.props.board);
             result.push(
                 <div className={this.classNames[i] + '-wrapper'}>
                     <img className={this.classNames[i]} src={this.props.board.pins[i].media_source} />
@@ -49,7 +48,6 @@ type BoardListState = {};
 
 export class BoardList extends Component<BoardListProps, BoardListState> {
     render() {
-        console.log(this.props.boards);
         return (
             <div className="boardlist">
                 {...this.props.boards.map((board) => {

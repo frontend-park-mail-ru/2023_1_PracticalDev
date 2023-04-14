@@ -19,6 +19,7 @@ interface StoreState {
     pinView: IPin | undefined;
     boardView: IBoard | undefined;
     boardId: number;
+    availableBoards: IBoard[];
 }
 
 const initialState: StoreState = {
@@ -29,6 +30,7 @@ const initialState: StoreState = {
     user: undefined,
     profilePins: [],
     profileBoards: [],
+    availableBoards: [],
     pinView: undefined,
     boardView: undefined,
     author: undefined,
@@ -48,7 +50,6 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 type: 'navigate',
             };
         case 'loadedPins':
-            console.log('pins');
             return {
                 ...state,
                 pins: action.payload?.pins,
@@ -133,6 +134,12 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 type: 'loadedBoard',
             };
         }
+        case 'loadedAvailableBoards':
+            return {
+                ...state,
+                availableBoards: action.payload?.boards,
+                type: 'loadedAvailableBoards',
+            };
         case 'boardView':
             return {
                 ...state,

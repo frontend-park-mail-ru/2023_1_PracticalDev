@@ -49,11 +49,14 @@ export default class Board {
     }
 
     static deletePinFromBoard(boardId: number, pinId: number) {
-        console.log(boardId, pinId);
         return Ajax.delete(`/api/boards/${boardId}/pins/${pinId}`).then((res) => {
             if (res.status !== 204) {
                 return Promise.reject(res);
             }
         });
+    }
+
+    static addPinToBoard(boardId: number, pinId: number) {
+        return fetch(`/api/boards/${boardId}/pins/${pinId}`, { method: 'post' });
     }
 }
