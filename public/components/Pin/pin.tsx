@@ -28,10 +28,6 @@ export class Pin extends Component<PinProps, PinState> {
                 store.dispatch({ type: 'pinView', payload: { pin: this.props.pin } });
                 navigate(`/pin/${this.props.pin.id}`);
                 break;
-            case 'BUTTON':
-                break;
-            default:
-                break;
         }
     };
 
@@ -75,20 +71,23 @@ export class Pin extends Component<PinProps, PinState> {
     };
 
     private onDeletePin = (e: MouseEvent) => {
-        Board.deletePinFromBoard(store.getState().boardId, this.props.pin.id).then((resp) => {
+        fetch(`/api/boards/${store.getState().boardId}/${this.props.pin.id}`).then((res) => {
             const pins = store.getState().pins;
-            const ind = pins.indexOf(this.props.pin);
 
-            pins.splice(ind, 1);
-            console.log(pins);
             store.dispatch({
                 type: 'loadedPins',
                 payload: {
-                    pins: pins,
+                    pins: pins.filter((pin) => {
+                        return pin.id !== this.props.pin.id;
+                    }),
                 },
             });
         });
+        // Board.deletePinFromBoard(store.getState().boardId, this.props.pin.id).then((resp) => {
+        //     console.log(resp);
+        // });
     };
+
     render() {
         return (
             <div

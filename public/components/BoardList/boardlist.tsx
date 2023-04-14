@@ -1,5 +1,7 @@
 import { Component, createElement, VNode } from '@t1d333/pickpinlib';
 import { IBoardWithPins } from '../../models';
+import { navigate } from '../../actions/navigation';
+import { loadBoard } from '../../actions/board';
 
 type BoardListItemProps = { board: IBoardWithPins };
 type BoardListItemState = {};
@@ -10,6 +12,7 @@ export class BoardListItem extends Component<BoardListItemProps, BoardListItemSt
         const result: VNode[] = [];
         let i = 0;
         for (; i < this.props.board.pins.length && i < 3; ++i) {
+            console.log(this.props.board);
             result.push(
                 <div className={this.classNames[i] + '-wrapper'}>
                     <img className={this.classNames[i]} src={this.props.board.pins[i].media_source} />
@@ -25,7 +28,13 @@ export class BoardListItem extends Component<BoardListItemProps, BoardListItemSt
     };
     render() {
         return (
-            <div key={'boarditem-' + this.props.board.id}>
+            <div
+                key={'boarditem-' + this.props.board.id}
+                onclick={() => {
+                    loadBoard(this.props.board);
+                    navigate(`/board/${this.props.board.id}`);
+                }}
+            >
                 <div className="boardlist-item">{...this.getImages()}</div>
                 <div className="boardlist-item__name">{this.props.board.name}</div>
             </div>
@@ -43,7 +52,6 @@ export class BoardList extends Component<BoardListProps, BoardListState> {
         console.log(this.props.boards);
         return (
             <div className="boardlist">
-                <a href={'/board/1'}>Ну и *****</a>
                 {...this.props.boards.map((board) => {
                     return <BoardListItem key={board.id} board={board} />;
                 })}

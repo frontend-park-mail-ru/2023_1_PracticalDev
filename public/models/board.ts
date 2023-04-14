@@ -24,9 +24,7 @@ export default class Board {
 
     static deleteBoard(id: number) {
         return Ajax.delete(`/api/boards/${id}`).then((res) => {
-            if (res.status === 204) {
-                return true;
-            } else {
+            if (res.status !== 204) {
                 return Promise.reject(res);
             }
         });
@@ -43,7 +41,7 @@ export default class Board {
     static getBoardPins(id: number) {
         return Ajax.get(`/api/boards/${id}/pins`).then((res) => {
             if (res.status === 200) {
-                return res.body as IPin[];
+                return res.body.pins as IPin[];
             } else {
                 return Promise.reject(res);
             }
