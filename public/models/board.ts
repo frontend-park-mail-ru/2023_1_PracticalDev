@@ -5,7 +5,7 @@ export default class Board {
     static getBoards() {
         return Ajax.get('/api/boards').then((res) => {
             if (res.status === 200) {
-                return res.body.boards as IBoard[];
+                return (res.body.boards || []) as IBoard[];
             } else {
                 return Promise.reject(res);
             }
@@ -23,8 +23,8 @@ export default class Board {
     }
 
     static deleteBoard(id: number) {
-        return Ajax.delete(`/api/boards/${id}`).then((res) => {
-            if (res.status !== 204) {
+        return fetch(`/api/boards/${id}`, { method: 'delete' }).then((res) => {
+            if (res.status !== 200) {
                 return Promise.reject(res);
             }
         });

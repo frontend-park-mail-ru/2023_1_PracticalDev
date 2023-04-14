@@ -59,7 +59,7 @@ export class BoardScreen extends Component<BoardScreenProps, BoardScreenState> {
             .then(() => {
                 navigate('/profile');
             })
-            .catch(() => {
+            .catch((res) => {
                 //TODO: добавить обработку ошикби
             });
     }

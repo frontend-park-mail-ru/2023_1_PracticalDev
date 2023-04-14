@@ -32,6 +32,13 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
 
     private onSaveCallback = () => {
         const select = document.querySelector('.pin-view__board-list') as HTMLSelectElement;
+        if (select.value === '') {
+            this.setState((s) => {
+                return { ...s, response: 'Choose an existing board or create a new one' };
+            });
+            return;
+        }
+
         Board.addPinToBoard(parseInt(select.value), this.state.pin?.id!).then((res) => {
             console.log(res.status);
             switch (res.status) {
@@ -43,12 +50,12 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
 
                 case 409:
                     this.setState((s) => {
-                        return { ...s, response: 'the pin has already been saved on this board' };
+                        return { ...s, response: 'The pin has already been saved on this board' };
                     });
                     break;
                 default:
                     this.setState((s) => {
-                        return { ...s, response: 'server error' };
+                        return { ...s, response: 'Server error' };
                     });
             }
         });

@@ -3,6 +3,7 @@ import { store } from '../../store/store';
 import Ajax from '../../util/ajax';
 import User from '../../models/user';
 import { logoutUser } from '../../actions/user';
+import { navigate } from '../../actions/navigation';
 const menuItems = [
     { link: '/feed', name: 'home' },
     { link: '/profile', name: 'dashboard' },
@@ -20,7 +21,12 @@ export default class Menu extends Component<{}, {}> {
         return (
             <div key="menu" className="menu">
                 <div key="menu__logo-container" className="menu__logo-container">
-                    <img key="menu__logo" className="menu__logo" src="/static/img/Logo2.svg" />
+                    <img
+                        key="menu__logo"
+                        className="menu__logo"
+                        src="/static/img/Logo2.svg"
+                        onclick={navigate.bind(this, '/feed')}
+                    />
                 </div>
                 <div key="menu__box" className="menu__box">
                     {...menuItems.map((item) => {
