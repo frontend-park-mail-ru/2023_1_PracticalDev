@@ -72,7 +72,7 @@ class RouterProvider extends Component<RouterProviderProps, RouterProviderState>
     constructor() {
         super();
         if (!window.location.href.match(/(.+\w\/)(.+)/)) {
-            window.history.pushState('data', 'title', '/feed');
+            window.history.pushState({}, '', '/feed');
         }
         this.state = { page: location.href.split('/')[3] };
     }
@@ -87,7 +87,16 @@ class RouterProvider extends Component<RouterProviderProps, RouterProviderState>
             return;
         }
 
-        window.history.pushState('data', 'title', path);
+        if (store.getState().pushToState) {
+            window.history.pushState('data', 'title', path);
+        } else {
+            store.dispatch({
+                type: 'restoreState',
+                payload: {
+                    pushToState: true,
+                },
+            });
+        }
         const decomposed_path = path.split('/');
         this.setState((_: RouterProviderState) => {
             return {
@@ -104,6 +113,18 @@ class RouterProvider extends Component<RouterProviderProps, RouterProviderState>
                 page: location.href.substring(location.href.indexOf('/', 15)),
             },
         });
+
+        window.onpopstate = (event) => {
+            console.log(window.location.href);
+            console.log('/' + window.location.href.replace(/(.+\w\/)(.+)/, '/$2').split('/')[1]);
+            store.dispatch({
+                type: 'navigate',
+                payload: {
+                    page: location.href.substring(location.href.indexOf('/', 15)),
+                    pushToState: false,
+                },
+            });
+        };
     }
 
     componentWillUnmount(): void {

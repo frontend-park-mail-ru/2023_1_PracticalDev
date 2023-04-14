@@ -5,6 +5,7 @@ type Map = { [_: string]: any };
 
 interface StoreState {
     page: string;
+    pushToState: boolean;
     pins: IPin[];
     formData: { [_: string]: any };
     validationErrorMessage: string;
@@ -24,6 +25,7 @@ interface StoreState {
 
 const initialState: StoreState = {
     page: '/feed',
+    pushToState: true,
     pins: [],
     formData: {},
     validationErrorMessage: '',
@@ -145,6 +147,12 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 ...state,
                 boardId: action.payload?.boardId,
                 type: 'boardView',
+            };
+        case 'restoreState':
+            return {
+                ...state,
+                pushToState: true,
+                type: 'restoreState',
             };
         default:
             return state;
