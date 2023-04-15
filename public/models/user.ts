@@ -19,7 +19,7 @@ export default class User {
             password: password,
         }).then((response) => {
             if (!response.ok) {
-                return Promise.reject(response.body);
+                return Promise.reject(response);
             } else {
                 return response.body as IUser;
             }

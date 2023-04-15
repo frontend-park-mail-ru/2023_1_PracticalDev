@@ -2,11 +2,10 @@ import { Component, createElement } from '@t1d333/pickpinlib';
 import { Form } from '../Form/form';
 import AuthLogoSection from '../AuthLogoSection/authLogoSection';
 import { store } from '../../store/store';
-import { validateEmail, validatePassword } from '../../util/validator';
-import Ajax from '../../util/ajax';
 import CheckAuth from '../../util/check';
-import { IBoard, IPin, IUser } from '../../models';
 import User from '../../models/user';
+import { validationError } from '../../actions/error';
+import { loginUser } from '../../actions/user';
 type AuthProps = {};
 type AuthState = {};
 
@@ -31,34 +30,6 @@ const formProps = {
     inputs: loginInputs,
     submitBtnText: 'login',
 };
-//
-//
-// const loginUser = (email: string, password: string) => {
-//     Ajax.post('/api/auth/login', {
-//         email: email,
-//         password: password,
-//     }).then((response) => {
-//         if (!response.ok) {
-//             if (response.status === 404) {
-//                 store.dispatch({
-//                     type: 'validationErrorMessage',
-//                     payload: {
-//                         message: 'Wrong email or password',
-//                     },
-//                 });
-//             }
-//         } else {
-//             const user: IUser = response.body as IUser;
-//             store.dispatch({
-//                 type: 'navigate',
-//                 payload: {
-//                     page: '/feed',
-//                     user: user,
-//                 },
-//             });
-//         }
-//     });
-// };
 
 export class LoginScreen extends Component<AuthProps, AuthState> {
     private prevData: any;
@@ -80,25 +51,21 @@ export class LoginScreen extends Component<AuthProps, AuthState> {
             return;
         }
 
-        //TODO: добавить проверку на пустые строки
+        if (formData.name === '' || formData.password === '') {
+            validationError('All fields must be filled!');
+            return;
+        }
 
         User.login(formData.email, formData.password)
             .then((res) => {
-                store.dispatch({
-                    type: 'navigate',
-                    payload: {
-                        page: '/feed',
-                        user: res,
-                    },
-                });
+                loginUser(res);
             })
-            .catch((err) => {
-                store.dispatch({
-                    type: 'validationErrorMessage',
-                    payload: {
-                        message: 'Wrong email or password',
-                    },
-                });
+            .catch((res) => {
+                if (res.status === 404) {
+                    validationError('Wrong email or password');
+                    return;
+                }
+                validationError('Server error');
             });
     }
 
