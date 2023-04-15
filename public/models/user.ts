@@ -69,4 +69,9 @@ export default class User {
             });
         return Promise.all([pinsReq, boardsReq]);
     };
+
+    static patchUser = async (fd: FormData) => {
+        const resp = await Ajax.patch('/api/profile', fd);
+        return resp;
+    };
 }

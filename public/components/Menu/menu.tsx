@@ -7,7 +7,7 @@ import { navigate } from '../../actions/navigation';
 const menuItems = [
     { link: '/feed', name: 'home' },
     { link: '/profile', name: 'dashboard' },
-    { link: '/pin', name: 'settings' },
+    { link: '/settings', name: 'settings' },
 ];
 
 export default class Menu extends Component<{}, {}> {
