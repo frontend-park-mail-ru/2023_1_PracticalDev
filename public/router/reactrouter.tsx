@@ -9,6 +9,7 @@ import { store } from '../store/store';
 import PinCreationScreen from '../components/PinCreationPage/PinCreationPage';
 import PinChangingScreen from '../components/PinChangingPage/PinChangingPage';
 import { BoardCreationScreen } from '../components/BoardCreationPage/board-creation-page';
+import { SettingsScreen } from '../components/SettingsPage/settings';
 
 interface RouterProps {
     page: string;
@@ -32,12 +33,12 @@ function resolve(path: string = ''): VNode {
             return <PinCreationScreen key="pin-creation" />;
         case 'pin-changing':
             return <PinChangingScreen key="pin-changing" />;
-        case 'settings':
-            return <div>{'Comming soon...'}</div>;
         case 'pin':
             return <PinScreen key="pin" />;
         case 'board-builder':
             return <BoardCreationScreen key="board-creation" />;
+        case 'settings':
+            return <SettingsScreen key="settings" />;
         default:
             return <div>404</div>;
     }
