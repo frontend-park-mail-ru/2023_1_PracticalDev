@@ -93,13 +93,12 @@ export class SignupScreen extends Component<SignupProps, SignupState> {
     render() {
         return (
             <div className="wrapper">
-                <div className="section_logo">
-                    <AuthLogoSection />
-                </div>
+                <AuthLogoSection illustrationSrc="/static/img/search-animate.svg" />
 
                 <div className="section_login">
                     <h1 className="header__login">Create an account</h1>
-                    <hr />
+
+                    <hr style="width:85%;border:1px solid #276678;" />
                     <div className="form_wrapper">
                         <Form {...formProps} />
                         <div className="form_help_section">

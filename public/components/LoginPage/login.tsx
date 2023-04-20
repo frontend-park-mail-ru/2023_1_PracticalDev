@@ -6,6 +6,7 @@ import CheckAuth from '../../util/check';
 import User from '../../models/user';
 import { validationError } from '../../actions/error';
 import { loginUser } from '../../actions/user';
+import './login.css';
 type AuthProps = {};
 type AuthState = {};
 
@@ -86,10 +87,8 @@ export class LoginScreen extends Component<AuthProps, AuthState> {
                 <AuthLogoSection illustrationSrc="/static/img/animate.svg" />
 
                 <div className="section_login">
-                    <h1 className="header__login">
-                        Welcome back
-                    </h1>
-                    <hr style="width:70%;;border:1px solid #276678;" />
+                    <h1 className="header__login">Welcome back</h1>
+                    <hr style="width:85%;border:1px solid #276678;" />
                     <div className="form_wrapper">
                         <Form {...formProps} />
                         <div className="form_help_section">

@@ -59,3 +59,29 @@ input[name='search'] {
     padding-left: 40px;
 }
 
+@media (max-width: 1199px) {
+    .input__custom {
+        width: 330px;
+    }
+ 
+}
+
+@media (max-width: 991px) {
+    .input__custom {
+        width: 280px;
+    }
+    
+
+}
+
+@media (max-width: 767px) {
+}
+
+@media (max-width: 575px) {
+    .input__custom {
+        width: 250px;
+        font-size: 18px;
+    }
+    
+
+}
