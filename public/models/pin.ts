@@ -54,4 +54,12 @@ export class Pin {
             }
         });
     }
+
+    static LikePin(id: number) {
+        return fetch(`/api/pins/${id}/like`, { method: 'post' });
+    }
+
+    static UnLikePin(id: number) {
+        return fetch(`/api/pins/${id}/like`, { method: 'delete' });
+    }
 }
