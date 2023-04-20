@@ -23,7 +23,7 @@ export class Pin {
     }
 
     static uploadPin(fd: FormData) {
-        return fetch('/api/pins', { method: 'POST', body: fd });
+        return Ajax.post('/api/pins', fd, true);
     }
 
     static deletePin(id: number) {
@@ -56,10 +56,10 @@ export class Pin {
     }
 
     static LikePin(id: number) {
-        return fetch(`/api/pins/${id}/like`, { method: 'post' });
+        return Ajax.post(`/api/pins/${id}/like`, {});
     }
 
     static UnLikePin(id: number) {
-        return fetch(`/api/pins/${id}/like`, { method: 'delete' });
+        return Ajax.delete(`/api/pins/${id}/like`);
     }
 }

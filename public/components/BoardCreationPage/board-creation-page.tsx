@@ -55,31 +55,17 @@ export class BoardCreationScreen extends Component<BoardCreationScreenProps, Boa
     componentDidMount(): void {}
     render() {
         return (
-            <div key="wrapper">
-                <Menu key="menu" />
-                <Header key="header" />
-                <div key="app" id="app">
-                    <div key="main__content" className="main__content">
-                        <div key="container" class="createBoard__formContainer">
-                            <div key="form" className="createBoard__form">
-                                <h1 key="header" className="createBoard__header">
-                                    Create the board
-                                </h1>
-                                <p key="error" className="createBoard_error">
-                                    {this.state.errMsg}
-                                </p>
-                                <input
-                                    key="input"
-                                    className="createBoard__input"
-                                    placeholder="Board name"
-                                    min="1"
-                                    max="10"
-                                ></input>
-                                <button
-                                    key="button"
-                                    className="createBoard__button"
-                                    onclick={this.createBoardHandler.bind(this)}
-                                >
+            <div>
+                <Menu />
+                <Header />
+                <div id="app">
+                    <div className="main__content">
+                        <div className="createBoard__formContainer">
+                            <div className="createBoard__form">
+                                <h1 className="createBoard__header">Create the board</h1>
+                                <p className="createBoard_error">{this.state.errMsg}</p>
+                                <input className="createBoard__input" placeholder="Board name" min="1" max="10"></input>
+                                <button className="createBoard__button" onclick={this.createBoardHandler.bind(this)}>
                                     Create
                                 </button>
                             </div>

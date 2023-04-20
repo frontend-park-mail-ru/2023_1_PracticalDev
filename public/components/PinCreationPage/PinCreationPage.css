@@ -66,12 +66,12 @@
     align-items: center;
 }
 
-.pin-builder__form {
+#pin-builder__form {
     width: 60vw;
     height: 70vh;
 }
 
-.pin-builder__form {
+#pin-builder__form {
     display: flex;
     flex-direction: row;
     justify-content: space-between;

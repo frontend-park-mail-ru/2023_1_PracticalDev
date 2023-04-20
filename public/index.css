@@ -1,28 +1,15 @@
-body {
+body {index.css
     margin: 0;
     position: relative;
     font-size: 16px;
     background-color: #f6f5f5;
 }
 
-.material-symbols-outlined.md-18 {
-    font-size: 18px;
-}
-.material-symbols-outlined.md-24 {
-    font-size: 24px;
-}
 
-.material-symbols-outlined.md-32 {
-    font-size: 32px;
-}
 
-.material-symbols-outlined.md-40 {
-    font-size: 40px;
-}
 
-.material-symbols-outlined.md-48 {
-    font-size: 48px;
-}
+
+
 
 
 .header {

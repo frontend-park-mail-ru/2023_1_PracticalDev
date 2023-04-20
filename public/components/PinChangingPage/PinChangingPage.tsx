@@ -56,7 +56,7 @@ export default class PinChangingScreen extends Component<PinChangingScreenProps,
     };
 
     private onSubmitCallback = () => {
-        const form = document.querySelector('.pin-builder__form') as HTMLFormElement;
+        const form = document.querySelector('#pin-builder__form') as HTMLFormElement;
         const title = form.pinTitle.value as string;
         const description = form.description.value as string;
         const errMsg = this.validate(title, description);
@@ -97,30 +97,21 @@ export default class PinChangingScreen extends Component<PinChangingScreenProps,
 
     render() {
         return (
-            <div key="wrapper">
-                <Menu key="menu" />
-                <Header
-                    key="header"
-                    username="username"
-                    avatarSrc="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdnb.artstation.com%2Fp%2Fassets%2Fimages%2Fimages%2F002%2F488%2F931%2Flarge%2Fjoo-yann-ang-pudge-final.jpg%3F1462351306&f=1&nofb=1&ipt=8936a27eed33b56c3ad763d110d2b2edb817ceab874b153eee08a16dbd873093&ipo=images"
-                />
-                <div key="app" id="app">
-                    <div key="main__content" className="main__content">
+            <div>
+                <Menu />
+                <Header />
+                <div id="app">
+                    <div className="main__content">
                         <div className="pin-builder__container">
-                            <form key="form" className="pin-builder__form" onsubmit={this.onSubmitCallback.bind(this)}>
-                                <div key="container" className="pin-builder__img-container">
+                            <form id="pin-builder__form" onsubmit={this.onSubmitCallback.bind(this)}>
+                                <div className="pin-builder__img-container">
                                     <img src={this.state.pin?.media_source!} className="pin-builder__img" />
                                 </div>
                                 <div className="pin-builder__form-container">
-                                    <h2 key="header" className="pin-builder__header">
-                                        Change a pin
-                                    </h2>
+                                    <h2 className="pin-builder__header">Change a pin</h2>
                                     <div className="pin-builder__inputs-container">
-                                        <div key="errMsg" className="pin-builder__error-msg-container">
-                                            {this.state.errorMsg}
-                                        </div>
+                                        <div className="pin-builder__error-msg-container">{this.state.errorMsg}</div>
                                         <input
-                                            key="pin-title-input"
                                             type="text"
                                             name="pinTitle"
                                             placeholder="Add name of the pin"
@@ -128,7 +119,6 @@ export default class PinChangingScreen extends Component<PinChangingScreenProps,
                                             value={this.state.pin?.title!}
                                         />
                                         <textarea
-                                            key="pin-description-input"
                                             className="pin-builder__description-input"
                                             name="description"
                                             placeholder="Add a Pin Description"

@@ -20,25 +20,25 @@ interface RouterState {}
 function resolve(path: string = ''): VNode {
     switch (path) {
         case 'feed':
-            return <MainScreen key="main" />;
+            return <MainScreen />;
         case 'profile':
-            return <ProfileScreen key="profilescreen" />;
+            return <ProfileScreen />;
         case 'board':
-            return <BoardScreen name="board" />;
+            return <BoardScreen />;
         case 'login':
-            return <LoginScreen key="login" />;
+            return <LoginScreen />;
         case 'signup':
-            return <SignupScreen key="signup" />;
+            return <SignupScreen />;
         case 'pin-builder':
-            return <PinCreationScreen key="pin-creation" />;
+            return <PinCreationScreen />;
         case 'pin-changing':
-            return <PinChangingScreen key="pin-changing" />;
+            return <PinChangingScreen />;
         case 'pin':
-            return <PinScreen key="pin" />;
+            return <PinScreen />;
         case 'board-builder':
-            return <BoardCreationScreen key="board-creation" />;
+            return <BoardCreationScreen />;
         case 'settings':
-            return <SettingsScreen key="settings" />;
+            return <SettingsScreen />;
         default:
             return <div>404</div>;
     }
@@ -133,7 +133,7 @@ class RouterProvider extends Component<RouterProviderProps, RouterProviderState>
     }
 
     render() {
-        return <Router key="router" page={this.state.page} />;
+        return <Router page={this.state.page} />;
     }
 }
 

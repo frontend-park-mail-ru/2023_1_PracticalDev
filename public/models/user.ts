@@ -1,9 +1,19 @@
 import Ajax from '../util/ajax';
-import { IUser, IPin, IBoard } from '../models';
-import { IBoardListItem } from '../components/BoardList/boardlist';
+import { IUser, IBoard } from '../models';
 import Board from './board';
 
 export default class User {
+    static getCSRF() {
+        const [cookie] = document.cookie.split(';').filter((cookie) => {
+            return cookie.startsWith('XSRF-TOKEN');
+        });
+        return cookie ? cookie.split('=')[1] : '';
+    }
+
+    static saveCSRF(token: string) {
+        localStorage.setItem('csrf', token);
+    }
+
     static getMe() {
         return Ajax.get('/api/auth/me').then((res) => {
             if (res.ok) {
@@ -21,6 +31,8 @@ export default class User {
             if (!response.ok) {
                 return Promise.reject(response);
             } else {
+                const token = this.getCSRF();
+                this.saveCSRF(token);
                 return response.body as IUser;
             }
         });
@@ -39,6 +51,7 @@ export default class User {
     static signup(username: string, name: string, email: string, password: string) {
         return Ajax.post('/api/auth/signup', { name: name, username: username, email: email, password: password }).then(
             (res) => {
+                console.log(res);
                 if (res.ok) {
                     return res.body as IUser;
                 }

@@ -82,21 +82,21 @@ export class LoginScreen extends Component<AuthProps, AuthState> {
 
     render() {
         return (
-            <div key="login-wrapper" className="wrapper">
-                <AuthLogoSection key="logo-section" illustrationSrc="/static/img/animate.svg" />
+            <div className="wrapper">
+                <AuthLogoSection illustrationSrc="/static/img/animate.svg" />
 
-                <div key="section_login" className="section_login">
-                    <h1 key="header__login" className="header__login">
+                <div className="section_login">
+                    <h1 className="header__login">
                         Welcome back
                     </h1>
-                    <hr key="hr" style="width:70%;;border:1px solid #276678;" />
-                    <div key="form_wrapper" className="form_wrapper">
-                        <Form key="form" {...formProps} />
-                        <div key="form_help_section" className="form_help_section">
-                            <a href="/signup" key="register_link" id="register_link">
+                    <hr style="width:70%;;border:1px solid #276678;" />
+                    <div className="form_wrapper">
+                        <Form {...formProps} />
+                        <div className="form_help_section">
+                            <a href="/signup" id="register_link">
                                 Don't have an account?
                             </a>
-                            <a href="/signup" key="password_recover_link" id="password_recover_link">
+                            <a href="/signup" id="password_recover_link">
                                 Forgot password?
                             </a>
                         </div>

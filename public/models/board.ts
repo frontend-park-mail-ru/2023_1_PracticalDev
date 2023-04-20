@@ -66,6 +66,6 @@ export default class Board {
     }
 
     static addPinToBoard(boardId: number, pinId: number) {
-        return fetch(`/api/boards/${boardId}/pins/${pinId}`, { method: 'post' });
+        return Ajax.post(`/api/boards/${boardId}/pins/${pinId}`, {});
     }
 }

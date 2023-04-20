@@ -1,5 +1,4 @@
 import { Component, VAttributes, createElement, renderElement } from '@t1d333/pickpinlib';
-import { InitRouter, Display } from './router/init';
 import RouterProvider from './router/reactrouter';
 import { store } from './store/store';
 
@@ -10,6 +9,14 @@ declare global {
         }
     }
 }
+const sw = navigator.serviceWorker;
+sw.register('sw.js', { scope: '/' })
+    .then((registration) => {
+        console.log('SW registration OK:', registration.scope);
+    })
+    .catch((err) => {
+        console.log('SW registration FAIL:', err);
+    });
 
 document.addEventListener('submit', (e: SubmitEvent) => {
     e.preventDefault();
@@ -32,7 +39,7 @@ type AppState = {};
 
 class App extends Component<AppProps, AppState> {
     render() {
-        return <RouterProvider routes={{}} key="routerprovider" />;
+        return <RouterProvider routes={{}} />;
     }
 }
 

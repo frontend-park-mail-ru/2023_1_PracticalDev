@@ -5,7 +5,6 @@ import Menu from '../Menu/menu';
 import { IBoard, IPin, IUser } from '../../models';
 import { store } from '../../store/store';
 import { Pin } from '../../models/pin';
-import { navigate } from '../../actions/navigation';
 import Board from '../../models/board';
 import { loadAvailableBoards } from '../../actions/board';
 
@@ -150,11 +149,11 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
 
     render() {
         return (
-            <div key="wrapper">
-                <Menu key="menu" />
-                <Header key="header" />
-                <div key="app" id="app">
-                    <div key="main__content" className="main__content">
+            <div>
+                <Menu />
+                <Header />
+                <div id="app">
+                    <div className="main__content">
                         <div className="pin-view">
                             <img className="pin-view__image" src={this.state.pin?.media_source!} alt="Pin image"></img>
                             <div className="pin-view__info">
@@ -177,18 +176,12 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
                                     <p key="like-counter" className="pin-view__actions-stat">
                                         {String(this.state.pin ? this.state.pin.n_likes : '')}
                                     </p>
-
-                                    <select key="available-boards" name="boardName" className="pin-view__board-list">
+                                    <select name="boardName" className="pin-view__board-list">
                                         {...this.state.availableBoards.map((board) => {
-                                            return (
-                                                <option key={board.id} value={board.id}>
-                                                    {board.name}
-                                                </option>
-                                            );
+                                            return <option value={board.id}>{board.name}</option>;
                                         })}
                                     </select>
                                     <button
-                                        key="save-btn"
                                         className="pin-view__actions-save-btn"
                                         onclick={this.onSaveCallback.bind(this)}
                                     >

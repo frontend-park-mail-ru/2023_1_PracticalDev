@@ -23,19 +23,19 @@ const InitRouter = (): Router => {
 
     router.Register('feed', {
         getComponent: () => {
-            return <Feed key="feed" />;
+            return <Feed />;
         },
     });
 
     router.Register('profile', {
         getComponent: () => {
-            return <ProfileScreen key="profile-screen" />;
+            return <ProfileScreen />;
         },
     });
 
     router.Register('board', {
         getComponent: () => {
-            return <BoardScreen key="board" />;
+            return <BoardScreen />;
         },
     });
     router.Register('post', {

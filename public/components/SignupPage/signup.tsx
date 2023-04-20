@@ -47,7 +47,6 @@ export class SignupScreen extends Component<SignupProps, SignupState> {
         const formData = store.getState().formData;
 
         try {
-            //TODO: поправить empty string в валидации
             validateUsername(formData.username);
             validateEmail(formData.email);
             //TODO: добавить чекбокс для просмотра пароля
@@ -56,7 +55,7 @@ export class SignupScreen extends Component<SignupProps, SignupState> {
             store.dispatch({
                 type: 'validationErrorMessage',
                 payload: {
-                    message: err.message,
+                    message: err.message === 'Empty string' ? 'All fields must be filled' : err.message,
                 },
             });
             return;
@@ -93,23 +92,21 @@ export class SignupScreen extends Component<SignupProps, SignupState> {
     }
     render() {
         return (
-            <div key="signup-wrapper" className="wrapper">
-                <div key="section_logo" className="section_logo">
-                    <AuthLogoSection key="auth-logo" illustrationSrc="/static/img/search-animate.svg" />
+            <div className="wrapper">
+                <div className="section_logo">
+                    <AuthLogoSection />
                 </div>
 
-                <div key="section_login" className="section_login">
-                    <h1 key="header__login" className="header__login">
-                        Create an account
-                    </h1>
-                    <hr key="hr" style="width:70%;;border:1px solid #276678;" />
-                    <div key="form_wrapper" className="form_wrapper">
-                        <Form key="signup-form" {...formProps} />
-                        <div key="form_help_section" className="form_help_section">
-                            <a href="/login" id="register_link" key="register_link">
+                <div className="section_login">
+                    <h1 className="header__login">Create an account</h1>
+                    <hr />
+                    <div className="form_wrapper">
+                        <Form {...formProps} />
+                        <div className="form_help_section">
+                            <a href="/login" id="register_link">
                                 Already have an account?
                             </a>
-                            <a href="/signup" id="password_recover_link" key="password_recover_link">
+                            <a href="/signup" id="password_recover_link">
                                 Forgot password?
                             </a>
                         </div>
