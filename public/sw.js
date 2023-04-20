@@ -13,7 +13,7 @@ this.addEventListener('install', (event) => {
     event.waitUntil(caches.open(cacheName).then((cache) => cache.addAll(urls)));
 });
 
-this.addEventListener('activate', (_event) => {
+this.addEventListener('activate', () => {
     return this.clients.claim();
 });
 
