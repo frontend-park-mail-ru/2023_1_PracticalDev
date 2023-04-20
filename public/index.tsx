@@ -10,7 +10,8 @@ declare global {
     }
 }
 const sw = navigator.serviceWorker;
-sw.register('sw.js', { scope: '/' })
+
+sw.register('/sw.js', { scope: '/' })
     .then((registration) => {
         console.log('SW registration OK:', registration.scope);
     })

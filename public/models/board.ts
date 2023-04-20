@@ -1,4 +1,4 @@
-import Ajax from '../util/ajax';
+import Ajax, { HEADERS } from '../util/ajax';
 import { IBoard, IPin } from '../models';
 
 export default class Board {
@@ -23,7 +23,13 @@ export default class Board {
     }
 
     static deleteBoard(id: number) {
-        return fetch(`/api/boards/${id}`, { method: 'delete' }).then((res) => {
+        // return Ajax.delete(`/api/boards/${id}`);
+        fetch(`/api/boards/${id}`, {
+            method: 'delete',
+            headers: {
+                [HEADERS.csrf]: localStorage.getItem('csrf'),
+            } as HeadersInit,
+        }).then((res) => {
             if (res.status !== 200) {
                 return Promise.reject(res);
             }
@@ -49,10 +55,12 @@ export default class Board {
     }
 
     static deletePinFromBoard(boardId: number, pinId: number) {
-        return Ajax.delete(`/api/boards/${boardId}/pins/${pinId}`).then((res) => {
-            if (res.status !== 204) {
-                return Promise.reject(res);
-            }
+        // return Ajax.delete(`/api/boards/${boardId}/pins/${pinId}`);
+        return fetch(`/api/boards/${boardId}/pins/${pinId}`, {
+            method: 'delete',
+            headers: {
+                [HEADERS.csrf]: localStorage.getItem('csrf'),
+            } as HeadersInit,
         });
     }
 

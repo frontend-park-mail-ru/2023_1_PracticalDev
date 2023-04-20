@@ -105,7 +105,7 @@ export class Pin extends Component<PinProps, PinState> {
     };
 
     private onDeletePin = (e: MouseEvent) => {
-        fetch(`/api/boards/${store.getState().boardId}/pins/${this.props.pin.id}`, { method: 'delete' }).then((res) => {
+        Board.deletePinFromBoard(store.getState().boardId, this.props.pin.id).then((res) => {
             const pins = store.getState().pins;
 
             store.dispatch({

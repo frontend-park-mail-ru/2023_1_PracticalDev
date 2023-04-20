@@ -9,7 +9,7 @@ const AJAX_METHODS = {
     DELETE: 'DELETE',
 };
 
-const HEADERS = {
+export const HEADERS = {
     csrf: 'X-XSRF-TOKEN',
 };
 

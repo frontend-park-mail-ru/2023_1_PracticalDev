@@ -1,4 +1,4 @@
-import Ajax from '../util/ajax';
+import Ajax, { HEADERS } from '../util/ajax';
 import { IPin, IUser } from '../models';
 export class Pin {
     static getUserPins(id: number) {
@@ -28,7 +28,13 @@ export class Pin {
 
     static deletePin(id: number) {
         //TODO: пофиксить ajax
-        return fetch(`/api/pins/${id}`, { method: 'delete' });
+        // return Ajax.delete(`/api/pins/${id}`);
+        return fetch(`/api/pins/${id}`, {
+            method: 'delete',
+            headers: {
+                [HEADERS.csrf]: localStorage.getItem('csrf'),
+            } as HeadersInit,
+        });
     }
 
     static updatePin(pin: IPin) {

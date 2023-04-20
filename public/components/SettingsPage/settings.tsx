@@ -2,10 +2,7 @@ import { Component, createElement } from '@t1d333/pickpinlib';
 import { Header } from '../Header/header';
 import Menu from '../Menu/menu';
 import { IPin, IUser } from '../../models';
-import Feed from '../Feed/feed';
 import { store } from '../../store/store';
-import Ajax from '../../util/ajax';
-import { Form } from '../Form/form';
 import User from '../../models/user';
 import { loadUser } from '../../actions/user';
 
@@ -114,7 +111,6 @@ export class SettingsScreen extends Component<SettingsScreenProps, SettingsScree
     }
 
     render() {
-        console.log(this.state);
         return (
             <div key="wrapper">
                 <Menu key="menu" />
