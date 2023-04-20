@@ -116,8 +116,6 @@ class RouterProvider extends Component<RouterProviderProps, RouterProviderState>
         });
 
         window.onpopstate = (event) => {
-            console.log(window.location.href);
-            console.log('/' + window.location.href.replace(/(.+\w\/)(.+)/, '/$2').split('/')[1]);
             store.dispatch({
                 type: 'navigate',
                 payload: {
