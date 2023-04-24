@@ -22,7 +22,7 @@ input[name='search'] {
     padding: 0px 10px;
     height: 50px;
     background: #f6f5f5;
-    border: 1px solid #1687A7;
+    border: 1px solid #1687a7;
     border-radius: 15px;
     display: block;
 }
@@ -59,3 +59,9 @@ input[name='search'] {
     padding-left: 40px;
 }
 
+@media (max-width: 600px) {
+    input[name='search'] {
+        width: 100%;
+        margin-left: 10px;
+    }
+}

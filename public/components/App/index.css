@@ -1,7 +1,7 @@
 #root {
     width: 100%;
     height: 100%;
-} 
+}
 
 body {
     margin: 0;
@@ -34,7 +34,6 @@ body {
     font-variation-settings: 'FILL' 1;
 }
 
-
 #error_msg_wrapper {
     margin-top: 20px;
     display: flex;
@@ -51,7 +50,6 @@ body {
     color: #e90064;
 }
 
-
 #app {
     position: absolute;
     top: 80px;
@@ -64,73 +62,68 @@ body {
 .main__content {
     font-size: 20px;
     text-align: center;
-    margin: auto auto;
 }
-
 
 /* Login */
 
-
-
 .wrapper {
-  padding: 0px;
-  display: flex;
-  flex-direction: row;
-  background: #F6F5F5;
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    background: #f6f5f5;
 }
 
 .section_logo {
-  height: 100vh;
-  width: 66vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+    height: 100vh;
+    width: 66vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-
-
 .form_wrapper {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .section_login {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 67vw;
-  background: #F6F5F5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 67vw;
+    background: #f6f5f5;
 }
 
 .header__login {
-  font-family: 'Inter';
-  color: #276678;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 64px;
-  line-height: 77px;
+    font-family: 'Inter';
+    color: #276678;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 64px;
+    line-height: 77px;
 }
 
 .logo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
-
 
 .logo_span {
-  font-family: 'Inter';
-  color: #276678;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 48px;
+    font-family: 'Inter';
+    color: #276678;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 48px;
 }
 
-
-
-
-
-
+@media (max-width: 600px) {
+    #app {
+        top: 80px;
+        left: 0px;
+        width: 100%;
+    }
+}
