@@ -74,7 +74,7 @@
     }
 }
 
-@media (max-width: 840px) {
+@media (max-width: 767px) {
  
     .auth-logo-section__name {
         font-size: 32px;

@@ -1,16 +1,17 @@
-import { Component, VNode, createElement } from '@t1d333/pickpinlib';
+import { Component, createElement } from '@t1d333/pickpinlib';
 import Menu from '../Menu/menu';
 import { Header } from '../Header/header';
 import { ProfileTab } from '../ProfileTab/profile-tab';
 import { ProfileHeader } from '../ProfileHeader/profile-header';
 
 import { store } from '../../store/store';
-import { IPin, IBoard, IUser, IBoardWithPins } from '../../models';
+import { IPin, IUser, IBoardWithPins } from '../../models';
 import User from '../../models/user';
 import { loadProfile, loadUser } from '../../actions/user';
+import { navigate } from '../../actions/navigation';
 
 type ProfileProps = {};
-type ProfileState = { user: IUser | undefined; pins: IPin[]; boards: IBoardWithPins[] };
+type ProfileState = { user: IUser | undefined; pins: IPin[]; boards: IBoardWithPins[]; followers: IUser[], followees: IUser[] };
 export class ProfileScreen extends Component<ProfileProps, ProfileState> {
     private unsubs: Function[] = [];
     constructor() {
@@ -19,6 +20,8 @@ export class ProfileScreen extends Component<ProfileProps, ProfileState> {
             user: undefined,
             pins: [],
             boards: [],
+            followers: [],
+            followees: [],
         };
     }
     profileLoadHandler() {
@@ -32,6 +35,8 @@ export class ProfileScreen extends Component<ProfileProps, ProfileState> {
                 user: store.getState().user!,
                 pins: store.getState().profilePins,
                 boards: store.getState().profileBoards,
+                followers: store.getState().followers,
+                followees: store.getState().followees,
             };
         });
     }
@@ -43,18 +48,19 @@ export class ProfileScreen extends Component<ProfileProps, ProfileState> {
                 return res;
             })
             .then((res) => {
-                User.getUserProfile(res.id).then(([pins, boards]) => {
-                    loadProfile(pins!, boards!);
+                User.getUserProfile(res.id).then(([pins, boards, followers, followees]) => {
+                    loadProfile(pins!, boards!, followers!, followees!);
                 });
             })
             .catch((res) => {
                 if (res.status === 401) {
-                    store.dispatch({ type: 'navigate', payload: { page: '/login' } });
+                    navigate('/login')
                 }
             });
 
         this.unsubs.push(store.subscribe(this.profileLoadHandler.bind(this)));
     }
+
     componentWillUnmount(): void {
         for (const func of this.unsubs) {
             func();
@@ -71,7 +77,12 @@ export class ProfileScreen extends Component<ProfileProps, ProfileState> {
                         <div className="profile__container">
                             <ProfileHeader user={this.state.user} />
                             <ProfileTab
-                                userContent={{ pins: this.state.pins || [], boards: this.state.boards || [] }}
+                                userContent={{
+                                    pins: this.state.pins || [],
+                                    boards: this.state.boards || [],
+                                    followers: this.state.followers || [],
+                                    followees: this.state.followees || []
+                                }}
                             />
                         </div>
                     </div>
@@ -79,4 +90,4 @@ export class ProfileScreen extends Component<ProfileProps, ProfileState> {
             </div>
         );
     }
-}
+

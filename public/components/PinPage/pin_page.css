@@ -63,12 +63,13 @@
     font-size: 32px;
     font-weight: bold;
     font-family: 'Inter', sans-serif;
+    width: 5%;
 }
 
 .pin-view__actions-save-btn {
-    color: #E8E8E8;
-    background: #1687A7;
-    height: 1.5em; 
+    color: #e8e8e8;
+    background: #1687a7;
+    height: 1.5em;
     width: 30%;
     border-radius: 0.25em;
     font-size: 1em;
@@ -80,16 +81,16 @@
 
 .pin-view__board-list {
     border: none;
-    font-family: "Inter";
+    font-family: 'Inter';
     font-size: 1em;
     outline: 0;
     border: 0;
     box-shadow: none;
     height: 1.6em;
     border-radius: 7px;
-    width: 40%; 
-    color: #1687a7;;
-    background-color: #D3E0EA;
+    width: 40%;
+    color: #1687a7;
+    background-color: #d3e0ea;
     cursor: pointer;
 }
 
@@ -147,8 +148,8 @@
     margin-left: auto;
     height: 3em;
     width: 6em;
-    color: #3C3B3B;
-    background: #D3E0EA;
+    color: #3c3b3b;
+    background: #d3e0ea;
     font-size: 1em;
     font-weight: 600;
     font-family: 'Inter', sans-serif;
@@ -167,9 +168,26 @@
     font-family: 'Inter', sans-serif;
 }
 
-
 .pin-view__response-container {
     height: 20px;
     font-family: 'Inter';
-    color: #1687A7;
+    color: #1687a7;
+}
+
+.pin-view__follow-btn {
+    width: 40%;
+    background: #1687a7;
+    color: #d3e0ea;
+    font-weight: bold;
+    font-family: 'Inter';
+    font-size: 20px;
+    border: none;
+    padding: 10px 0;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.pin-view__follow-btn.active {
+    color: #1687a7;
+    background: #d3e0ea;
 }

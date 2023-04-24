@@ -14,6 +14,7 @@
     flex-direction: column;
 }
 .profile__tab-btn, .profile__tab-btn-active {
+    user-select: none; 
     font-family: "Inter";
     font-size: 20px;
     cursor: pointer;

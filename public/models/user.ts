@@ -17,7 +17,7 @@ export default class User {
     static getMe() {
         return Ajax.get('/api/auth/me').then((res) => {
             if (res.ok) {
-                return res.body;
+                return res.body as IUser;
             }
             return Promise.reject(res);
         });
@@ -67,24 +67,68 @@ export default class User {
             }
         });
 
-        const boardsReq = Board.getBoards()
-            .then((boards) => {
-                return boards;
-            })
-            .then((boards) => {
-                return Promise.all(
-                    boards.map((board: IBoard) => {
-                        return Board.getBoardPins(board.id).then((res) => {
-                            return { ...board, pins: res || [] };
-                        });
-                    }),
-                );
-            });
-        return Promise.all([pinsReq, boardsReq]);
+        const boardsReq = Board.getBoards().then((boards) => {
+            return Promise.all(
+                boards.map((board: IBoard) => {
+                    return Board.getBoardPins(board.id).then((res) => {
+                        return { ...board, pins: res || [] };
+                    });
+                }),
+            );
+        });
+
+        const followersReq = Ajax.get(`/api/users/${id}/followers`).then((res) => {
+            if (res.ok) {
+                return res.body.followers as IUser[];
+            }
+        });
+
+        const followeesReq = Ajax.get(`/api/users/${id}/followees`).then((res) => {
+            if (res.ok) {
+                return res.body.followees as IUser[];
+            }
+        });
+        return Promise.all([pinsReq, boardsReq, followersReq, followeesReq]);
     };
 
     static patchUser = async (fd: FormData) => {
         const resp = await Ajax.patch('/api/profile', fd);
         return resp;
     };
+
+    static getFollowers(id: number) {
+        return Ajax.get(`/api/users/${id}/followers`).then((res) => {
+            if (res.ok) {
+                return res.body.followers as IUser[];
+            } else {
+                return Promise.reject(res);
+            }
+        });
+    }
+
+    static getFollowees(id: number) {
+        return fetch(`/api/users/${id}/followees/`)
+            .then((res) => {
+                console.log(res);
+                let a;
+                try {
+                    a = res.json();
+                } catch (e) {
+                    console.log(e);
+                }
+                return a;
+            })
+            .then((res) => {
+                console.log(res);
+                return res;
+            });
+    }
+
+    static follow(id: number) {
+        return Ajax.post(`/api/users/${id}/following`, {});
+    }
+
+    static unfollow(id: number) {
+        return Ajax.delete(`/api/users/${id}/following`);
+    }
 }

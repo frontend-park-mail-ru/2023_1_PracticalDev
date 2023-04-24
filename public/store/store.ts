@@ -21,6 +21,8 @@ interface StoreState {
     boardView: IBoard | undefined;
     boardId: number;
     availableBoards: IBoard[];
+    followers: IUser[];
+    followees: IUser[];
 }
 
 const initialState: StoreState = {
@@ -41,6 +43,8 @@ const initialState: StoreState = {
     pinChangingErrorMsg: '',
     type: '',
     boardId: 0,
+    followers: [],
+    followees: [],
 };
 
 const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: Action) => {
@@ -105,6 +109,8 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 ...state,
                 profilePins: action.payload?.profilePins,
                 profileBoards: action.payload?.profileBoards,
+                followers: action.payload?.followers,
+                followees: action.payload?.followees,
                 type: 'loadedProfile',
             };
         case 'pinChanging':
