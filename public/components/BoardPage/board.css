@@ -1,0 +1,22 @@
+.board-header {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+}
+.board-header__name {
+    font-family: "Inter";
+    color: #276678;
+}
+
+.board-header__btn {
+    padding: 5px 5px;
+    margin-left: 5px;
+    background: #1687A7;
+    color: #D3E0EA;
+    border: none;
+    
+    cursor: pointer;
+    border-radius: 5px;
+}
+

@@ -1,0 +1,113 @@
+.pin-builder__header {
+    font-family: 'Inter';
+    color: #276678;
+}
+
+
+.pin-builder__submit-btn-container {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    justify-content: end;
+}
+
+.pin-builder__inputs-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 50%;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.pin-builder__error-msg-container {
+    height: 21px;
+    font-family: 'Inter';
+    font-size: 20px;
+    color: #f00;
+}
+
+.pin-builder__submit-btn {
+    font-family: 'Inter';
+    background-color: #276678;
+    border: none;
+    cursor: pointer;
+    color: #d3e0ea;
+    border-radius: 10px;
+    font-size: 20px; 
+    width: 35%;
+    height: 150%; 
+}
+
+.pin-builder__container {
+    margin-top: 30px;
+    width: 100%;
+    height: 100%;
+    background: #F6F5F5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pin-builder__form {
+    width: 60vw;
+    height: 70vh;
+}
+
+.pin-builder__form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.pin-builder__img-input-container {
+    width: 40%;
+    height: 100%;
+}
+
+.pin-builder__label {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    font-family: "Inter";
+    color: #276678;
+    font-size: 32px;
+    width: 100%;
+    height: 100%;
+    background: #D9D9D9;
+}
+
+.pin-builder__form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 55%;
+    border-radius: 10px;
+    border: #D9D9D9 2px solid;
+}
+
+
+.pin-builder__form-container input {
+   width: 80%;
+}
+
+.pin-builder__description-input {
+    font-family: 'Inter';
+    font-style: normal;
+    font-size: 20px;
+    line-height: 17px;
+    color: #276678;
+    max-width: 80%;
+    min-width: 80%;
+    max-height: 50%;
+    min-height: 50%;
+    border-radius: 20px;
+    background: #f6f5f5;
+    border: 1px solid #1687A7;
+    border-radius: 15px;
+    padding: 10px 10px;
+ 
+}

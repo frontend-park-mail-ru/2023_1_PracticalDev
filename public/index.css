@@ -5,31 +5,32 @@ body {
     background-color: #f6f5f5;
 }
 
-.material-icons.md-18 {
+.material-symbols-outlined.md-18 {
     font-size: 18px;
 }
-.material-icons.md-24 {
+.material-symbols-outlined.md-24 {
     font-size: 24px;
 }
 
-.material-icons.md-32 {
+.material-symbols-outlined.md-32 {
     font-size: 32px;
 }
 
-.material-icons.md-40 {
+.material-symbols-outlined.md-40 {
     font-size: 40px;
 }
 
-.material-icons.md-48 {
+.material-symbols-outlined.md-48 {
     font-size: 48px;
 }
 
-#header_wrapper {
+
+.header {
     position: fixed;
     left: 100px;
 }
 
-#header {
+.header {
     width: calc(100vw - 100px);
     height: 80px;
     background-color: #f6f5f5;
@@ -56,33 +57,6 @@ body {
     cursor: pointer;
     color: #f6f5f5;
     background-color: #1687a7;
-}
-
-#error_msg_wrapper {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: row;
-    max-width: 100%;
-    justify-content: center;
-    align-items: center;
-}
-
-#error_msg {
-    font-family: 'Inter';
-    max-width: 100%;
-    font-size: 18px;
-    color: #e90064;
-}
-
-input[name='search'] {
-    margin-top: 0;
-    margin-right: 10px;
-    margin-left: 10px;
-    background: #f6f5f5;
-    width: 90%;
-    height: 50px;
-    border: 2px solid #1687a7;
-    border-radius: 15px;
 }
 
 #sidebar_logo_container {

@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "lib": ["es2017", "dom"],
+        "jsx": "react",
+        "jsxFactory": "createElement",
+        "moduleDetection": "auto",
+        "target": "ES6",
+        "module": "es2015",
+        "rootDirs": ["./public"],
+        "outDir": "./dist",
+        "strict": true,
+        "allowSyntheticDefaultImports": true,
+        "experimentalDecorators": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "moduleResolution": "node",
+        "noEmit": true
+    }
+}

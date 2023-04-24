@@ -1,0 +1,90 @@
+.boardlist {
+    display: grid; 
+    grid-template-columns: repeat(4, 1fr); 
+    justify-items: center;
+    grid-row-gap: 2em;
+}
+
+
+.boardlist-item {
+   cursor: pointer;
+   width: 300px;
+   height: 300px;
+   transition-duration: .3s;
+   background: #F6F5F5;
+   display: grid; 
+   grid-row-gap: 2px;
+   grid-column-gap: 2px;
+   justify-items: center;
+   grid-template-columns: 200px 100px;
+   grid-template-rows: repeat(2, 150px);
+}
+
+.boardlist-item:hover {
+    opacity: 0.4;    
+    animation: linear 0.2s;
+}
+
+.boardlist-item__first-image-wrapper {
+    background: #FFF;
+    
+    width: 200px;
+    height: 300px;
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 1;
+    grid-row-end: 3;
+}
+
+
+.boardlist-item__second-image-wrapper {
+    background: #FFF;
+    width: 100px;
+    height: 149px;
+    border-radius: 0 10px 0 0;
+    grid-column-start: 2;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+
+        
+
+.boardlist-item__third-image-wrapper {
+    background: #FFF;
+    width: 100px;
+    border-radius: 0 0 10px 0;
+    height: 149px;
+    grid-column-start: 2;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
+}
+
+.boardlist-item__first-image, .boardlist-item__second-image, .boardlist-item__third-image {
+    border-radius: 0 10px 0 0;
+    display:grid; 
+    object-fit: cover;
+    width: 100%;    
+    height: 100%;    
+}
+
+.boardlist-item__first-image {
+    border-radius: 10px 0 0 10px;
+    
+}
+
+.boardlist-item__second-image {
+    border-radius: 0 10px 0 0;
+}
+
+.boardlist-item__third-image {
+    border-radius: 0 0 10px 0;
+}
+
+.boardlist-item__name {
+    font-family: "Inter";
+    font-size: 20px;
+    color: #1687A7;
+}

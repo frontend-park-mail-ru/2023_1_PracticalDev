@@ -1,0 +1,48 @@
+.profile__tab-buttons {
+    display: inline;
+}
+
+.profile__tab-menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.profile__tab-container {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+}
+.profile__tab-btn, .profile__tab-btn-active {
+    font-family: "Inter";
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    color: #1687A7;
+    background: #F6F5F5;
+    padding: 5px 10px;
+    
+}
+
+.profile__tab-btn-active {
+    color: #F6F5F5;
+    background:#1687A7; 
+}
+
+.profile__creation-btn {
+    border: none;
+    cursor: pointer;
+    margin: 0px;
+    background: none;
+}
+
+.profile__creation-btn-icon {
+    background:#1687A7; 
+    color: #F6F5F5;
+    border-radius: 5px;
+}
+
+
+.profile__tab-content {
+    margin-top: 30px;
+}
