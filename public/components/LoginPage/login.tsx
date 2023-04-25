@@ -95,9 +95,6 @@ export class LoginScreen extends Component<AuthProps, AuthState> {
                             <a href="/signup" id="register_link">
                                 Don't have an account?
                             </a>
-                            <a href="/signup" id="password_recover_link">
-                                Forgot password?
-                            </a>
                         </div>
                     </div>
                 </div>

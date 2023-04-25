@@ -10,24 +10,92 @@ import { loginUser } from '../../actions/user';
 type SignupProps = {};
 type SignupState = {};
 
+const debounce = (func: Function, timeout = 600) => {
+    let timer: number;
+    return (...args: any[]) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            func.apply(this, args);
+        }, timeout);
+    };
+};
+
 const formInputs = [
     {
         name: 'username',
         type: 'text',
         placeholder: 'Enter your username',
         icon: 'person',
+        validator: debounce((e) => {
+            try {
+                validateUsername(e.target.value);
+            } catch (err: any) {
+                store.dispatch({
+                    type: 'validationErrorMessage',
+                    payload: {
+                        message: err.message === 'Empty string' ? 'All fields must be filled' : err.message,
+                    },
+                });
+                return;
+            }
+            store.dispatch({
+                type: 'validationErrorMessage',
+                payload: {
+                    message: '',
+                },
+            });
+        }),
     },
     {
         name: 'email',
         type: 'email',
         placeholder: 'Enter your email',
         icon: 'alternate_email',
+        validator: debounce((e) => {
+            try {
+                validateEmail(e.target.value);
+            } catch (err: any) {
+                store.dispatch({
+                    type: 'validationErrorMessage',
+                    payload: {
+                        message: err.message === 'Empty string' ? 'Empty email' : err.message,
+                    },
+                });
+                return;
+            }
+            store.dispatch({
+                type: 'validationErrorMessage',
+                payload: {
+                    message: '',
+                },
+            });
+        }),
     },
+
     {
         name: 'password',
         type: 'password',
         placeholder: 'Enter your password',
         icon: 'lock',
+        validator: debounce((e) => {
+            try {
+                validatePassword(e.target.value);
+            } catch (err: any) {
+                store.dispatch({
+                    type: 'validationErrorMessage',
+                    payload: {
+                        message: err.message === 'Empty string' ? 'All fields must be filled' : err.message,
+                    },
+                });
+                return;
+            }
+            store.dispatch({
+                type: 'validationErrorMessage',
+                payload: {
+                    message: '',
+                },
+            });
+        }),
     },
 ];
 
@@ -47,17 +115,9 @@ export class SignupScreen extends Component<SignupProps, SignupState> {
         const formData = store.getState().formData;
 
         try {
-            validateUsername(formData.username);
             validateEmail(formData.email);
-            //TODO: добавить чекбокс для просмотра пароля
             validatePassword(formData.password);
-        } catch (err: any) {
-            store.dispatch({
-                type: 'validationErrorMessage',
-                payload: {
-                    message: err.message === 'Empty string' ? 'All fields must be filled' : err.message,
-                },
-            });
+        } catch (err) {
             return;
         }
 
@@ -104,9 +164,6 @@ export class SignupScreen extends Component<SignupProps, SignupState> {
                         <div className="form_help_section">
                             <a href="/login" id="register_link">
                                 Already have an account?
-                            </a>
-                            <a href="/signup" id="password_recover_link">
-                                Forgot password?
                             </a>
                         </div>
                     </div>
