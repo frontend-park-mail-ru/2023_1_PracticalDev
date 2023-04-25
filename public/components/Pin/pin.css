@@ -1,5 +1,3 @@
-
-
 :root {
     --card_width: 250px;
     --row_increment: 10px;
@@ -28,11 +26,11 @@
 
 .card {
     padding: 0;
-    margin: 15px 10px;
+    margin-top: 10px;
     position: relative;
     border-radius: var(--card_border_radius);
     overflow: hidden;
-
+    justify-self: center;
     box-shadow: 1px;
 }
 
@@ -47,6 +45,7 @@
 .card_large {
     grid-row-end: span var(--card_large);
 }
+
 .card {
     width: 236px;
     border-radius: 15px;
@@ -100,7 +99,6 @@
     font-size: 18px;
     color: #f6f5f5;
     border-radius: 15px;
-    margin-right: 25px;
     background: #1687a7;
     padding: 10px 20px;
     cursor: pointer;
@@ -148,6 +146,25 @@
     top: 0px;
 }
 
-/*.pin_image img{
-    max-height: 100%;
-}*/
+@media (max-width: 600px) {
+    :root {
+        --card_width: 170px;
+        --row_increment: 10px;
+        --card_border_radius: 16px;
+        --card_small: 22;
+        --card_medium: 25;
+        --card_large: 30;
+    }
+    .card {
+        width: 160px;
+    }
+}
+
+@media (max-width: 340px) {
+    :root {
+        --card_width: 150px;
+    }
+    .card {
+        width: 140px;
+    }
+}

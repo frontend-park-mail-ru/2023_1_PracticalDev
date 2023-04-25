@@ -1,34 +1,32 @@
 .boardlist {
-    display: grid; 
-    grid-template-columns: repeat(auto-fill, 300px); 
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 300px);
     grid-row-gap: 2em;
     grid-column-gap: 1em;
 }
 
-
 .boardlist-item {
-   cursor: pointer;
-   width: 300px;
-   height: 300px;
-   transition-duration: .3s;
-   background: #F6F5F5;
-   display: grid; 
-   grid-row-gap: 2px;
-   grid-column-gap: 2px;
-   justify-items: center;
-   grid-template-columns: 200px 100px;
-   grid-template-rows: repeat(2, 150px);
+    cursor: pointer;
+    width: 300px;
+    height: 300px;
+    transition-duration: 0.3s;
+    background: #f6f5f5;
+    display: grid;
+    grid-row-gap: 2px;
+    grid-column-gap: 2px;
+    justify-items: center;
+    grid-template-columns: 200px 100px;
+    grid-template-rows: repeat(2, 150px);
 }
 
 .boardlist-item:hover {
-    opacity: 0.4;    
+    opacity: 0.4;
     animation: linear 0.2s;
 }
 
 .boardlist-item__first-image-wrapper {
-    background: #FFF;
-    
+    background: #fff;
+
     width: 200px;
     height: 300px;
     grid-column-start: 1;
@@ -37,9 +35,8 @@
     grid-row-end: 3;
 }
 
-
 .boardlist-item__second-image-wrapper {
-    background: #FFF;
+    background: #fff;
     width: 100px;
     height: 149px;
     border-radius: 0 10px 0 0;
@@ -49,11 +46,8 @@
     grid-row-end: 2;
 }
 
-
-        
-
 .boardlist-item__third-image-wrapper {
-    background: #FFF;
+    background: #fff;
     width: 100px;
     border-radius: 0 0 10px 0;
     height: 149px;
@@ -63,17 +57,18 @@
     grid-row-end: 3;
 }
 
-.boardlist-item__first-image, .boardlist-item__second-image, .boardlist-item__third-image {
+.boardlist-item__first-image,
+.boardlist-item__second-image,
+.boardlist-item__third-image {
     border-radius: 0 10px 0 0;
-    display:grid; 
+    display: grid;
     object-fit: cover;
-    width: 100%;    
-    height: 100%;    
+    width: 100%;
+    height: 100%;
 }
 
 .boardlist-item__first-image {
     border-radius: 10px 0 0 10px;
-    
 }
 
 .boardlist-item__second-image {
@@ -85,7 +80,37 @@
 }
 
 .boardlist-item__name {
-    font-family: "Inter";
+    font-family: 'Inter';
     font-size: 20px;
-    color: #1687A7;
+    color: #1687a7;
+}
+
+@media (max-width: 600px) {
+    .boardlist {
+        justify-content: center;
+        grid-template-columns: repeat(auto-fill, 150px);
+    }
+
+    .boardlist-item {
+        width: 150px;
+        height: 150px;
+        grid-template-columns: 100px 50px;
+        grid-template-rows: repeat(2, 75px);
+    }
+
+    .boardlist-item__first-image-wrapper {
+        width: 100px;
+        height: 150px;
+    }
+
+    .boardlist-item__second-image-wrapper {
+        background: #fff;
+        width: 50px;
+        height: 74px;
+    }
+
+    .boardlist-item__third-image-wrapper {
+        width: 50px;
+        height: 74px;
+    }
 }

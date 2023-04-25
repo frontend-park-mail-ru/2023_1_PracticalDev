@@ -16,19 +16,21 @@
     justify-content: end;
 }
 
-.profile__username, .profile__name, .profile__surname {
-    font-family: "Inter";
-    color: #276678; 
+.profile__username,
+.profile__name,
+.profile__surname {
+    font-family: 'Inter';
+    color: #276678;
     size: 20px;
-} 
+}
 
 .profile__username {
     text-align: start;
     font-size: 28px;
 }
 
-.profile__name, .profile__surname {
-    
+.profile__name,
+.profile__surname {
     font-size: 22px;
 }
 .profile__name {
@@ -40,20 +42,18 @@
     flex-direction: row;
     justify-content: space-between;
     margin-top: 10px;
-    
 }
 
 .profile__statistics {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: end;
 }
 
 .profile__stat-container {
     display: flex;
     flex-direction: column;
-    margin-left: 10px; 
-    
+    margin-left: 10px;
 }
 
 .profile__stat-counter {
@@ -66,7 +66,8 @@
     font-size: 22px;
 }
 
-.profile__stat-counter, .profile__stat-name {
-   font-family: "Inter"; 
+.profile__stat-counter,
+.profile__stat-name {
+    font-family: 'Inter';
     color: #276678;
 }

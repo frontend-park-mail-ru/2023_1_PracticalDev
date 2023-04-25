@@ -6,6 +6,7 @@ import { logoutUser } from '../../actions/user';
 import { navigate } from '../../actions/navigation';
 const menuItems = [
     { link: '/feed', name: 'home' },
+    { link: '/messenger', name: 'chat' },
     { link: '/profile', name: 'dashboard' },
     { link: '/settings', name: 'settings' },
 ];

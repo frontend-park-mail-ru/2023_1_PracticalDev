@@ -1,16 +1,9 @@
-body {index.css
+body {
     margin: 0;
     position: relative;
     font-size: 16px;
     background-color: #f6f5f5;
 }
-
-
-
-
-
-
-
 
 .header {
     position: fixed;
@@ -32,7 +25,6 @@ body {index.css
     color: #1687a7;
     border: none;
     cursor: pointer;
-    margin-right: 20px;
     background-color: inherit;
 }
 
@@ -146,4 +138,13 @@ body {index.css
     font-size: 20px;
     text-align: center;
     margin: auto auto;
+}
+
+@media (max-width: 1199px) {
+}
+
+@media (max-width: 991px) {
+}
+
+@media (max-width: 867px) {
 }
