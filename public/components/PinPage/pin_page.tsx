@@ -47,7 +47,7 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
 
         Board.addPinToBoard(parseInt(select.value), this.state.pin?.id!).then((res) => {
             switch (res.status) {
-                case 200:
+                case 204:
                     this.setState((s) => {
                         return { ...s, response: 'Pin saved successfully!' };
                     });
