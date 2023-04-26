@@ -1,6 +1,6 @@
 .pin-view {
     width: 50vw;
-    height: 60vw;
+    height: auto;
     max-height: 80vh;
     margin: 20px auto 80px;
     display: flex;
@@ -11,9 +11,8 @@
 }
 
 .pin-view__image {
-    width: 50%;
-    height: auto;
-    object-fit: cover;
+    width: 25vw;
+    height: 35vw;
 }
 
 .pin-view__info {

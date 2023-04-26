@@ -53,7 +53,7 @@ export class LoginScreen extends Component<AuthProps, AuthState> {
             return;
         }
 
-        if (formData.name === '' || formData.password === '') {
+        if (formData.email === '' || formData.password === '') {
             validationError('All fields must be filled!');
             return;
         }

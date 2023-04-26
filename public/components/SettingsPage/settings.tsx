@@ -44,6 +44,9 @@ export class SettingsScreen extends Component<SettingsScreenProps, SettingsScree
     private onUsernameSubmitCallback = () => {
         const form = document.getElementById('usernameForm') as HTMLFormElement;
         const fd = new FormData();
+        if (!form.username.value) {
+            return;
+        }
         fd.append('username', form.username.value);
         User.patchUser(fd).then(async (resp) => {
             let data = resp.body;
@@ -56,7 +59,12 @@ export class SettingsScreen extends Component<SettingsScreenProps, SettingsScree
     private onNameSubmitCallback = () => {
         const form = document.getElementById('nameForm') as HTMLFormElement;
         const fd = new FormData();
+        if (!form.username.value) {
+            return;
+        }
+
         fd.append('name', form.username.value);
+
         User.patchUser(fd).then(async (resp) => {
             let data = resp.body;
             const user = store.getState().user;
@@ -80,6 +88,9 @@ export class SettingsScreen extends Component<SettingsScreenProps, SettingsScree
     private onImageSubmitCallback = () => {
         const form = document.getElementById('imageForm') as HTMLFormElement;
         const fd = new FormData();
+        if (!form.image.files.length) {
+            return;
+        }
         fd.append('bytes', form.image.files[0]);
         User.patchUser(fd).then(async (resp) => {
             let data = resp.body;
@@ -119,7 +130,7 @@ export class SettingsScreen extends Component<SettingsScreenProps, SettingsScree
                     username="username"
                     avatarSrc="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdnb.artstation.com%2Fp%2Fassets%2Fimages%2Fimages%2F002%2F488%2F931%2Flarge%2Fjoo-yann-ang-pudge-final.jpg%3F1462351306&f=1&nofb=1&ipt=8936a27eed33b56c3ad763d110d2b2edb817ceab874b153eee08a16dbd873093&ipo=images"
                 />
-                <div key="app" id="app" style="margin:20px;">
+                <div key="app" id="app">
                     <div key="main__content" className="main__content">
                         <div className="settings__container">
                             <div className="settings__content">

@@ -32,6 +32,7 @@ export default class User {
                 return Promise.reject(response);
             } else {
                 const token = this.getCSRF();
+                console.log(token);
                 this.saveCSRF(token);
                 return response.body as IUser;
             }
@@ -51,8 +52,10 @@ export default class User {
     static signup(username: string, name: string, email: string, password: string) {
         return Ajax.post('/api/auth/signup', { name: name, username: username, email: email, password: password }).then(
             (res) => {
-                console.log(res);
                 if (res.ok) {
+                    const token = this.getCSRF();
+                    console.log(token);
+                    this.saveCSRF(token);
                     return res.body as IUser;
                 }
                 return Promise.reject(res);
@@ -109,17 +112,9 @@ export default class User {
     static getFollowees(id: number) {
         return fetch(`/api/users/${id}/followees/`)
             .then((res) => {
-                console.log(res);
-                let a;
-                try {
-                    a = res.json();
-                } catch (e) {
-                    console.log(e);
-                }
-                return a;
+                return res.json();
             })
             .then((res) => {
-                console.log(res);
                 return res;
             });
     }

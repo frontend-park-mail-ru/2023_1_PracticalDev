@@ -23,17 +23,7 @@ export default class Board {
     }
 
     static deleteBoard(id: number) {
-        // return Ajax.delete(`/api/boards/${id}`);
-        fetch(`/api/boards/${id}`, {
-            method: 'delete',
-            headers: {
-                [HEADERS.csrf]: localStorage.getItem('csrf'),
-            } as HeadersInit,
-        }).then((res) => {
-            if (res.status !== 200) {
-                return Promise.reject(res);
-            }
-        });
+        return Ajax.delete(`/api/boards/${id}`);
     }
 
     static updateBoard(board: IBoard) {

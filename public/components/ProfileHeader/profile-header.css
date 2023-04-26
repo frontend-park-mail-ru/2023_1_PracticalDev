@@ -71,3 +71,7 @@
     font-family: 'Inter';
     color: #276678;
 }
+
+.profile__fullname {
+    text-align: start;
+}
