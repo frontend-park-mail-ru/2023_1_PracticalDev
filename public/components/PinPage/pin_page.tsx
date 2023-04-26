@@ -223,26 +223,30 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
                                     ></img>
                                     <p className="pin-view__author-name">{this.state.author?.username ?? ''}</p>
                                 </div>
-                                <button
-                                    className={`pin-view__follow-btn ${this.state.isFollow ? 'active' : ''}`}
-                                    onclick={() => {
-                                        if (this.state.isFollow) {
-                                            User.unfollow(this.state.author?.id!).then(() => {
-                                                this.setState((s) => {
-                                                    return { ...s, isFollow: false };
+                                {this.state.author && this.state.author.id !== store.getState().user?.id ? (
+                                    <button
+                                        className={`pin-view__follow-btn ${this.state.isFollow ? 'active' : ''}`}
+                                        onclick={() => {
+                                            if (this.state.isFollow) {
+                                                User.unfollow(this.state.author?.id!).then(() => {
+                                                    this.setState((s) => {
+                                                        return { ...s, isFollow: false };
+                                                    });
                                                 });
-                                            });
-                                        } else {
-                                            User.follow(this.state.author?.id!).then(() => {
-                                                this.setState((s) => {
-                                                    return { ...s, isFollow: true };
+                                            } else {
+                                                User.follow(this.state.author?.id!).then(() => {
+                                                    this.setState((s) => {
+                                                        return { ...s, isFollow: true };
+                                                    });
                                                 });
-                                            });
-                                        }
-                                    }}
-                                >
-                                    {this.state.isFollow ? 'unfollow' : 'follow'}
-                                </button>
+                                            }
+                                        }}
+                                    >
+                                        {this.state.isFollow ? 'unfollow' : 'follow'}
+                                    </button>
+                                ) : (
+                                    ''
+                                )}
 
                                 <p className="pin-view__comments-header"></p>
                                 <div className="pin-view__comments"></div>
