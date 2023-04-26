@@ -7,6 +7,7 @@ import { validateEmail } from '../../util/validator';
 import { validateUsername } from '../../util/validator';
 import { validatePassword } from '../../util/validator';
 import { loginUser } from '../../actions/user';
+import { navigate } from '../../actions/navigation';
 type SignupProps = {};
 type SignupState = {};
 
@@ -153,6 +154,9 @@ export class SignupScreen extends Component<SignupProps, SignupState> {
             });
     };
     componentDidMount(): void {
+        User.getMe().then(() => {
+            navigate('/feed');
+        });
         this.unsubs.push(store.subscribe(this.signupHandler.bind(this)));
     }
 
