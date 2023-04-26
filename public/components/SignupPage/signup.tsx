@@ -10,6 +10,10 @@ import { loginUser } from '../../actions/user';
 type SignupProps = {};
 type SignupState = {};
 
+const convertErrMsg = (msg: string): string => {
+    return msg === 'Empty string' ? 'All fields must be filled' : msg;
+};
+
 const debounce = (func: Function, timeout = 600) => {
     let timer: number;
     return (...args: any[]) => {
@@ -33,7 +37,7 @@ const formInputs = [
                 store.dispatch({
                     type: 'validationErrorMessage',
                     payload: {
-                        message: err.message === 'Empty string' ? 'All fields must be filled' : err.message,
+                        message: convertErrMsg(err.message),
                     },
                 });
                 return;
@@ -58,7 +62,7 @@ const formInputs = [
                 store.dispatch({
                     type: 'validationErrorMessage',
                     payload: {
-                        message: err.message === 'Empty string' ? 'Empty email' : err.message,
+                        message: convertErrMsg(err.message),
                     },
                 });
                 return;
@@ -84,7 +88,7 @@ const formInputs = [
                 store.dispatch({
                     type: 'validationErrorMessage',
                     payload: {
-                        message: err.message === 'Empty string' ? 'All fields must be filled' : err.message,
+                        message: convertErrMsg(err.message),
                     },
                 });
                 return;
@@ -117,7 +121,14 @@ export class SignupScreen extends Component<SignupProps, SignupState> {
         try {
             validateEmail(formData.email);
             validatePassword(formData.password);
-        } catch (err) {
+        } catch (err: any) {
+            store.dispatch({
+                type: 'validationErrorMessage',
+                payload: {
+                    message: convertErrMsg(err.message),
+                },
+            });
+
             return;
         }
 

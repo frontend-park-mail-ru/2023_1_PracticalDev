@@ -7,6 +7,7 @@ import User from '../../models/user';
 import { validationError } from '../../actions/error';
 import { loginUser } from '../../actions/user';
 import './login.css';
+import { navigate } from '../../actions/navigation';
 type AuthProps = {};
 type AuthState = {};
 
@@ -62,7 +63,7 @@ export class LoginScreen extends Component<AuthProps, AuthState> {
                 loginUser(res);
             })
             .catch((res) => {
-                if (res.status === 404) {
+                if (res.status === 404 || res.status === 400) {
                     validationError('Wrong email or password');
                     return;
                 }
@@ -72,7 +73,9 @@ export class LoginScreen extends Component<AuthProps, AuthState> {
 
     componentDidMount(): void {
         this.unsubs.push(store.subscribe(this.SubmitCallback.bind(this)));
-        CheckAuth();
+        User.getMe().then(() => {
+            navigate('/feed');
+        });
     }
 
     componentWillUnmount(): void {
