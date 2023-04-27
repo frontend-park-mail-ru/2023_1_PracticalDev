@@ -1,0 +1,9 @@
+@media (max-width: 600px) {
+    #pin-builder__form{
+        flex-direction: column;
+        width: 80%;
+    }
+    .pin-builder_img-container{
+        width: 100%;
+    }
+}
