@@ -10,6 +10,8 @@ import PinCreationScreen from '../components/PinCreationPage/PinCreationPage';
 import PinChangingScreen from '../components/PinChangingPage/PinChangingPage';
 import { BoardCreationScreen } from '../components/BoardCreationPage/board-creation-page';
 import { SettingsScreen } from '../components/SettingsPage/settings';
+import { SearchPage } from '../components/SearchPage/SearchPage';
+import AuthRequired from '../components/AuthRequired/AuthRequired';
 
 interface RouterProps {
     page: string;
@@ -20,25 +22,63 @@ interface RouterState {}
 function resolve(path: string = ''): VNode {
     switch (path) {
         case 'feed':
-            return <MainScreen />;
+            return (
+                <AuthRequired>
+                    <MainScreen />
+                </AuthRequired>
+            );
         case 'profile':
-            return <ProfileScreen />;
+            return (
+                <AuthRequired>
+                    <ProfileScreen />
+                </AuthRequired>
+            );
         case 'board':
-            return <BoardScreen />;
+            return (
+                <AuthRequired>
+                    <BoardScreen />;
+                </AuthRequired>
+            );
         case 'login':
             return <LoginScreen />;
         case 'signup':
             return <SignupScreen />;
         case 'pin-builder':
-            return <PinCreationScreen />;
+            return (
+                <AuthRequired>
+                    <PinCreationScreen />;
+                </AuthRequired>
+            );
         case 'pin-changing':
-            return <PinChangingScreen />;
+            return (
+                <AuthRequired>
+                    <PinChangingScreen />;
+                </AuthRequired>
+            );
         case 'pin':
-            return <PinScreen />;
+            return (
+                <AuthRequired>
+                    <PinScreen />;
+                </AuthRequired>
+            );
         case 'board-builder':
-            return <BoardCreationScreen />;
+            return (
+                <AuthRequired>
+                    <BoardCreationScreen />;
+                </AuthRequired>
+            );
         case 'settings':
-            return <SettingsScreen />;
+            return (
+                <AuthRequired>
+                    <SettingsScreen />;
+                </AuthRequired>
+            );
+        case 'search':
+            return (
+                <AuthRequired>
+                    <SearchPage />;
+                </AuthRequired>
+            );
         default:
             return <div>404</div>;
     }

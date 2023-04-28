@@ -100,32 +100,24 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
         });
 
         const id = Number(location.href.split('/')[4]);
-        //TODO: поправить обязательно...
-        User.getMe()
-            .then((user) => {
-                loadUser(user);
-                Pin.getPin(id).then((pin) => {
-                    Pin.getPinAuhtor(pin).then((author) => {
-                        User.getFollowers(author.id).then((followers) => {
-                            this.setState((s) => {
-                                return {
-                                    ...s,
-                                    author: author,
-                                    pin: pin,
-                                    isLiked: pin.liked,
-                                    isFollow:
-                                        followers.find((f) => {
-                                            return f.id === store.getState().user?.id;
-                                        }) !== undefined,
-                                };
-                            });
-                        });
+        Pin.getPin(id).then((pin) => {
+            Pin.getPinAuhtor(pin).then((author) => {
+                User.getFollowers(author.id).then((followers) => {
+                    this.setState((s) => {
+                        return {
+                            ...s,
+                            author: author,
+                            pin: pin,
+                            isLiked: pin.liked,
+                            isFollow:
+                                followers.find((f) => {
+                                    return f.id === store.getState().user?.id;
+                                }) !== undefined,
+                        };
                     });
                 });
-            })
-            .catch(() => {
-                navigate('/login');
             });
+        });
     }
 
     private onLikePin = (e: MouseEvent) => {

@@ -5,10 +5,7 @@ import Menu from '../Menu/menu';
 import { IPin, IUser } from '../../models';
 
 import { store } from '../../store/store';
-import Ajax from '../../util/ajax';
 import { Pin } from '../../models/pin';
-import User from '../../models/user';
-import { loadUser } from '../../actions/user';
 type MainScreenProps = {};
 type MainScreenState = {
     pins: IPin[];
@@ -44,14 +41,6 @@ export class MainScreen extends Component<MainScreenProps, MainScreenState> {
 
     componentDidMount(): void {
         this.unsubs.push(store.subscribe(this.LoadPinsCallback.bind(this)));
-        User.getMe()
-            .then((res) => {
-                loadUser(res as IUser);
-            })
-            .catch((res) => {
-                store.dispatch({ type: 'navigate', payload: { page: '/login' } });
-            });
-
         Pin.getFeed().then((res) => {
             store.dispatch({
                 type: 'loadedPins',

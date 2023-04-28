@@ -32,7 +32,6 @@ export default class User {
                 return Promise.reject(response);
             } else {
                 const token = this.getCSRF();
-                console.log(token);
                 this.saveCSRF(token);
                 return response.body as IUser;
             }

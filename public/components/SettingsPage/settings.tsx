@@ -103,16 +103,6 @@ export class SettingsScreen extends Component<SettingsScreenProps, SettingsScree
 
     componentDidMount(): void {
         this.unsubs.push(store.subscribe(this.userLoadHandler.bind(this)));
-
-        User.getMe()
-            .then((res) => {
-                loadUser(res as IUser);
-            })
-            .catch((res) => {
-                if (res.status === 401) {
-                    store.dispatch({ type: 'navigate', payload: { page: '/login' } });
-                }
-            });
     }
 
     componentWillUnmount(): void {

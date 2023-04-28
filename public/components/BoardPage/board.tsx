@@ -67,16 +67,6 @@ export class BoardScreen extends Component<BoardScreenProps, BoardScreenState> {
         this.unsubs.push(store.subscribe(this.LoadPinsCallback.bind(this)));
         this.unsubs.push(store.subscribe(this.LoadBoardInfoCallback.bind(this)));
 
-        User.getMe()
-            .then((res) => {
-                loadUser(res as IUser);
-            })
-            .catch((res) => {
-                if (res.status === 401) {
-                    store.dispatch({ type: 'navigate', payload: { page: '/login' } });
-                }
-            });
-
         this.id = Number(location.href.split('/')[4]);
 
         if (store.getState().boardId === 0) {

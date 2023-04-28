@@ -11,7 +11,13 @@ import { loadProfile, loadUser } from '../../actions/user';
 import { navigate } from '../../actions/navigation';
 
 type ProfileProps = {};
-type ProfileState = { user: IUser | undefined; pins: IPin[]; boards: IBoardWithPins[]; followers: IUser[], followees: IUser[] };
+type ProfileState = {
+    user: IUser | undefined;
+    pins: IPin[];
+    boards: IBoardWithPins[];
+    followers: IUser[];
+    followees: IUser[];
+};
 export class ProfileScreen extends Component<ProfileProps, ProfileState> {
     private unsubs: Function[] = [];
     constructor() {
@@ -24,6 +30,7 @@ export class ProfileScreen extends Component<ProfileProps, ProfileState> {
             followees: [],
         };
     }
+
     profileLoadHandler() {
         if (store.getState().type !== 'loadedProfile') {
             return;
@@ -41,23 +48,23 @@ export class ProfileScreen extends Component<ProfileProps, ProfileState> {
         });
     }
 
-    componentDidMount(): void {
-        User.getMe()
-            .then((res) => {
-                loadUser(res as IUser);
-                return res;
-            })
-            .then((res) => {
-                User.getUserProfile(res.id).then(([pins, boards, followers, followees]) => {
-                    loadProfile(pins!, boards!, followers!, followees!);
-                });
-            })
-            .catch((res) => {
-                if (res.status === 401) {
-                    navigate('/login')
-                }
-            });
+    userLoadHandler() {
+        if (store.getState().type !== 'loadedUser') {
+            return;
+        }
+        User.getUserProfile(store.getState().user!.id).then(([pins, boards, followers, followees]) => {
+            loadProfile(pins!, boards!, followers!, followees!);
+        });
+    }
 
+    componentDidMount(): void {
+        if (store.getState().user) {
+            User.getUserProfile(store.getState().user!.id).then(([pins, boards, followers, followees]) => {
+                loadProfile(pins!, boards!, followers!, followees!);
+            });
+        } else {
+            this.unsubs.push(store.subscribe(this.userLoadHandler.bind(this)));
+        }
         this.unsubs.push(store.subscribe(this.profileLoadHandler.bind(this)));
     }
 
@@ -81,7 +88,7 @@ export class ProfileScreen extends Component<ProfileProps, ProfileState> {
                                     pins: this.state.pins || [],
                                     boards: this.state.boards || [],
                                     followers: this.state.followers || [],
-                                    followees: this.state.followees || []
+                                    followees: this.state.followees || [],
                                 }}
                             />
                         </div>
@@ -90,4 +97,4 @@ export class ProfileScreen extends Component<ProfileProps, ProfileState> {
             </div>
         );
     }
-
+}
