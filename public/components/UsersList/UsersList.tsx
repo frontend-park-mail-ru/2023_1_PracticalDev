@@ -18,18 +18,19 @@ export class UsersList extends Component<UsersListProps, UsersListState> {
     }
 
     componentDidMount(): void {
-        const userId = store.getState().user?.id!;
-        User.getFollowees(userId).then((followees) => {
-            this.setState((s) => {
-                return {
-                    subscriptions: this.props.users.map((user) => {
-                        return (
-                            followees.filter((fol) => {
-                                return fol.id === user.id;
-                            }).length > 0
-                        );
-                    }),
-                };
+        User.getMe().then((user: IUser) => {
+            User.getFollowees(user.id).then((followees) => {
+                this.setState((s) => {
+                    return {
+                        subscriptions: this.props.users.map((user) => {
+                            return (
+                                followees.filter((fol) => {
+                                    return fol.id === user.id;
+                                }).length > 0
+                            );
+                        }),
+                    };
+                });
             });
         });
     }
@@ -43,31 +44,36 @@ export class UsersList extends Component<UsersListProps, UsersListState> {
                                 <img className="users-list__item-img" src={user.profile_image} />
                                 <span className={'users-list__item-name'}>{user.username}</span>
                             </span>
-                            <span className="users-list__btn-container">
-                                <button
-                                    className={`user-list__btn ${!this.state.subscriptions[idx] ? 'active' : ''}`}
-                                    onclick={() => {
-                                        if (this.state.subscriptions[idx]) {
-                                            User.unfollow(user.id).then(() => {
-                                                this.setState((s) => {
-                                                    this.state.subscriptions[idx] = false;
-                                                    return { subscriptions: this.state.subscriptions };
+
+                            {user.id !== store.getState().user?.id ? (
+                                <span className="users-list__btn-container">
+                                    <button
+                                        className={`user-list__btn ${!this.state.subscriptions[idx] ? 'active' : ''}`}
+                                        onclick={() => {
+                                            if (this.state.subscriptions[idx]) {
+                                                User.unfollow(user.id).then(() => {
+                                                    this.setState((s) => {
+                                                        this.state.subscriptions[idx] = false;
+                                                        return { subscriptions: this.state.subscriptions };
+                                                    });
                                                 });
-                                            });
-                                        } else {
-                                            User.follow(user.id).then(() => {
-                                                this.setState((s) => {
-                                                    this.state.subscriptions[idx] = true;
-                                                    return { subscriptions: this.state.subscriptions };
+                                            } else {
+                                                User.follow(user.id).then(() => {
+                                                    this.setState((s) => {
+                                                        this.state.subscriptions[idx] = true;
+                                                        return { subscriptions: this.state.subscriptions };
+                                                    });
                                                 });
-                                            });
-                                        }
-                                    }}
-                                >
-                                    {this.state.subscriptions[idx] ? 'unfollow' : 'follow'}
-                                </button>
-                                <button className="user-list__btn">message</button>
-                            </span>
+                                            }
+                                        }}
+                                    >
+                                        {this.state.subscriptions[idx] ? 'unfollow' : 'follow'}
+                                    </button>
+                                    <button className="user-list__btn">message</button>
+                                </span>
+                            ) : (
+                                ''
+                            )}
                         </div>
                     );
                 })}

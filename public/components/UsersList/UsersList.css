@@ -3,7 +3,7 @@
     grid-row-gap: 2em;
     grid-column-gap: 1em;
     grid-template-columns: repeat(auto-fill, 500px);
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .users-list__item {
