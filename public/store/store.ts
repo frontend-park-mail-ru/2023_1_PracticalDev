@@ -1,8 +1,6 @@
 import { Store, Reducer, Action } from '@t1d333/pickpinreduxlib';
 import { IPin, IUser, IBoard, IBoardWithPins } from '../models';
 
-type Map = { [_: string]: any };
-
 interface StoreState {
     page: string;
     pushToState: boolean;
@@ -23,6 +21,7 @@ interface StoreState {
     availableBoards: IBoard[];
     followers: IUser[];
     followees: IUser[];
+    searchQuery: string;
 }
 
 const initialState: StoreState = {
@@ -45,6 +44,7 @@ const initialState: StoreState = {
     boardId: 0,
     followers: [],
     followees: [],
+    searchQuery: '',
 };
 
 const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: Action) => {
@@ -159,6 +159,12 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 ...state,
                 pushToState: true,
                 type: 'restoreState',
+            };
+        case 'search':
+            return {
+                ...state,
+                type: 'search',
+                searchQuery: action.payload?.query,
             };
         default:
             return state;

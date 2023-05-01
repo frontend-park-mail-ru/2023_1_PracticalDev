@@ -1,9 +1,7 @@
-import { Component, VNode, createElement } from '@t1d333/pickpinlib';
+import { Component, createElement } from '@t1d333/pickpinlib';
 import Feed from '../Feed/feed';
-import { Header } from '../Header/header';
-import Menu from '../Menu/menu';
-import { IPin, IUser } from '../../models';
-
+import { IPin } from '../../models';
+import { Main } from '../Main/main';
 import { store } from '../../store/store';
 import { Pin } from '../../models/pin';
 type MainScreenProps = {};
@@ -59,15 +57,9 @@ export class MainScreen extends Component<MainScreenProps, MainScreenState> {
 
     render() {
         return (
-            <div key="wrapper">
-                <Menu key="menu" />
-                <Header key="header" />
-                <div key="app" id="app">
-                    <div key="main__content" className="main__content">
-                        <Feed pins={this.state.pins} key="feed" />
-                    </div>
-                </div>
-            </div>
+            <Main>
+                <Feed pins={this.state.pins} key="feed" />
+            </Main>
         );
     }
 }

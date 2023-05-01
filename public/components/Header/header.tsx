@@ -1,6 +1,7 @@
 import { Component, createElement } from '@t1d333/pickpinlib';
 import { Input } from '../Input/input';
 import { store } from '../../store/store';
+import { Searchbar } from '../Searchbar/Searchbar';
 
 type HeaderProps = {};
 
@@ -35,7 +36,7 @@ export class Header extends Component<HeaderProps, HeaderState> {
         return (
             <div key="header" className="header">
                 <div key="header__search-wrapper" className="header__search-wrapper">
-                    <Input key="search-input" type="search" name="search" icon="search" />
+                    <Searchbar />
                 </div>
                 <div key="header__user-block" className="header__user-block">
                     <button key="header__notify-btn" className="header__btn">

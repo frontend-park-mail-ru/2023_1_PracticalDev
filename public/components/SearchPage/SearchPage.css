@@ -1,0 +1,34 @@
+.search-result__container {
+    width: 100%;
+    height: 100%;
+    font-family: 'Inter';
+}
+
+.search-result__tabs {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    font-size: 24px;
+    color: var(--color-dark);
+    padding: 0 10px;
+}
+
+.search-result__tab-btn {
+    width: 15%;
+    text-align: center;
+    user-select: none;
+    cursor: pointer;
+}
+
+.search-result__tab-btn::after {
+    content: '';
+    display: block;
+    height: 2px;
+    width: 0;
+    background: var(--color-dark);
+    transition: width 0.3s;
+}
+
+.search-result__tab-btn.active::after {
+    width: 100%;
+}

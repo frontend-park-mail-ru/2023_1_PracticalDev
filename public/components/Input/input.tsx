@@ -1,4 +1,4 @@
-import { Component, createElement, renderElement } from '@t1d333/pickpinlib';
+import { Component, createElement } from '@t1d333/pickpinlib';
 
 export type InputProps = {
     placeholder: string;
@@ -6,6 +6,7 @@ export type InputProps = {
     type: string;
     icon: string;
     validator?: Function;
+    value?: string;
 };
 
 export type InputState = {};
@@ -28,6 +29,7 @@ export class Input extends Component<InputProps, InputState> {
                             placeholder={this.props.placeholder}
                             name={this.props.name}
                             type={this.props.type}
+                            value={this.props.value ?? ''}
                         ></input>
                     </div>
                 ) : (

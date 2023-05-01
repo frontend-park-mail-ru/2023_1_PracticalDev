@@ -2,6 +2,7 @@ import { Component, createElement, VNode } from '@t1d333/pickpinlib';
 import { IBoardWithPins } from '../../models';
 import { navigate } from '../../actions/navigation';
 import { loadBoard } from '../../actions/board';
+import { store } from '../../store/store';
 
 type BoardListItemProps = { board: IBoardWithPins };
 type BoardListItemState = {};
@@ -31,7 +32,12 @@ export class BoardListItem extends Component<BoardListItemProps, BoardListItemSt
                 key={'boarditem-' + this.props.board.id}
                 onclick={() => {
                     loadBoard(this.props.board);
-                    navigate(`/board/${this.props.board.id}`);
+                    const curPage = location.href.split('/')[3];
+                    if (curPage === 'profile') {
+                        navigate(`/board-changing/${this.props.board.id}`);
+                    } else {
+                        navigate(`/board/${this.props.board.id}`);
+                    }
                 }}
             >
                 <div className="boardlist-item">{...this.getImages()}</div>

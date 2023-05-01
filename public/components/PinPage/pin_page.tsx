@@ -1,16 +1,12 @@
 import { Component, createElement } from '@t1d333/pickpinlib';
 
-import { Header } from '../Header/header';
-import Menu from '../Menu/menu';
 import { IBoard, IPin, IUser } from '../../models';
 import { store } from '../../store/store';
 import { Pin } from '../../models/pin';
 import Board from '../../models/board';
 import { loadAvailableBoards } from '../../actions/board';
 import User from '../../models/user';
-import { loadUser } from '../../actions/user';
-import { navigate } from '../../actions/navigation';
-
+import { Main } from '../Main/main';
 type PinScreenState = {
     pin: IPin | undefined;
     availableBoards: IBoard[];
@@ -160,97 +156,84 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
 
     render() {
         return (
-            <div>
-                <Menu />
-                <Header />
-                <div id="app">
-                    <div className="main__content">
-                        <div className="pin-view">
-                            <img className="pin-view__image" src={this.state.pin?.media_source!} alt="Pin image"></img>
-                            <div className="pin-view__info">
-                                <div className="pin-view__actions">
-                                    <button
-                                        key="like-btn"
-                                        onclick={
-                                            this.state.isLiked
-                                                ? this.onDislikePin.bind(this)
-                                                : this.onLikePin.bind(this)
-                                        }
-                                        className={
-                                            'pin-view__actions-like-btn material-symbols-outlined md-32 ' +
-                                            (this.state.isLiked ? 'active' : '')
-                                        }
-                                    >
-                                        favorite
-                                    </button>
+            <Main>
+                <div className="pin-view">
+                    <img className="pin-view__image" src={this.state.pin?.media_source!} alt="Pin image"></img>
+                    <div className="pin-view__info">
+                        <div className="pin-view__actions">
+                            <button
+                                key="like-btn"
+                                onclick={this.state.isLiked ? this.onDislikePin.bind(this) : this.onLikePin.bind(this)}
+                                className={
+                                    'pin-view__actions-like-btn material-symbols-outlined md-32 ' +
+                                    (this.state.isLiked ? 'active' : '')
+                                }
+                            >
+                                favorite
+                            </button>
 
-                                    <p key="like-counter" className="pin-view__actions-stat">
-                                        {String(this.state.pin ? this.state.pin.n_likes : '')}
-                                    </p>
-                                    <select name="boardName" className="pin-view__board-list">
-                                        {...this.state.availableBoards.map((board) => {
-                                            return <option value={board.id}>{board.name}</option>;
-                                        })}
-                                    </select>
-                                    <button
-                                        className="pin-view__actions-save-btn"
-                                        onclick={this.onSaveCallback.bind(this)}
-                                    >
-                                        Save
-                                    </button>
-                                </div>
-                                <p className="pin-view__response-container">{this.state.response}</p>
-                                <p className="pin-view__title">
-                                    {this.state.pin?.title ? this.state.pin?.title.slice(0, 20) : ''}
-                                </p>
-                                <p className="pin-view__description">
-                                    {this.state.pin?.description ? this.state.pin?.description.slice(0, 40) : ''}
-                                </p>
-                                <div className="pin-view__author">
-                                    <div> </div>
-                                    <img
-                                        className="pin-view__author-avatar-img"
-                                        src={this.state.author?.profile_image ?? ''}
-                                        alt="Pin author avatar"
-                                    ></img>
-                                    <p className="pin-view__author-name">{this.state.author?.username ?? ''}</p>
-                                </div>
-                                {this.state.author && this.state.author.id !== store.getState().user?.id ? (
-                                    <button
-                                        className={`pin-view__follow-btn ${this.state.isFollow ? 'active' : ''}`}
-                                        onclick={() => {
-                                            if (this.state.isFollow) {
-                                                User.unfollow(this.state.author?.id!).then(() => {
-                                                    this.setState((s) => {
-                                                        return { ...s, isFollow: false };
-                                                    });
-                                                });
-                                            } else {
-                                                User.follow(this.state.author?.id!).then(() => {
-                                                    this.setState((s) => {
-                                                        return { ...s, isFollow: true };
-                                                    });
-                                                });
-                                            }
-                                        }}
-                                    >
-                                        {this.state.isFollow ? 'unfollow' : 'follow'}
-                                    </button>
-                                ) : (
-                                    ''
-                                )}
+                            <p key="like-counter" className="pin-view__actions-stat">
+                                {String(this.state.pin ? this.state.pin.n_likes : '')}
+                            </p>
+                            <select name="boardName" className="pin-view__board-list">
+                                {...this.state.availableBoards.map((board) => {
+                                    return <option value={board.id}>{board.name}</option>;
+                                })}
+                            </select>
+                            <button className="pin-view__actions-save-btn" onclick={this.onSaveCallback.bind(this)}>
+                                Save
+                            </button>
+                        </div>
+                        <p className="pin-view__response-container">{this.state.response}</p>
+                        <p className="pin-view__title">
+                            {this.state.pin?.title ? this.state.pin?.title.slice(0, 20) : ''}
+                        </p>
+                        <p className="pin-view__description">
+                            {this.state.pin?.description ? this.state.pin?.description.slice(0, 40) : ''}
+                        </p>
+                        <div className="pin-view__author">
+                            <div> </div>
+                            <img
+                                className="pin-view__author-avatar-img"
+                                src={this.state.author?.profile_image ?? ''}
+                                alt="Pin author avatar"
+                            ></img>
+                            <p className="pin-view__author-name">{this.state.author?.username ?? ''}</p>
+                        </div>
+                        {this.state.author && this.state.author.id !== store.getState().user?.id ? (
+                            <button
+                                className={`pin-view__follow-btn ${this.state.isFollow ? 'active' : ''}`}
+                                onclick={() => {
+                                    if (this.state.isFollow) {
+                                        User.unfollow(this.state.author?.id!).then(() => {
+                                            this.setState((s) => {
+                                                return { ...s, isFollow: false };
+                                            });
+                                        });
+                                    } else {
+                                        User.follow(this.state.author?.id!).then(() => {
+                                            this.setState((s) => {
+                                                return { ...s, isFollow: true };
+                                            });
+                                        });
+                                    }
+                                }}
+                            >
+                                {this.state.isFollow ? 'unfollow' : 'follow'}
+                            </button>
+                        ) : (
+                            ''
+                        )}
 
-                                <p className="pin-view__comments-header"></p>
-                                <div className="pin-view__comments"></div>
-                                <div className="pin-view__add-comment">
-                                    <div className="pin-view__add-comment-avatar"></div>
-                                    <div className="pin-view__add-comment-input"></div>
-                                </div>
-                            </div>
+                        <p className="pin-view__comments-header"></p>
+                        <div className="pin-view__comments"></div>
+                        <div className="pin-view__add-comment">
+                            <div className="pin-view__add-comment-avatar"></div>
+                            <div className="pin-view__add-comment-input"></div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </Main>
         );
     }
 }

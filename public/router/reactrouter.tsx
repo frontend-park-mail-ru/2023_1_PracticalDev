@@ -39,6 +39,14 @@ function resolve(path: string = ''): VNode {
                     <BoardScreen />;
                 </AuthRequired>
             );
+
+        case 'board-changing':
+            return (
+                <AuthRequired>
+                    <BoardScreen />;
+                </AuthRequired>
+            );
+
         case 'login':
             return <LoginScreen />;
         case 'signup':

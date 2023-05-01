@@ -36,8 +36,8 @@ export class Pin extends Component<PinProps, PinState> {
     };
 
     private resolveSecondaryBtn = () => {
-        const page = store.getState().page.split('/')[1];
-        switch (page) {
+        const curPage = location.href.split('/')[3];
+        switch (curPage) {
             case 'profile': {
                 return (
                     <button
@@ -49,7 +49,7 @@ export class Pin extends Component<PinProps, PinState> {
                     </button>
                 );
             }
-            case 'board': {
+            case 'board-changing': {
                 return (
                     <button
                         key="delete_btn"
@@ -117,9 +117,6 @@ export class Pin extends Component<PinProps, PinState> {
                 },
             });
         });
-        // Board.deletePinFromBoard(store.getState().boardId, this.props.pin.id).then((resp) => {
-        //     console.log(resp);
-        // });
     };
 
     componentDidMount(): void {

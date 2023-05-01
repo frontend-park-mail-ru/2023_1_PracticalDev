@@ -5,10 +5,10 @@ import { IBoard, IPin, IUser } from '../../models';
 import Feed from '../Feed/feed';
 import { store } from '../../store/store';
 import User from '../../models/user';
-import { loadUser } from '../../actions/user';
 import Board from '../../models/board';
 import { loadBoard } from '../../actions/board';
 import { navigate } from '../../actions/navigation';
+import { Main } from '../Main/main';
 
 type BoardScreenProps = {};
 type BoardScreenState = {
@@ -78,16 +78,18 @@ export class BoardScreen extends Component<BoardScreenProps, BoardScreenState> {
             });
         }
 
-        Board.getBoard(this.id).then((res) => {
-            loadBoard(res);
-        });
-
-        Board.getBoardPins(this.id).then((res) => {
-            store.dispatch({
-                type: 'loadedPins',
-                payload: { pins: res },
+        Board.getBoard(this.id)
+            .then((res) => {
+                loadBoard(res);
+            })
+            .then(() => {
+                Board.getBoardPins(this.id).then((res) => {
+                    store.dispatch({
+                        type: 'loadedPins',
+                        payload: { pins: res },
+                    });
+                });
             });
-        });
     }
 
     componentWillUnmount(): void {
@@ -97,27 +99,26 @@ export class BoardScreen extends Component<BoardScreenProps, BoardScreenState> {
     }
 
     render() {
+        const curPage = location.href.split('/')[3];
         return (
-            <div key="wrapper">
-                <Menu key="menu" />
-                <Header key="header" />
-                <div key="app" id="app">
-                    <div key="main__content" className="main__content">
-                        <div className="board-header">
-                            <h2 className="board-header__name">{this.state.board?.name || ''}</h2>
-                            <div className="board-header__buttons-container">
-                                <button
-                                    className="board-header__btn material-symbols-outlined md-24"
-                                    onclick={this.DeleteBoardCallback.bind(this)}
-                                >
-                                    delete
-                                </button>
-                            </div>
-                        </div>
-                        <Feed pins={this.state.pins} key="feed" />
+            <Main>
+                <div className="board-header">
+                    <h2 className="board-header__name">{this.state.board?.name || ''}</h2>
+                    <div className="board-header__buttons-container">
+                        {curPage === 'board-changing' ? (
+                            <button
+                                className="board-header__btn material-symbols-outlined md-24"
+                                onclick={this.DeleteBoardCallback.bind(this)}
+                            >
+                                delete
+                            </button>
+                        ) : (
+                            <div> </div>
+                        )}
                     </div>
                 </div>
-            </div>
+                <Feed pins={this.state.pins} />
+            </Main>
         );
     }
 }

@@ -53,7 +53,6 @@ export default class User {
             (res) => {
                 if (res.ok) {
                     const token = this.getCSRF();
-                    console.log(token);
                     this.saveCSRF(token);
                     return res.body as IUser;
                 }
@@ -109,13 +108,13 @@ export default class User {
     }
 
     static getFollowees(id: number) {
-        return fetch(`/api/users/${id}/followees/`)
-            .then((res) => {
-                return res.json();
-            })
-            .then((res) => {
-                return res;
-            });
+        return Ajax.get(`/api/users/${id}/followees`).then((res) => {
+            if (res.ok) {
+                return res.body.followees as IUser[];
+            } else {
+                return Promise.reject(res);
+            }
+        });
     }
 
     static follow(id: number) {

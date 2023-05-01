@@ -1,14 +1,11 @@
 import { Component, createElement } from '@t1d333/pickpinlib';
-import Menu from '../Menu/menu';
-import { Header } from '../Header/header';
 import { ProfileTab } from '../ProfileTab/profile-tab';
 import { ProfileHeader } from '../ProfileHeader/profile-header';
-
 import { store } from '../../store/store';
 import { IPin, IUser, IBoardWithPins } from '../../models';
 import User from '../../models/user';
-import { loadProfile, loadUser } from '../../actions/user';
-import { navigate } from '../../actions/navigation';
+import { loadProfile } from '../../actions/user';
+import { Main } from '../Main/main';
 
 type ProfileProps = {};
 type ProfileState = {
@@ -76,25 +73,19 @@ export class ProfileScreen extends Component<ProfileProps, ProfileState> {
 
     render() {
         return (
-            <div>
-                <Menu />
-                <Header />
-                <div id="app">
-                    <div className="main__content">
-                        <div className="profile__container">
-                            <ProfileHeader user={this.state.user} />
-                            <ProfileTab
-                                userContent={{
-                                    pins: this.state.pins || [],
-                                    boards: this.state.boards || [],
-                                    followers: this.state.followers || [],
-                                    followees: this.state.followees || [],
-                                }}
-                            />
-                        </div>
-                    </div>
+            <Main>
+                <div className="profile__container">
+                    <ProfileHeader user={this.state.user} />
+                    <ProfileTab
+                        userContent={{
+                            pins: this.state.pins || [],
+                            boards: this.state.boards || [],
+                            followers: this.state.followers || [],
+                            followees: this.state.followees || [],
+                        }}
+                    />
                 </div>
-            </div>
+            </Main>
         );
     }
 }
