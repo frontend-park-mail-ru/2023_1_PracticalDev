@@ -10,6 +10,8 @@ import PinCreationScreen from '../components/PinCreationPage/PinCreationPage';
 import PinChangingScreen from '../components/PinChangingPage/PinChangingPage';
 import { BoardCreationScreen } from '../components/BoardCreationPage/board-creation-page';
 import { SettingsScreen } from '../components/SettingsPage/settings';
+import { ChatList } from '../components/ChatList/ChatList';
+import { ChatPage } from '../components/ChatPage/ChatPage';
 
 interface RouterProps {
     page: string;
@@ -39,6 +41,10 @@ function resolve(path: string = ''): VNode {
             return <BoardCreationScreen />;
         case 'settings':
             return <SettingsScreen />;
+        case 'chatList':
+            return <ChatList />;
+        case 'chatPage':
+            return <ChatPage />;
         default:
             return <div>404</div>;
     }
