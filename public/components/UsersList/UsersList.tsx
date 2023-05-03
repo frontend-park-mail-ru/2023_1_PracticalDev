@@ -3,6 +3,7 @@ import { IUser } from '../../models';
 import './UsersList.css';
 import { store } from '../../store/store';
 import User from '../../models/user';
+import { navigate } from '../../actions/navigation';
 
 type UsersListProps = {
     users: IUser[];
@@ -69,7 +70,14 @@ export class UsersList extends Component<UsersListProps, UsersListState> {
                                     >
                                         {this.state.subscriptions[idx] ? 'unfollow' : 'follow'}
                                     </button>
-                                    <button className="user-list__btn">message</button>
+                                    <button
+                                        className="user-list__btn"
+                                        onclick={() => {
+                                            navigate(`/chat/${user.id}`);
+                                        }}
+                                    >
+                                        message
+                                    </button>
                                 </span>
                             ) : (
                                 ''

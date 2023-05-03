@@ -124,4 +124,40 @@ export default class User {
     static unfollow(id: number) {
         return Ajax.delete(`/api/users/${id}/following`);
     }
+
+    static getChats(userId: number) {
+        return Ajax.get('/api/chats')
+            .then((res) => {
+                return res.body.items;
+            })
+            .then((chats) => {
+                return Promise.all(
+                    chats.map((chat) => {
+                        return Ajax.get(`/api/users/${chat.user1_id === userId ? chat.user2_id : chat.user1_id}`).then(
+                            (res) => {
+                                return res.body;
+                            },
+                        );
+                    }),
+                );
+            });
+    }
+
+    static getUser(id: number) {
+        return Ajax.get(`/api/users/${id}`).then((res) => {
+            if (res.ok) {
+                return res.body as IUser;
+            }
+            return Promise.reject(res);
+        });
+    }
+
+    static getChatMsg(id: number) {
+        return Ajax.get(`/api/messages?receiver_id=${id}`).then((res) => {
+            if (res.status < 300) {
+                return res.body.items;
+            }
+            return Promise.reject(res);
+        });
+    }
 }

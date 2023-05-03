@@ -8,6 +8,7 @@ import { validationError } from '../../actions/error';
 import { loginUser } from '../../actions/user';
 import './login.css';
 import { navigate } from '../../actions/navigation';
+import { ChatWs } from '../../util/chatWs';
 type AuthProps = {};
 type AuthState = {};
 
@@ -60,8 +61,10 @@ export class LoginScreen extends Component<AuthProps, AuthState> {
 
         User.login(formData.email, formData.password)
             .then((res) => {
+                ChatWs.createSocket();
                 loginUser(res);
             })
+
             .catch((res) => {
                 if (res.status === 404 || res.status === 400) {
                     validationError('Wrong email or password');

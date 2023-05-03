@@ -1,0 +1,34 @@
+@media (max-width: 600px) {
+    #pin-builder__form{
+        flex-direction: column;
+        width: 80%;
+    }
+    .pin-builder__img-container{
+        width: 100%;
+    }
+    .pin-builder__form-container{
+        width: 100%;
+        margin-top: 1vh;
+    }
+    .pin-builder__container{
+        margin-top: 0;
+    }
+    #app{
+        overflow: scroll;
+        height: 100vh
+    }
+    .pin-builder__header{
+        margin-block-start: 0;
+        margin-block-end: 0;
+    }
+    .input__custom{
+        margin: 1vh;
+    }
+    .pin-builder__btn-container{
+        margin-top: 2vh;
+        margin-bottom: 1vh;    
+    }
+    .pin-builder__error-msg-container{
+        font-size: 15px;
+    }
+}

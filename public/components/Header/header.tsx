@@ -2,6 +2,7 @@ import { Component, createElement } from '@t1d333/pickpinlib';
 import { Input } from '../Input/input';
 import { store } from '../../store/store';
 import { Searchbar } from '../Searchbar/Searchbar';
+import { navigate } from '../../actions/navigation';
 
 type HeaderProps = {};
 
@@ -44,7 +45,13 @@ export class Header extends Component<HeaderProps, HeaderState> {
                             notifications
                         </span>
                     </button>
-                    <button key="header__chat-btn" className="header__btn">
+                    <button
+                        key="header__chat-btn"
+                        className="header__btn"
+                        onclick={() => {
+                            navigate('/chats');
+                        }}
+                    >
                         <span key="chat-symbol" className="material-symbols-outlined md-32">
                             chat
                         </span>

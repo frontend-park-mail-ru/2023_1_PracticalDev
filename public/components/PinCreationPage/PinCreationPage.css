@@ -135,3 +135,55 @@
     padding: 10px 10px;
  
 }
+
+
+@media (max-width: 600px) {
+    #pin-builder__form{
+        flex-direction: column;
+        width: 80vw;
+        margin: 1vh;
+        height: 90%;
+    }
+    .pin-builder__img-input-container{
+        width: auto;
+        margin-bottom: 1vh;
+        height: 100%;
+    }
+
+    .pin-builder__form-container{
+        width: auto;
+    }
+    .input__custom{
+        margin-bottom: 2vh;
+    }
+
+    .pin-builder__header{
+        margin-block-end: 0.1em;
+        margin-block-start: 0.1em;
+    }
+    #app{
+        height: 80vh;
+        width: 100%;
+        top: 50px;
+        left: 0;
+        position: relative;
+    }
+    .main_content{
+        height: 100%
+    }
+    .pin-builder__container{
+        height: 90vh;
+        margin-top: 0;
+    }
+    .pin-builder__btn-container{
+        margin-top: 2vh;
+        margin-bottom: 1vh;
+    }
+    .pin-builder__error-msg-container{
+        font-size: 15px;
+    }
+
+
+
+}
+

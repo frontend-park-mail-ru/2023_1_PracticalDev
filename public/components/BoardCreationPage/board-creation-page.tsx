@@ -20,7 +20,6 @@ export class BoardCreationScreen extends Component<BoardCreationScreenProps, Boa
 
     private createBoardHandler = () => {
         const input = document.querySelector('.createBoard__input') as HTMLInputElement;
-        console.log(input.value.length);
         if (!input.value) {
             this.setState((s) => {
                 return {

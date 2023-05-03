@@ -25,6 +25,22 @@ interface IUser {
     profile_image: string;
 }
 
+type IMessage = {
+    author_id: number;
+    chat_id: number;
+    created_at: string;
+    id: number;
+    text: string;
+};
+
+type IChat = {
+    id: number;
+    user1_id: number;
+    user2_id: number;
+    created_at: string;
+    updated_at: string;
+};
+
 type IBoardWithPins = IBoard & { pins: IPin[] };
 
-export { IPin, IUser, IBoard, IBoardWithPins };
+export { IPin, IUser, IBoard, IBoardWithPins, IMessage, IChat };

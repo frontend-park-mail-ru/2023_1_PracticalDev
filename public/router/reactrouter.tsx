@@ -12,6 +12,8 @@ import { BoardCreationScreen } from '../components/BoardCreationPage/board-creat
 import { SettingsScreen } from '../components/SettingsPage/settings';
 import { SearchPage } from '../components/SearchPage/SearchPage';
 import AuthRequired from '../components/AuthRequired/AuthRequired';
+import { ChatList } from '../components/ChatList/ChatList';
+import { ChatPage } from '../components/ChatPage/ChatPage';
 
 interface RouterProps {
     page: string;
@@ -85,6 +87,18 @@ function resolve(path: string = ''): VNode {
             return (
                 <AuthRequired>
                     <SearchPage />;
+                </AuthRequired>
+            );
+        case 'chats':
+            return (
+                <AuthRequired>
+                    <ChatList />;
+                </AuthRequired>
+            );
+        case 'chat':
+            return (
+                <AuthRequired>
+                    <ChatPage />;
                 </AuthRequired>
             );
         default:

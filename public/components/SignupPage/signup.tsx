@@ -8,6 +8,7 @@ import { validateUsername } from '../../util/validator';
 import { validatePassword } from '../../util/validator';
 import { loginUser } from '../../actions/user';
 import { navigate } from '../../actions/navigation';
+import { ChatWs } from '../../util/chatWs';
 type SignupProps = {};
 type SignupState = {};
 
@@ -43,6 +44,7 @@ const formInputs = [
                 });
                 return;
             }
+
             store.dispatch({
                 type: 'validationErrorMessage',
                 payload: {
@@ -135,6 +137,7 @@ export class SignupScreen extends Component<SignupProps, SignupState> {
 
         User.signup(formData.username, formData.email.split('@')[0], formData.email, formData.password)
             .then((res) => {
+                ChatWs.createSocket();
                 loginUser(res);
             })
             .catch((res) => {

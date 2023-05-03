@@ -1,5 +1,5 @@
 import { Store, Reducer, Action } from '@t1d333/pickpinreduxlib';
-import { IPin, IUser, IBoard, IBoardWithPins } from '../models';
+import { IMessage, IPin, IUser, IBoard, IBoardWithPins, IChat } from '../models';
 
 interface StoreState {
     page: string;
@@ -22,6 +22,9 @@ interface StoreState {
     followers: IUser[];
     followees: IUser[];
     searchQuery: string;
+    wsConnection: WebSocket | undefined;
+    message: IMessage | undefined;
+    chat: IChat | undefined;
 }
 
 const initialState: StoreState = {
@@ -45,6 +48,9 @@ const initialState: StoreState = {
     followers: [],
     followees: [],
     searchQuery: '',
+    wsConnection: undefined,
+    message: undefined,
+    chat: undefined,
 };
 
 const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: Action) => {
@@ -55,42 +61,49 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 ...(action.payload || {}),
                 type: 'navigate',
             };
+
         case 'loadedPins':
             return {
                 ...state,
                 pins: action.payload?.pins,
                 type: 'loadedPins',
             };
+
         case 'addedPins':
             return {
                 ...state,
                 pins: state.pins.concat(action.payload?.pins),
                 type: 'addedPins',
             };
+
         case 'removedPins':
             return {
                 ...state,
                 pins: [],
                 type: 'removedPins',
             };
+
         case 'loginFormSubmit':
             return {
                 ...state,
                 formData: action.payload?.formData,
                 type: 'loginFormSubmit',
             };
+
         case 'validationErrorMessage':
             return {
                 ...state,
                 validationErrorMessage: action.payload?.message,
                 type: 'validationErrorMessage',
             };
+
         case 'pinCreationError':
             return {
                 ...state,
                 pinCreationErrorMsg: action.payload?.message,
                 type: 'pinCreationError',
             };
+
         case 'getUserPins':
             return {
                 ...state,
@@ -104,6 +117,7 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 user: action.payload?.user,
                 type: 'loadedUser',
             };
+
         case 'loadedProfile':
             return {
                 ...state,
@@ -113,6 +127,7 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 followees: action.payload?.followees,
                 type: 'loadedProfile',
             };
+
         case 'pinChanging':
             return {
                 ...state,
@@ -124,17 +139,20 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 type: 'pinChangingError',
                 pinChangingErrorMsg: action.payload?.message,
             };
+
         case 'pinView':
             return {
                 ...state,
                 pinView: action.payload?.pin,
             };
+
         case 'loadedPinInfo':
             return {
                 ...state,
                 author: action.payload?.author,
                 type: 'loadedPinInfo',
             };
+
         case 'loadedBoard': {
             return {
                 ...state,
@@ -142,30 +160,59 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 type: 'loadedBoard',
             };
         }
+
         case 'loadedAvailableBoards':
             return {
                 ...state,
                 availableBoards: action.payload?.boards,
                 type: 'loadedAvailableBoards',
             };
+
         case 'boardView':
             return {
                 ...state,
                 boardId: action.payload?.boardId,
                 type: 'boardView',
             };
+
         case 'restoreState':
             return {
                 ...state,
                 pushToState: true,
                 type: 'restoreState',
             };
+
         case 'search':
             return {
                 ...state,
                 type: 'search',
                 searchQuery: action.payload?.query,
             };
+
+        case 'connectWs': {
+            return {
+                ...state,
+                type: 'connectWs',
+                wsConnection: action.payload?.wsConnection,
+            };
+        }
+
+        case 'newMessage': {
+            return {
+                ...state,
+                type: 'newMessage',
+                message: action.payload?.message,
+            };
+        }
+
+        case 'newChat': {
+            return {
+                ...state,
+                type: 'newChat',
+                chat: action.payload?.chat,
+            };
+        }
+
         default:
             return state;
     }

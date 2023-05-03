@@ -4,15 +4,29 @@ import { loadUser } from '../../actions/user';
 import { store } from '../../store/store';
 import { navigate } from '../../actions/navigation';
 import { IUser } from '../../models';
+import { ChatWs } from '../../util/chatWs';
 type AuthRequiredProps = {
     children: VNode[];
 };
-
-export default class AuthRequired extends Component<AuthRequiredProps, {}> {
+type AuthRequiredState = {
+    isLoading: boolean;
+};
+export default class AuthRequired extends Component<AuthRequiredProps, AuthRequiredState> {
+    constructor() {
+        super();
+        const ws = store.getState().wsConnection;
+        if (!ws) {
+            ChatWs.createSocket();
+        }
+        this.state = { isLoading: true };
+    }
     componentDidMount(): void {
         User.getMe()
             .then((res) => {
                 loadUser(res as IUser);
+                this.setState((s) => {
+                    return { isLoading: false };
+                });
             })
             .catch((res) => {
                 navigate('/login');
@@ -20,6 +34,6 @@ export default class AuthRequired extends Component<AuthRequiredProps, {}> {
     }
 
     render(): VNode {
-        return <div>{...this.props.children}</div>;
+        return <div>{...!this.state.isLoading ? this.props.children : []}</div>;
     }
 }
