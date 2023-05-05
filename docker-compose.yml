@@ -24,6 +24,7 @@ services:
     networks:
       - api-network
       - frontend-network
+      - nginx-network
     depends_on:
       - frontend
     ports:
@@ -33,5 +34,8 @@ networks:
   api-network:
     name: api_network
     external: true
+  nginx-network:
+    name: nginx_network
+    driver: bridge
   frontend-network:
     driver: bridge
