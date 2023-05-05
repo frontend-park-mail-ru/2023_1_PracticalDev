@@ -19,29 +19,29 @@ export class UsersList extends Component<UsersListProps, UsersListState> {
     }
 
     componentDidMount(): void {
-        User.getMe().then((user: IUser) => {
-            User.getFollowees(user.id).then((followees) => {
-                this.setState((s) => {
-                    return {
-                        subscriptions: this.props.users.map((user) => {
-                            return (
-                                followees.filter((fol) => {
-                                    return fol.id === user.id;
-                                }).length > 0
-                            );
-                        }),
-                    };
-                });
+        const user = store.getState().user!;
+        User.getFollowees(user.id).then((followees) => {
+            this.setState((s) => {
+                return {
+                    subscriptions: this.props.users.map((user) => {
+                        return (
+                            followees.filter((fol) => {
+                                return fol.id !== user.id;
+                            }).length > 0
+                        );
+                    }),
+                };
             });
         });
     }
+
     render() {
         return (
             <div className="users-list">
                 {...this.props.users.map((user, idx) => {
                     return (
                         <div className="users-list__item">
-                            <span>
+                            <span className="users-list__user-info">
                                 <img className="users-list__item-img" src={user.profile_image} />
                                 <span className={'users-list__item-name'}>{user.username}</span>
                             </span>

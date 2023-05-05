@@ -2,7 +2,6 @@ import { store } from '../store/store';
 
 export class ChatWs {
     static createSocket() {
-        const token = window.localStorage.getItem('csrf');
         const url = 'wss://pickpin.ru/api/chat';
         const socket = new WebSocket(url);
 

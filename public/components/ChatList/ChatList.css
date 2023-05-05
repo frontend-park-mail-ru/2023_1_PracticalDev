@@ -1,41 +1,43 @@
-.chatList__main__content {
+.chat-list__content {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-.chatList__header {
+
+.chat-list__header {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     padding: 3vw;
 }
-.chatList__header__text {
+.chat-list__header-text {
     font-family: 'Inter';
     font-size: 5vh;
     font-weight: bold;
-    color: #276678;
+    color: var(--color-dark);
 }
-.chatList__companion {
+
+.chat-list__companion {
     display: flex;
     flex-direction: row;
     justify-content: left;
-    margin-bottom: 1vh;
     background-color: #d9d9d9;
     border: 5px solid #d9d9d9;
     border-radius: 5px;
     cursor: pointer;
-    width: 20vw;
+    width: 280px;
     overflow: hidden;
+    align-items: flex-end;
 }
 
-.chatList__companion:hover {
+.chat-list__companion:hover {
     -webkit-filter: brightness(80%);
     cursor: pointer;
 }
 
-.chatList__companion__avatar {
+.chat-list__companion-avatar {
     width: 80px;
     height: 80px;
     min-width: 80px;
@@ -43,15 +45,19 @@
     object-fit: cover;
     border-radius: 5px;
 }
-.chatList__companion__last_message {
-    display: table;
-    margin-left: 1vw;
-}
-.chatList__companion__last_message__text {
-    display: table-cell;
-    vertical-align: middle;
+
+.chat-list__companion-name {
     font-family: 'Inter';
-    color: #1687a7;
-    font-size: 25px;
-    text-align: left;
+    font-size: 28px;
+    display: inline;
+    color: var(--color-dark);
+}
+
+.chat-list__container {
+    display: grid;
+    grid-row-gap: 1em;
+    grid-column-gap: 1em;
+    grid-template-columns: repeat(auto-fill, 300px);
+    justify-content: center;
+    width: 100%;
 }

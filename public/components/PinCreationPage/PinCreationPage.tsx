@@ -101,11 +101,7 @@ export default class PinCreationScreen extends Component<{}, PinCreationScreenSt
                                     <label
                                         className="pin-builder__label"
                                         for="pin-image"
-                                        style={
-                                            !this.state.imgUrl
-                                                ? ''
-                                                : `background: url(${this.state.imgUrl}); background-size: cover;`
-                                        }
+                                        style={!this.state.imgUrl ? '' : `background-image: url(${this.state.imgUrl});`}
                                     >
                                         {this.state.imgUrl ? (
                                             <div> </div>

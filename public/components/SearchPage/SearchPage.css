@@ -1,7 +1,7 @@
 .search-result__container {
-    width: 100%;
     height: 100%;
     font-family: 'Inter';
+    padding: 0 10px;
 }
 
 .search-result__tabs {
@@ -31,4 +31,16 @@
 
 .search-result__tab-btn.active::after {
     width: 100%;
+}
+
+@media (max-width: 768px) {
+    .search-result__tab-btn {
+        width: 20%;
+    }
+}
+
+@media (max-width: 575px) {
+    .search-result__tab-btn {
+        width: 33%;
+    }
 }

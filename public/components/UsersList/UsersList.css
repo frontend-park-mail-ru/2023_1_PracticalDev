@@ -51,3 +51,35 @@
     display: flex;
     flex-direction: row;
 }
+
+@media (max-width: 767px) {
+    .users-list {
+        grid-template-columns: repeat(auto-fill, 400px);
+    }
+}
+
+@media (max-width: 575px) {
+    .users-list {
+        grid-template-columns: repeat(auto-fill, 200px);
+    }
+
+    .user-list__btn {
+        font-size: 16px;
+    }
+
+    .users-list__item {
+        flex-direction: column;
+        font-size: 18px;
+    }
+
+    .users-list__btn-container {
+        width: 100%;
+    }
+
+    .users-list__user-info {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
