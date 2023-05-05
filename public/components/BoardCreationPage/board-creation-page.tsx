@@ -64,12 +64,19 @@ export class BoardCreationScreen extends Component<BoardCreationScreenProps, Boa
                                 <h1 className="createBoard__header">Create the board</h1>
                                 <p className="createBoard_error">{this.state.errMsg}</p>
                                 <div className="createBoard__input_container">
-                                    <input className="input__custom" placeholder="Board name" min="1" max="10"></input>
-                                    <button className="createBoard__button" onclick={this.createBoardHandler.bind(this)}>
-                                    Create
-                                </button>
+                                    <input
+                                        className="input__custom createBoard__input"
+                                        placeholder="Board name"
+                                        min="1"
+                                        max="10"
+                                    ></input>
+                                    <button
+                                        className="createBoard__button"
+                                        onclick={this.createBoardHandler.bind(this)}
+                                    >
+                                        Create
+                                    </button>
                                 </div>
-                                
                             </div>
                         </div>
                     </div>

@@ -47,7 +47,7 @@
 
 .pin-view__actions-like-btn {
     color: #276678;
-    background: white;
+    background: var(--color-light);
     align-content: center;
     border: none;
     margin-right: 9px;
