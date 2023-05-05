@@ -27,7 +27,7 @@ services:
     depends_on:
       - frontend
     ports:
-      - 80:80
+      - 1000:80
 
 networks:
   api-network:

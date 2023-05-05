@@ -21,6 +21,7 @@
 .settings__container {
     display: flex;
     justify-content: center;
+    margin-top: 15vh;
 }
 
 .sesttings__form-label {
@@ -88,4 +89,27 @@ input[type=file]::file-selector-button {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+
+@media (max-width: 1199px) {
+    .settings__content{
+        width: 70%;
+    }
+    .settings__file-input-container{
+        width: 100%;
+    }
+}
+@media (max-width: 768px) {
+    .settings__content{
+        width: 90%;
+    }
+}
+@media (max-width: 600px) {
+    .settings__form{
+        width: 90%;
+    }
+    .settings__content{
+        width: 80%;
+    }
 }
