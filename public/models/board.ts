@@ -1,11 +1,11 @@
-import Ajax from '../util/ajax';
+import Ajax, { HEADERS } from '../util/ajax';
 import { IBoard, IPin } from '../models';
 
 export default class Board {
     static getBoards() {
-        return Ajax.get('/boards').then((res) => {
+        return Ajax.get('/api/boards').then((res) => {
             if (res.status === 200) {
-                return res.body.items as IBoard[];
+                return (res.body.boards || []) as IBoard[];
             } else {
                 return Promise.reject(res);
             }
@@ -13,7 +13,7 @@ export default class Board {
     }
 
     static getBoard(id: number) {
-        return Ajax.get(`/boards/${id}`).then((res) => {
+        return Ajax.get(`/api/boards/${id}`).then((res) => {
             if (res.status === 200) {
                 return res.body as IBoard;
             } else {
@@ -23,17 +23,11 @@ export default class Board {
     }
 
     static deleteBoard(id: number) {
-        return Ajax.delete(`/boards/${id}`).then((res) => {
-            if (res.status === 204) {
-                return true;
-            } else {
-                return Promise.reject(res);
-            }
-        });
+        return Ajax.delete(`/api/boards/${id}`);
     }
 
     static updateBoard(board: IBoard) {
-        return Ajax.put(`/boards/${board.id}`, board).then((res) => {
+        return Ajax.put(`/api/boards/${board.id}`, board).then((res) => {
             if (res.status !== 200) {
                 return Promise.reject(res);
             }
@@ -41,7 +35,7 @@ export default class Board {
     }
 
     static getBoardPins(id: number) {
-        return Ajax.get(`/boards/${id}`).then((res) => {
+        return Ajax.get(`/api/boards/${id}/pins`).then((res) => {
             if (res.status === 200) {
                 return res.body.pins as IPin[];
             } else {
@@ -51,10 +45,25 @@ export default class Board {
     }
 
     static deletePinFromBoard(boardId: number, pinId: number) {
-        return Ajax.delete(`/boards/${boardId}/${pinId}`).then((res) => {
+        // return Ajax.delete(`/api/boards/${boardId}/pins/${pinId}`);
+        return fetch(`/api/boards/${boardId}/pins/${pinId}`, {
+            method: 'delete',
+            headers: {
+                [HEADERS.csrf]: localStorage.getItem('csrf'),
+            } as HeadersInit,
+        });
+    }
+
+    static createBoard(name: string) {
+        return Ajax.post('/api/boards', { name: name, description: '' }).then((res) => {
             if (res.status !== 200) {
                 return Promise.reject(res);
             }
+            return res.body as IBoard;
         });
+    }
+
+    static addPinToBoard(boardId: number, pinId: number) {
+        return Ajax.post(`/api/boards/${boardId}/pins/${pinId}`, {});
     }
 }

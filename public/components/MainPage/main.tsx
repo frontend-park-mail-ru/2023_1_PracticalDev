@@ -1,14 +1,9 @@
-import { Component, VNode, createElement } from '@t1d333/pickpinlib';
+import { Component, createElement } from '@t1d333/pickpinlib';
 import Feed from '../Feed/feed';
-import { Header } from '../Header/header';
-import Menu from '../Menu/menu';
-import { IPin, IUser } from '../../models';
-
+import { IPin } from '../../models';
+import { Main } from '../Main/main';
 import { store } from '../../store/store';
-import Ajax from '../../util/ajax';
-import Pin from '../../models/pin';
-import User from '../../models/user';
-import { loadUser } from '../../actions/user';
+import { Pin } from '../../models/pin';
 type MainScreenProps = {};
 type MainScreenState = {
     pins: IPin[];
@@ -44,14 +39,6 @@ export class MainScreen extends Component<MainScreenProps, MainScreenState> {
 
     componentDidMount(): void {
         this.unsubs.push(store.subscribe(this.LoadPinsCallback.bind(this)));
-        User.getMe()
-            .then((res) => {
-                loadUser(res as IUser);
-            })
-            .catch((res) => {
-                store.dispatch({ type: 'navigate', payload: { page: '/login' } });
-            });
-
         Pin.getFeed().then((res) => {
             store.dispatch({
                 type: 'loadedPins',
@@ -70,15 +57,9 @@ export class MainScreen extends Component<MainScreenProps, MainScreenState> {
 
     render() {
         return (
-            <div key="wrapper">
-                <Menu key="menu" />
-                <Header key="header" />
-                <div key="app" id="app">
-                    <div key="main__content" className="main__content">
-                        <Feed pins={this.state.pins} key="feed" />
-                    </div>
-                </div>
-            </div>
+            <Main>
+                <Feed pins={this.state.pins} key="feed" />
+            </Main>
         );
     }
 }

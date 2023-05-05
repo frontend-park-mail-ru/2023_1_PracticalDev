@@ -19,6 +19,9 @@ export const loadUser = (user: IUser) => {
     store.dispatch({ type: 'loadedUser', payload: { user: user } });
 };
 
-export const loadProfile = (pins: IPin[], boards: IBoard[]) => {
-    store.dispatch({ type: 'loadedProfile', payload: { profilePins: pins, profileBoards: boards } });
+export const loadProfile = (pins: IPin[], boards: IBoard[], followers: IUser[], followees: IUser[]) => {
+    store.dispatch({
+        type: 'loadedProfile',
+        payload: { profilePins: pins, profileBoards: boards, followers: followers, followees: followees },
+    });
 };

@@ -1,6 +1,6 @@
-import Ajax from '../util/ajax';
-import { IPin } from '../models';
-export default class Pin {
+import Ajax, { HEADERS } from '../util/ajax';
+import { IPin, IUser } from '../models';
+export class Pin {
     static getUserPins(id: number) {
         return Ajax.get(`/api/users/${id}/pins`).then((response) => {
             if (!response.ok) {
@@ -14,19 +14,41 @@ export default class Pin {
     }
 
     static getPin(id: number) {
-        return Ajax.get(`/api/pins/${id}`).then();
+        return Ajax.get(`/api/pins/${id}`).then((res) => {
+            if (res.ok) {
+                return res.body as IPin;
+            }
+            return Promise.reject(res);
+        });
     }
 
     static uploadPin(fd: FormData) {
-        return fetch('/api/pins', { method: 'POST', body: fd });
+        return Ajax.post('/api/pins', fd, true);
     }
 
     static deletePin(id: number) {
-        return Ajax.get(`/api/pins/${id}`).then((res) => {
-            if (res.status !== 200) {
-                Promise.reject(res);
-            }
+        //TODO: пофиксить ajax
+        // return Ajax.delete(`/api/pins/${id}`);
+        return fetch(`/api/pins/${id}`, {
+            method: 'delete',
+            headers: {
+                [HEADERS.csrf]: localStorage.getItem('csrf'),
+            } as HeadersInit,
         });
+    }
+
+    static updatePin(pin: IPin) {
+        const fd = new FormData();
+        fd.append('title', pin.title);
+        fd.append('description', pin.description);
+        return Ajax.put(`/api/pins/${pin.id}`, fd);
+    }
+
+    static getPinAuhtor(pin: IPin) {
+        const author = Ajax.get(`/api/users/${pin.author_id}`).then((res) => {
+            return res.body as IUser;
+        });
+        return author;
     }
 
     static getFeed() {
@@ -37,5 +59,13 @@ export default class Pin {
                 return response.body.pins;
             }
         });
+    }
+
+    static LikePin(id: number) {
+        return Ajax.post(`/api/pins/${id}/like`, {});
+    }
+
+    static UnLikePin(id: number) {
+        return Ajax.delete(`/api/pins/${id}/like`);
     }
 }

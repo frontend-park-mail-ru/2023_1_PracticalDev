@@ -1,0 +1,254 @@
+.pin-view {
+    width: 50vw;
+    height: auto;
+    margin: 20px auto 80px;
+    display: flex;
+    background: white;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.pin-view__image {
+    width: 25vw;
+    height: fit-content;
+}
+
+.pin-view__info {
+    width: 40%;
+    padding: 28px 40px 28px 32px;
+}
+
+.pin-view__actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pin-view__actions-more-btn {
+    align-content: center;
+    color: #276678;
+    background: white;
+    border: none;
+    margin-right: 50px;
+    padding: 0;
+    cursor: pointer;
+}
+
+.pin-view__actions-share-btn {
+    color: #276678;
+    background: white;
+    align-content: center;
+    border: none;
+    margin-right: 28px;
+    padding: 0;
+    cursor: pointer;
+}
+
+.pin-view__actions-like-btn {
+    color: #276678;
+    background: white;
+    align-content: center;
+    border: none;
+    margin-right: 9px;
+    padding: 0;
+    cursor: pointer;
+}
+
+.pin-view__actions-stat {
+    margin: 0 31px 0 0;
+    color: #276678;
+    font-size: 32px;
+    font-weight: bold;
+    font-family: 'Inter', sans-serif;
+    width: 5%;
+}
+
+.pin-view__actions-save-btn {
+    color: #e8e8e8;
+    background: #1687a7;
+    height: 1.5em;
+    width: 30%;
+    border-radius: 0.25em;
+    font-size: 1em;
+    font-family: 'Inter', sans-serif;
+    border: none;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.pin-view__board-list {
+    border: none;
+    font-family: 'Inter';
+    font-size: 1em;
+    outline: 0;
+    border: 0;
+    box-shadow: none;
+    height: 1.6em;
+    border-radius: 7px;
+    width: 40%;
+    color: #1687a7;
+    background-color: #d3e0ea;
+    cursor: pointer;
+}
+
+.pin-view__title {
+    margin-top: 43px;
+    margin-bottom: 0;
+    color: #141414;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 38px;
+    font-family: 'Inter', sans-serif;
+    text-align: left;
+}
+
+.pin-view__description {
+    margin-top: 20px;
+    margin-bottom: 0;
+    color: #141414;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
+    font-family: 'Inter', sans-serif;
+    text-align: left;
+}
+
+.pin-view__author {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: start;
+    margin-top: 50px;
+}
+
+.pin-view__author-avatar-img {
+    width: 100%;
+    height: 100%;
+    max-height: 65px;
+    max-width: 65px;
+    min-height: 30px;
+    min-width: 30px;
+    object-fit: cover;
+    margin-right: 5px;
+    border-radius: 10%;
+}
+
+.pin-view__author-name {
+    color: black;
+    font-size: 1.3em;
+    font-weight: 600;
+    line-height: 29px;
+    font-family: 'Inter', sans-serif;
+}
+
+.pin-view__author-subscribe-btn {
+    margin-left: auto;
+    height: 3em;
+    width: 6em;
+    color: #3c3b3b;
+    background: #d3e0ea;
+    font-size: 1em;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+}
+
+.pin-view__comments-header {
+    margin-top: 28px;
+    margin-bottom: 0;
+    text-align: left;
+    color: #141414;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Inter', sans-serif;
+}
+
+.pin-view__response-container {
+    height: 20px;
+    font-family: 'Inter';
+    color: #1687a7;
+}
+
+.pin-view__follow-btn {
+    width: 40%;
+    background: #1687a7;
+    color: #d3e0ea;
+    font-weight: bold;
+    font-family: 'Inter';
+    font-size: 20px;
+    border: none;
+    padding: 10px 0;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.pin-view__follow-btn.active {
+    color: #1687a7;
+    background: #d3e0ea;
+}
+@media (max-width: 1199px) {
+    .pin-view__actions-like-btn {
+        background: var(--color-light);
+    }
+    .pin-view__info {
+        width: 70%;
+        padding: 28px 40px 28px 32px;
+    }
+    .pin-view {
+        width: 700px;
+        flex-direction: column;
+        background: #f6f5f5;
+    }
+
+    .pin-view__image {
+        width: 700px;
+        border-radius: 20px;
+    }
+}
+
+@media (max-width: 991px) {
+    .pin-view__follow-btn {
+        width: 50%;
+    }
+
+    .pin-view {
+        width: 500px;
+    }
+
+    .pin-view__image {
+        width: 500px;
+    }
+}
+
+@media (max-width: 768px) {
+    .pin-view {
+        width: 400px;
+    }
+
+    .pin-view__image {
+        width: 400px;
+    }
+}
+
+@media (max-width: 500px) {
+    .pin-view {
+        width: 350px;
+    }
+
+    .pin-view__image {
+        width: 350px;
+    }
+}
+
+@media (max-width: 400px) {
+    .pin-view {
+        width: 300px;
+    }
+
+    .pin-view__image {
+        width: 300px;
+    }
+}

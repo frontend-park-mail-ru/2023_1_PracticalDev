@@ -5,11 +5,11 @@
   "scripts": {
     "test": "mocha",
     "server": "node ./server/index.js",
-    "dev": "parcel public/index.html public/static/img/* -p 8000",
+    "dev": "concurrently \"parcel public/index.html public/static/img/* -p 8000 \" \"copy-and-watch --watch public/sw.js dist\"",
     "lint": "eslint --ignore-path ./config/.eslintignore --config ./config/.eslintrc public/**/*.js server/**/*.js",
     "compile": "node ./server/compileTemplates.js",
     "mock": "node ./mock/index.js",
-    "build": "parcel build --no-cache public/index.html"
+    "build": "parcel build --no-cache public/index.html && copy-and-watch src/workers/serviceWorker.js dist"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,8 @@
     "@types/assert": "^1.5.6",
     "@types/mocha": "^10.0.1",
     "assert": "^2.0.0",
+    "concurrently": "^8.0.1",
+    "copy-and-watch": "^0.1.6",
     "eslint": "^8.34.0",
     "mocha": "^10.2.0"
   },
@@ -32,7 +34,7 @@
   "dependencies": {
     "@parcel/packager-ts": "^2.8.3",
     "@parcel/transformer-typescript-types": "^2.8.3",
-    "@t1d333/pickpinlib": "^1.0.7",
+    "@t1d333/pickpinlib": "^1.0.13",
     "@t1d333/pickpinreduxlib": "^1.0.1",
     "@tsconfig/recommended": "^1.0.2",
     "express": "^4.18.2",

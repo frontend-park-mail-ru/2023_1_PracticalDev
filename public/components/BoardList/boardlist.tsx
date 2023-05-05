@@ -1,12 +1,10 @@
 import { Component, createElement, VNode } from '@t1d333/pickpinlib';
+import { IBoardWithPins } from '../../models';
+import { navigate } from '../../actions/navigation';
+import { loadBoard } from '../../actions/board';
+import { store } from '../../store/store';
 
-export type IBoardListItem = {
-    id: number;
-    name: string;
-    images: string[];
-};
-
-type BoardListItemProps = { board: IBoardListItem };
+type BoardListItemProps = { board: IBoardWithPins };
 type BoardListItemState = {};
 
 export class BoardListItem extends Component<BoardListItemProps, BoardListItemState> {
@@ -14,10 +12,10 @@ export class BoardListItem extends Component<BoardListItemProps, BoardListItemSt
     private getImages = () => {
         const result: VNode[] = [];
         let i = 0;
-        for (; i < this.props.board.images.length && i < 3; ++i) {
+        for (; i < this.props.board.pins.length && i < 3; ++i) {
             result.push(
                 <div className={this.classNames[i] + '-wrapper'}>
-                    <img className={this.classNames[i]} src={this.props.board.images[i]} />
+                    <img className={this.classNames[i]} src={this.props.board.pins[i].media_source} />
                 </div>,
             );
         }
@@ -30,7 +28,18 @@ export class BoardListItem extends Component<BoardListItemProps, BoardListItemSt
     };
     render() {
         return (
-            <div key={'boarditem-' + this.props.board.id}>
+            <div
+                key={'boarditem-' + this.props.board.id}
+                onclick={() => {
+                    loadBoard(this.props.board);
+                    const curPage = location.href.split('/')[3];
+                    if (curPage === 'profile') {
+                        navigate(`/board-changing/${this.props.board.id}`);
+                    } else {
+                        navigate(`/board/${this.props.board.id}`);
+                    }
+                }}
+            >
                 <div className="boardlist-item">{...this.getImages()}</div>
                 <div className="boardlist-item__name">{this.props.board.name}</div>
             </div>
@@ -39,7 +48,7 @@ export class BoardListItem extends Component<BoardListItemProps, BoardListItemSt
 }
 
 type BoardListProps = {
-    boards: IBoardListItem[];
+    boards: IBoardWithPins[];
 };
 type BoardListState = {};
 

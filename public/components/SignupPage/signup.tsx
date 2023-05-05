@@ -7,8 +7,24 @@ import { validateEmail } from '../../util/validator';
 import { validateUsername } from '../../util/validator';
 import { validatePassword } from '../../util/validator';
 import { loginUser } from '../../actions/user';
+import { navigate } from '../../actions/navigation';
+import { ChatWs } from '../../util/chatWs';
 type SignupProps = {};
 type SignupState = {};
+
+const convertErrMsg = (msg: string): string => {
+    return msg === 'Empty string' ? 'All fields must be filled' : msg;
+};
+
+const debounce = (func: Function, timeout = 600) => {
+    let timer: number;
+    return (...args: any[]) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            func.apply(this, args);
+        }, timeout);
+    };
+};
 
 const formInputs = [
     {
@@ -16,18 +32,77 @@ const formInputs = [
         type: 'text',
         placeholder: 'Enter your username',
         icon: 'person',
+        validator: debounce((e) => {
+            try {
+                validateUsername(e.target.value);
+            } catch (err: any) {
+                store.dispatch({
+                    type: 'validationErrorMessage',
+                    payload: {
+                        message: convertErrMsg(err.message),
+                    },
+                });
+                return;
+            }
+
+            store.dispatch({
+                type: 'validationErrorMessage',
+                payload: {
+                    message: '',
+                },
+            });
+        }),
     },
     {
         name: 'email',
         type: 'email',
         placeholder: 'Enter your email',
         icon: 'alternate_email',
+        validator: debounce((e) => {
+            try {
+                validateEmail(e.target.value);
+            } catch (err: any) {
+                store.dispatch({
+                    type: 'validationErrorMessage',
+                    payload: {
+                        message: convertErrMsg(err.message),
+                    },
+                });
+                return;
+            }
+            store.dispatch({
+                type: 'validationErrorMessage',
+                payload: {
+                    message: '',
+                },
+            });
+        }),
     },
+
     {
         name: 'password',
         type: 'password',
         placeholder: 'Enter your password',
         icon: 'lock',
+        validator: debounce((e) => {
+            try {
+                validatePassword(e.target.value);
+            } catch (err: any) {
+                store.dispatch({
+                    type: 'validationErrorMessage',
+                    payload: {
+                        message: convertErrMsg(err.message),
+                    },
+                });
+                return;
+            }
+            store.dispatch({
+                type: 'validationErrorMessage',
+                payload: {
+                    message: '',
+                },
+            });
+        }),
     },
 ];
 
@@ -47,23 +122,22 @@ export class SignupScreen extends Component<SignupProps, SignupState> {
         const formData = store.getState().formData;
 
         try {
-            //TODO: поправить empty string в валидации
-            validateUsername(formData.username);
             validateEmail(formData.email);
-            //TODO: добавить чекбокс для просмотра пароля
             validatePassword(formData.password);
         } catch (err: any) {
             store.dispatch({
                 type: 'validationErrorMessage',
                 payload: {
-                    message: err.message,
+                    message: convertErrMsg(err.message),
                 },
             });
+
             return;
         }
 
         User.signup(formData.username, formData.email.split('@')[0], formData.email, formData.password)
             .then((res) => {
+                ChatWs.createSocket();
                 loginUser(res);
             })
             .catch((res) => {
@@ -83,6 +157,9 @@ export class SignupScreen extends Component<SignupProps, SignupState> {
             });
     };
     componentDidMount(): void {
+        User.getMe().then(() => {
+            navigate('/feed');
+        });
         this.unsubs.push(store.subscribe(this.signupHandler.bind(this)));
     }
 
@@ -93,24 +170,18 @@ export class SignupScreen extends Component<SignupProps, SignupState> {
     }
     render() {
         return (
-            <div key="signup-wrapper" className="wrapper">
-                <div key="section_logo" className="section_logo">
-                    <AuthLogoSection key="auth-logo" illustrationSrc="/static/img/search-animate.svg" />
-                </div>
+            <div className="wrapper">
+                <AuthLogoSection illustrationSrc="/static/img/search-animate.svg" />
 
-                <div key="section_login" className="section_login">
-                    <h1 key="header__login" className="header__login">
-                        Create an account
-                    </h1>
-                    <hr key="hr" style="width:70%;;border:1px solid #276678;" />
-                    <div key="form_wrapper" className="form_wrapper">
-                        <Form key="signup-form" {...formProps} />
-                        <div key="form_help_section" className="form_help_section">
-                            <a href="/login" id="register_link" key="register_link">
+                <div className="section_login">
+                    <h1 className="header__login">Create an account</h1>
+
+                    <hr style="width:85%;border:1px solid #276678;" />
+                    <div className="form_wrapper">
+                        <Form {...formProps} />
+                        <div className="form_help_section">
+                            <a href="/login" id="register_link">
                                 Already have an account?
-                            </a>
-                            <a href="/signup" id="password_recover_link" key="password_recover_link">
-                                Forgot password?
                             </a>
                         </div>
                     </div>

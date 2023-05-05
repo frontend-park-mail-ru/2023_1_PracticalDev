@@ -9,10 +9,17 @@ const AJAX_METHODS = {
     DELETE: 'DELETE',
 };
 
+export const HEADERS = {
+    csrf: 'X-XSRF-TOKEN',
+};
+
 class Ajax {
     static async #fetch(url: string, options = {}, parseResponse = true) {
         const resp = await fetch(url, {
             ...options,
+            headers: {
+                [HEADERS.csrf]: localStorage.getItem('csrf'),
+            } as HeadersInit,
         });
 
         if (!resp.ok) {
@@ -56,6 +63,9 @@ class Ajax {
                 method: AJAX_METHODS.GET,
                 mode: 'cors',
                 credentials: 'same-origin',
+                headers: {
+                    [HEADERS.csrf]: localStorage.getItem(HEADERS.csrf),
+                } as HeadersInit,
             },
             json,
         );
@@ -68,12 +78,20 @@ class Ajax {
      *
      * @returns {Promise<{status: number, body: Object, ok: boolean}>}
      */
-    static async post(url: string, body: object): Promise<{ status: number; body: { [_: string]: any }; ok: boolean }> {
+    static async post(
+        url: string,
+        body: object,
+        isFormData = false,
+    ): Promise<{ status: number; body: { [_: string]: any }; ok: boolean }> {
         return this.#fetch(url, {
             method: AJAX_METHODS.POST,
             mode: 'cors',
+
+            headers: {
+                [HEADERS.csrf]: localStorage.getItem(HEADERS.csrf),
+            } as HeadersInit,
             credentials: 'same-origin',
-            body: JSON.stringify(body),
+            body: isFormData ? body : JSON.stringify(body),
         });
     }
 
@@ -89,6 +107,9 @@ class Ajax {
             method: AJAX_METHODS.PUT,
             mode: 'cors',
             credentials: 'same-origin',
+            headers: {
+                [HEADERS.csrf]: localStorage.getItem(HEADERS.csrf),
+            } as HeadersInit,
             body: body,
         });
     }
@@ -107,6 +128,9 @@ class Ajax {
         return this.#fetch(url, {
             method: AJAX_METHODS.PATCH,
             mode: 'cors',
+            headers: {
+                [HEADERS.csrf]: localStorage.getItem(HEADERS.csrf),
+            } as HeadersInit,
             credentials: 'same-origin',
             body: body,
         });
@@ -122,6 +146,9 @@ class Ajax {
         return this.#fetch(url, {
             method: AJAX_METHODS.DELETE,
             mode: 'cors',
+            headers: {
+                [HEADERS.csrf]: localStorage.getItem(HEADERS.csrf),
+            } as HeadersInit,
             credentials: 'same-origin',
         });
     }

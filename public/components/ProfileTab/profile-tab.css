@@ -13,20 +13,22 @@
     display: flex;
     flex-direction: column;
 }
-.profile__tab-btn, .profile__tab-btn-active {
-    font-family: "Inter";
+
+.profile__tab-btn,
+.profile__tab-btn-active {
+    user-select: none;
+    font-family: 'Inter';
     font-size: 20px;
     cursor: pointer;
     border: none;
-    color: #1687A7;
-    background: #F6F5F5;
+    color: #1687a7;
+    background: #f6f5f5;
     padding: 5px 10px;
-    
 }
 
 .profile__tab-btn-active {
-    color: #F6F5F5;
-    background:#1687A7; 
+    color: #f6f5f5;
+    background: #1687a7;
 }
 
 .profile__creation-btn {
@@ -37,12 +39,25 @@
 }
 
 .profile__creation-btn-icon {
-    background:#1687A7; 
-    color: #F6F5F5;
+    background: #1687a7;
+    color: #f6f5f5;
     border-radius: 5px;
 }
 
-
 .profile__tab-content {
     margin-top: 30px;
+}
+
+
+@media (max-width: 430px) {
+    .profile__tab-buttons {
+        overflow: auto;
+        width: 85%;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .profile__tab-buttons::-webkit-scrollbar {
+        display: none;
+    }
 }

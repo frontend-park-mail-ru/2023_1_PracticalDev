@@ -3,12 +3,13 @@
     color: #276678;
 }
 
-
-.pin-builder__submit-btn-container {
+.pin-builder__btn-container {
     display: flex;
     flex-direction: row;
+
     width: 80%;
     justify-content: end;
+    align-items: center;
 }
 
 .pin-builder__inputs-container {
@@ -34,33 +35,49 @@
     cursor: pointer;
     color: #d3e0ea;
     border-radius: 10px;
-    font-size: 20px; 
+    font-size: 20px;
     width: 35%;
-    height: 150%; 
+    height: 150%;
+}
+
+.pin-builder__delete-btn {
+    color: #276678;
+    border: none;
+    cursor: pointer;
+    background-color: #d3e0ea;
+    border-radius: 5px;
+    width: 15%;
+    height: 150%;
+    margin-right: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .pin-builder__container {
     margin-top: 30px;
     width: 100%;
     height: 100%;
-    background: #F6F5F5;
+    background: #f6f5f5;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.pin-builder__form {
+#pin-builder__form {
     width: 60vw;
     height: 70vh;
 }
 
-.pin-builder__form {
+#pin-builder__form {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-.pin-builder__img-input-container {
+.pin-builder__img-input-container,
+.pin-builder__img-container {
     width: 40%;
     height: 100%;
 }
@@ -71,12 +88,22 @@
     justify-content: center;
     align-items: center;
     border-radius: 15px;
-    font-family: "Inter";
+    font-family: 'Inter';
     color: #276678;
     font-size: 32px;
     width: 100%;
     height: 100%;
-    background: #D9D9D9;
+    background: #d9d9d9;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.pin-builder__img {
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .pin-builder__form-container {
@@ -86,12 +113,11 @@
     align-items: center;
     width: 55%;
     border-radius: 10px;
-    border: #D9D9D9 2px solid;
+    border: #d9d9d9 2px solid;
 }
 
-
 .pin-builder__form-container input {
-   width: 80%;
+    width: 80%;
 }
 
 .pin-builder__description-input {
@@ -106,8 +132,74 @@
     min-height: 50%;
     border-radius: 20px;
     background: #f6f5f5;
-    border: 1px solid #1687A7;
+    border: 1px solid #1687a7;
     border-radius: 15px;
     padding: 10px 10px;
- 
+}
+
+@media (max-width: 1199px) {
+    #pin-builder__form {
+        flex-direction: column;
+        width: 650px;
+        height: auto;
+    }
+
+    .pin-builder__form-container {
+        margin-top: 20px;
+        margin-bottom: 100px;
+        width: 100%;
+    }
+    .pin-builder__error-msg-container {
+        margin-bottom: 10px;
+    }
+    .pin-builder__img-input-container,
+    .pin-builder__img-container {
+        width: 100%;
+        height: 70vh;
+    }
+
+    .pin-builder__img-input-container {
+        margin-bottom: 20px;
+    }
+
+    .pin-builder__header {
+        margin: 5px;
+    }
+
+    .pin-builder__submit-btn {
+        height: 40px;
+    }
+
+    .pin-builder__btn-container {
+        margin: 10px;
+        justify-content: center;
+    }
+
+    .pin-builder__description-input {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    #pin-builder__form {
+        width: 470px;
+    }
+}
+
+@media (max-width: 600px) {
+    #pin-builder__form {
+        width: 450px;
+    }
+}
+
+@media (max-width: 450px) {
+    #pin-builder__form {
+        width: 370px;
+    }
+}
+
+@media (max-width: 400px) {
+    #pin-builder__form {
+        width: 300px;
+    }
 }

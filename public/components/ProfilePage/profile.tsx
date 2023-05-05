@@ -1,55 +1,70 @@
-import { Component, VNode, createElement } from '@t1d333/pickpinlib';
-import Menu from '../Menu/menu';
-import { Header } from '../Header/header';
+import { Component, createElement } from '@t1d333/pickpinlib';
 import { ProfileTab } from '../ProfileTab/profile-tab';
 import { ProfileHeader } from '../ProfileHeader/profile-header';
-
 import { store } from '../../store/store';
-import { IPin, IBoard, IUser } from '../../models';
+import { IPin, IUser, IBoardWithPins } from '../../models';
 import User from '../../models/user';
-import { loadProfile, loadUser } from '../../actions/user';
+import { loadProfile } from '../../actions/user';
+import { Main } from '../Main/main';
 
 type ProfileProps = {};
-type ProfileState = { user: IUser | undefined; pins: IPin[]; boards: IBoard[] };
+type ProfileState = {
+    user: IUser | undefined;
+    pins: IPin[];
+    boards: IBoardWithPins[];
+    followers: IUser[];
+    followees: IUser[];
+};
 export class ProfileScreen extends Component<ProfileProps, ProfileState> {
     private unsubs: Function[] = [];
     constructor() {
         super();
         this.state = {
-            user: {},
+            user: undefined,
             pins: [],
             boards: [],
+            followers: [],
+            followees: [],
         };
     }
+
     profileLoadHandler() {
         if (store.getState().type !== 'loadedProfile') {
             return;
         }
 
         this.setState((s) => {
-            return { ...s, user: store.getState().user!, pins: store.getState().profilePins };
+            return {
+                ...s,
+                user: store.getState().user!,
+                pins: store.getState().profilePins,
+                boards: store.getState().profileBoards,
+                followers: store.getState().followers,
+                followees: store.getState().followees,
+            };
+        });
+    }
+
+    userLoadHandler() {
+        if (store.getState().type !== 'loadedUser') {
+            return;
+        }
+        User.getUserProfile(store.getState().user!.id).then(([pins, boards, followers, followees]) => {
+            loadProfile(pins!, boards!, followers!, followees!);
         });
     }
 
     componentDidMount(): void {
-        User.getMe()
-            .then((res) => {
-                loadUser(res as IUser);
-                return res;
-            })
-            .then((res) => {
-                User.getUserProfile(res.id).then(([pins, boards]) => {
-                    loadProfile(pins!, boards!);
-                });
-            })
-            .catch((res) => {
-                if (res.status === 401) {
-                    store.dispatch({ type: 'navigate', payload: { page: '/login' } });
-                }
+        if (store.getState().user) {
+            User.getUserProfile(store.getState().user!.id).then(([pins, boards, followers, followees]) => {
+                loadProfile(pins!, boards!, followers!, followees!);
             });
-
+        } else {
+            this.unsubs.push(store.subscribe(this.userLoadHandler.bind(this)));
+        }
         this.unsubs.push(store.subscribe(this.profileLoadHandler.bind(this)));
     }
+
     componentWillUnmount(): void {
         for (const func of this.unsubs) {
             func();
@@ -58,22 +73,19 @@ export class ProfileScreen extends Component<ProfileProps, ProfileState> {
 
     render() {
         return (
-            <div key="wrapper">
-                <Menu key="menu" />
-                <Header
-                    key="header"
-                    username="username"
-                    avatarSrc="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdnb.artstation.com%2Fp%2Fassets%2Fimages%2Fimages%2F002%2F488%2F931%2Flarge%2Fjoo-yann-ang-pudge-final.jpg%3F1462351306&f=1&nofb=1&ipt=8936a27eed33b56c3ad763d110d2b2edb817ceab874b153eee08a16dbd873093&ipo=images"
-                />
-                <div key="app" id="app">
-                    <div key="main__content" className="main__content">
-                        <div className="profile__container">
-                            <ProfileHeader key="profile-header" user={this.state.user} />
-                            <ProfileTab key="profile-tab" userPins={this.state.pins || []} />
-                        </div>
-                    </div>
+            <Main>
+                <div className="profile__container">
+                    <ProfileHeader user={this.state.user} />
+                    <ProfileTab
+                        userContent={{
+                            pins: this.state.pins || [],
+                            boards: this.state.boards || [],
+                            followers: this.state.followers || [],
+                            followees: this.state.followees || [],
+                        }}
+                    />
                 </div>
-            </div>
+            </Main>
         );
     }
 }

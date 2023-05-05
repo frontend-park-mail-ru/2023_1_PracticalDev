@@ -2,11 +2,13 @@ import { Component, createElement } from '@t1d333/pickpinlib';
 import { Form } from '../Form/form';
 import AuthLogoSection from '../AuthLogoSection/authLogoSection';
 import { store } from '../../store/store';
-import { validateEmail, validatePassword } from '../../util/validator';
-import Ajax from '../../util/ajax';
 import CheckAuth from '../../util/check';
-import { IBoard, IPin, IUser } from '../../models';
 import User from '../../models/user';
+import { validationError } from '../../actions/error';
+import { loginUser } from '../../actions/user';
+import './login.css';
+import { navigate } from '../../actions/navigation';
+import { ChatWs } from '../../util/chatWs';
 type AuthProps = {};
 type AuthState = {};
 
@@ -31,34 +33,6 @@ const formProps = {
     inputs: loginInputs,
     submitBtnText: 'login',
 };
-//
-//
-// const loginUser = (email: string, password: string) => {
-//     Ajax.post('/api/auth/login', {
-//         email: email,
-//         password: password,
-//     }).then((response) => {
-//         if (!response.ok) {
-//             if (response.status === 404) {
-//                 store.dispatch({
-//                     type: 'validationErrorMessage',
-//                     payload: {
-//                         message: 'Wrong email or password',
-//                     },
-//                 });
-//             }
-//         } else {
-//             const user: IUser = response.body as IUser;
-//             store.dispatch({
-//                 type: 'navigate',
-//                 payload: {
-//                     page: '/feed',
-//                     user: user,
-//                 },
-//             });
-//         }
-//     });
-// };
 
 export class LoginScreen extends Component<AuthProps, AuthState> {
     private prevData: any;
@@ -80,31 +54,31 @@ export class LoginScreen extends Component<AuthProps, AuthState> {
             return;
         }
 
-        //TODO: добавить проверку на пустые строки
+        if (formData.email === '' || formData.password === '') {
+            validationError('All fields must be filled!');
+            return;
+        }
 
         User.login(formData.email, formData.password)
             .then((res) => {
-                store.dispatch({
-                    type: 'navigate',
-                    payload: {
-                        page: '/feed',
-                        user: res,
-                    },
-                });
+                ChatWs.createSocket();
+                loginUser(res);
             })
-            .catch((err) => {
-                store.dispatch({
-                    type: 'validationErrorMessage',
-                    payload: {
-                        message: 'Wrong email or password',
-                    },
-                });
+
+            .catch((res) => {
+                if (res.status === 404 || res.status === 400) {
+                    validationError('Wrong email or password');
+                    return;
+                }
+                validationError('Server error');
             });
     }
 
     componentDidMount(): void {
         this.unsubs.push(store.subscribe(this.SubmitCallback.bind(this)));
-        CheckAuth();
+        User.getMe().then(() => {
+            navigate('/feed');
+        });
     }
 
     componentWillUnmount(): void {
@@ -115,22 +89,17 @@ export class LoginScreen extends Component<AuthProps, AuthState> {
 
     render() {
         return (
-            <div key="login-wrapper" className="wrapper">
-                <AuthLogoSection key="logo-section" illustrationSrc="/static/img/animate.svg" />
+            <div className="wrapper">
+                <AuthLogoSection illustrationSrc="/static/img/animate.svg" />
 
-                <div key="section_login" className="section_login">
-                    <h1 key="header__login" className="header__login">
-                        Welcome back
-                    </h1>
-                    <hr key="hr" style="width:70%;;border:1px solid #276678;" />
-                    <div key="form_wrapper" className="form_wrapper">
-                        <Form key="form" {...formProps} />
-                        <div key="form_help_section" className="form_help_section">
-                            <a href="/signup" key="register_link" id="register_link">
+                <div className="section_login">
+                    <h1 className="header__login">Welcome back</h1>
+                    <hr style="width:85%;border:1px solid #276678;" />
+                    <div className="form_wrapper">
+                        <Form {...formProps} />
+                        <div className="form_help_section">
+                            <a href="/signup" id="register_link">
                                 Don't have an account?
-                            </a>
-                            <a href="/signup" key="password_recover_link" id="password_recover_link">
-                                Forgot password?
                             </a>
                         </div>
                     </div>
