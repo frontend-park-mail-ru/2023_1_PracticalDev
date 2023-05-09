@@ -5,9 +5,9 @@ import User from '../../models/user';
 import { logoutUser } from '../../actions/user';
 import { navigate } from '../../actions/navigation';
 const menuItems = [
-    { link: '/feed', name: 'home' },
+    { link: '/feed', name: 'dashboard' },
     { link: '/chats', name: 'chat' },
-    { link: '/profile', name: 'dashboard' },
+    { link: '/profile', name: 'favorite' },
     { link: '/settings', name: 'settings' },
 ];
 
