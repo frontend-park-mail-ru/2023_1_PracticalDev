@@ -4,6 +4,9 @@ import Ajax from '../../util/ajax';
 import User from '../../models/user';
 import { logoutUser } from '../../actions/user';
 import { navigate } from '../../actions/navigation';
+
+import './menu.css';
+
 const menuItems = [
     { link: '/feed', name: 'home' },
     { link: '/chats', name: 'chat' },

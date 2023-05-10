@@ -5,6 +5,8 @@ import { store } from '../../store/store';
 import Board from '../../models/board';
 import { navigate } from '../../actions/navigation';
 
+import './board-creation-page.css';
+
 type BoardCreationScreenProps = {};
 
 type BoardCreationScreenState = {

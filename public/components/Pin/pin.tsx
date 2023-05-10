@@ -5,6 +5,8 @@ import { Pin as PinModel } from '../../models/pin';
 import { IPin } from '../../models';
 import Board from '../../models/board';
 
+import './pin.css';
+
 interface PinState {
     isLiked: boolean;
 }

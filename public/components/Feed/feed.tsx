@@ -4,6 +4,8 @@ import { IPin } from '../../models';
 import Ajax from '../../util/ajax';
 import { store } from '../../store/store';
 
+import './feed.css';
+
 interface FeedProps {
     pins: IPin[];
 }

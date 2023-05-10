@@ -1,5 +1,7 @@
 import { Component, createElement } from '@t1d333/pickpinlib';
 
+import './authLogoSectiom.css';
+
 type AuthLogoProps = {
     illustrationSrc: string;
 };

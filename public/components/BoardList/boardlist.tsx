@@ -4,6 +4,8 @@ import { navigate } from '../../actions/navigation';
 import { loadBoard } from '../../actions/board';
 import { store } from '../../store/store';
 
+import './boardlist.css';
+
 type BoardListItemProps = { board: IBoardWithPins };
 type BoardListItemState = {};
 

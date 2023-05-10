@@ -5,6 +5,8 @@ import { Input } from '../Input/input';
 import { Pin } from '../../models/pin';
 import { store } from '../../store/store';
 
+import './PinCreationPage.css';
+
 type PinCreationScreenState = {
     name: string;
     description: string;

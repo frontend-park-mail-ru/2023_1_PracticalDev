@@ -4,6 +4,8 @@ import { store } from '../../store/store';
 import { Searchbar } from '../Searchbar/Searchbar';
 import { navigate } from '../../actions/navigation';
 
+import './header.css';
+
 type HeaderProps = {};
 
 type HeaderState = {

@@ -10,6 +10,8 @@ import { loadBoard } from '../../actions/board';
 import { navigate } from '../../actions/navigation';
 import { Main } from '../Main/main';
 
+import './board.css';
+
 type BoardScreenProps = {};
 type BoardScreenState = {
     board: IBoard | undefined;

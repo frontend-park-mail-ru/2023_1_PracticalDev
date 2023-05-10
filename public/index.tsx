@@ -2,6 +2,8 @@ import { Component, VAttributes, createElement, renderElement } from '@t1d333/pi
 import RouterProvider from './router/reactrouter';
 import { store } from './store/store';
 
+import './components/App/index.css';
+
 declare global {
     namespace JSX {
         interface IntrinsicElements {

@@ -7,6 +7,9 @@ import Board from '../../models/board';
 import { loadAvailableBoards } from '../../actions/board';
 import User from '../../models/user';
 import { Main } from '../Main/main';
+
+import './pin_page.css';
+
 type PinScreenState = {
     pin: IPin | undefined;
     availableBoards: IBoard[];

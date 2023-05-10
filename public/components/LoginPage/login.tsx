@@ -9,6 +9,9 @@ import { loginUser } from '../../actions/user';
 import './login.css';
 import { navigate } from '../../actions/navigation';
 import { ChatWs } from '../../util/chatWs';
+
+import './login.css';
+
 type AuthProps = {};
 type AuthState = {};
 

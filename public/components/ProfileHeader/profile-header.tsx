@@ -2,6 +2,8 @@ import { Component, createElement } from '@t1d333/pickpinlib';
 import { store } from '../../store/store';
 import { IUser } from '../../models';
 
+import './profile-header.css';
+
 type ProfileHeaderState = {
     user?: IUser;
     pinsCount?: number;

@@ -1,5 +1,7 @@
 import { Component, createElement } from '@t1d333/pickpinlib';
 
+import './input.css';
+
 export type InputProps = {
     placeholder: string;
     name: string;

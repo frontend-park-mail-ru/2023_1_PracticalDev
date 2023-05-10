@@ -6,6 +6,8 @@ import { IBoardWithPins, IUser } from '../../models';
 import { IPin } from '../../models';
 import { UsersList } from '../UsersList/UsersList';
 
+import './profile-tab.css';
+
 type ProfileTabState = {
     currentTab: string;
 };

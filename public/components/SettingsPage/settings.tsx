@@ -5,6 +5,8 @@ import User from '../../models/user';
 import { loadUser } from '../../actions/user';
 import { Main } from '../Main/main';
 
+import './settings.css';
+
 interface SettingsScreenProps {}
 interface SettingsScreenState {
     username: string;
