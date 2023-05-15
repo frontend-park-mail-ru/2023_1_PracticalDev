@@ -13,6 +13,9 @@ export const logoutUser = () => {
             user: undefined,
         },
     });
+    store.dispatch({
+        type: 'logout',
+    });
 };
 
 export const loadUser = (user: IUser) => {

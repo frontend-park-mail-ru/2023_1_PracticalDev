@@ -25,6 +25,7 @@ interface StoreState {
     wsConnection: WebSocket | undefined;
     message: IMessage | undefined;
     chat: IChat | undefined;
+    modalContentTag: string;
 }
 
 const initialState: StoreState = {
@@ -51,6 +52,7 @@ const initialState: StoreState = {
     wsConnection: undefined,
     message: undefined,
     chat: undefined,
+    modalContentTag: '',
 };
 
 const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: Action) => {
@@ -213,6 +215,27 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
             };
         }
 
+        case 'showModal': {
+            return {
+                ...state,
+                type: 'showModal',
+                modalContentTag: action.payload?.modalContentTag,
+            };
+        }
+
+        case 'hideModal': {
+            return {
+                ...state,
+                type: 'hideModal',
+            };
+        }
+        case 'logout': {
+            return {
+                ...state,
+                user: undefined,
+                type: 'logout',
+            };
+        }
         default:
             return state;
     }

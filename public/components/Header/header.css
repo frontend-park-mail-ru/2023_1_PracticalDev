@@ -1,14 +1,12 @@
 .header {
-    position: fixed;
-    left: 100px;
-    width: calc(100vw - 100px);
     height: 80px;
     background-color: #f6f5f5;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 0 10px;
+    padding-right: 10px;
+    padding-left: 110px;
 }
 
 .header__btn {
@@ -29,7 +27,8 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 80vw;
+    width: 90%;
+    justify-content: space-around;
 }
 
 .header__username {
@@ -42,7 +41,50 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-right: 20px;
+}
+
+.header__search-block {
+    width: 100%;
+    display: flex;
+}
+
+.header__creation-btn {
+    border: none;
+    margin: 0px;
+    background: none;
+    width: 50px;
+    height: 50px;
+}
+
+.header__creation-btn-icon {
+    cursor: pointer;
+    border: none;
+    background: #1687a7;
+    color: #f6f5f5;
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+}
+
+.header__creation-block {
+    margin-left: 10px;
+    width: 50px;
+    height: 50px;
+}
+
+.header__action-list-wrapper {
+    -webkit-box-shadow: 0px 5px 8px 3px rgba(34, 60, 80, 0.2);
+    -moz-box-shadow: 0px 5px 8px 3px rgba(34, 60, 80, 0.2);
+    box-shadow: 0px 5px 8px 3px rgba(34, 60, 80, 0.2);
+    position: relative;
+    right: 80px;
+    top: 10px;
+    display: none;
+    width: 190px;
+}
+
+.header__action-list-wrapper.active {
+    display: block;
 }
 
 @media (max-width: 600px) {
@@ -60,6 +102,10 @@
         display: none;
     }
 
+    .header__creation-block {
+        display: none;
+    }
+
     .header__btn {
         margin-right: 0px;
         padding: 0px;
@@ -70,7 +116,7 @@
     }
 
     .header__search-wrapper {
-        width: 85%;
+        width: 95%;
     }
 
     .header__btn:nth-child(2) {

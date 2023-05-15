@@ -1,10 +1,5 @@
-/* menu { */
-/*     z-index: 1000; */
-/*     height: 0; */
-/* } */
-
 .menu {
-    z-index: 10001;
+    z-index: 100;
     left: 0;
     width: 100px;
     display: flex;
@@ -26,6 +21,10 @@
 }
 
 .menu__item:nth-child(2) {
+    display: none;
+}
+
+.menu__item:nth-child(3) {
     display: none;
 }
 
@@ -106,6 +105,10 @@
     }
 
     .menu__item:nth-child(2) {
+        display: flex;
+    }
+
+    .menu__item:nth-child(3) {
         display: flex;
     }
 }
