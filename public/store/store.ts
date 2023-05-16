@@ -146,6 +146,7 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
             return {
                 ...state,
                 pinView: action.payload?.pin,
+                type: 'pinView',
             };
 
         case 'loadedPinInfo':

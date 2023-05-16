@@ -48,17 +48,15 @@ export class Header extends Component<HeaderProps, HeaderState> {
     }
 
     componentDidMount(): void {
-        this.unsubs.push(store.subscribe(this.userLoadHandler.bind(this)));
-        const body = document.querySelector('body');
-        body?.addEventListener('click', this.onCloseActionList.bind(this));
+        window.addEventListener('click', this.onCloseActionList.bind(this));
     }
-
-    componentDidUpdate(): void {}
 
     componentWillUnmount(): void {
         this.unsubs.forEach((func) => {
             func();
         });
+
+        window.removeEventListener('click', this.onCloseActionList);
     }
 
     render() {

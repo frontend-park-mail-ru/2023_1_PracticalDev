@@ -24,7 +24,6 @@ export class Input extends Component<InputProps, InputState> {
                         </span>
                         <input
                             oninput={this.props.validator ? this.props.validator : () => {}}
-                            key={'input-' + this.props.name}
                             className="input__custom input__has_icon"
                             placeholder={this.props.placeholder}
                             name={this.props.name}
@@ -34,6 +33,7 @@ export class Input extends Component<InputProps, InputState> {
                     </div>
                 ) : (
                     <input
+                        oninput={this.props.validator ? this.props.validator : () => {}}
                         key={'input-' + this.props.name}
                         className="input__custom "
                         placeholder={this.props.placeholder}

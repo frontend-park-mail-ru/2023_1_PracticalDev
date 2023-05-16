@@ -25,11 +25,23 @@ export class SearchPage extends Component<{}, SearchPageState> {
     private tagToComponent(tabName: string): VNode {
         switch (tabName) {
             case 'pins':
-                return <Feed pins={this.state.pins} />;
+                return this.state.pins.length > 0 ? (
+                    <Feed pins={this.state.pins} />
+                ) : (
+                    <h2>No pins found for your query</h2>
+                );
             case 'boards':
-                return <BoardList boards={this.state.boards} />;
+                return this.state.boards.length > 0 ? (
+                    <BoardList boards={this.state.boards} />
+                ) : (
+                    <h2>No boards found for your query</h2>
+                );
             default:
-                return <UsersList users={this.state.users} />;
+                return this.state.users.length > 0 ? (
+                    <UsersList users={this.state.users} />
+                ) : (
+                    <h2>No users found for your query</h2>
+                );
         }
     }
 
