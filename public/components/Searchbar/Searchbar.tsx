@@ -6,6 +6,7 @@ import './Searchbar.css';
 import { Suggestion } from '../Suggestion/Suggestion';
 import { Search } from '../../models/search';
 import { search } from '../../actions/search';
+import { debounce } from '../../util/debounce';
 
 type SearchbarState = {
     query: string;
@@ -13,7 +14,7 @@ type SearchbarState = {
     suggestions: string[];
 };
 
-export class Searchbar extends Component<{}, {}> {
+export class Searchbar extends Component<{}, SearchbarState> {
     private params = location.href.split('?');
     state = {
         query: this.params[1] ? this.params[1].split('=')[1] : '',
@@ -81,6 +82,10 @@ export class Searchbar extends Component<{}, {}> {
         });
     }
 
+    debouncedOnSearchCallback = debounce((event: any) => {
+        this.getSuggestion(event.target.value);
+    }, 300);
+
     render() {
         return (
             <div className="searchbar__wrapper">
@@ -96,9 +101,7 @@ export class Searchbar extends Component<{}, {}> {
                         type="search"
                         name="search"
                         icon="search"
-                        validator={(event: any) => {
-                            this.getSuggestion(event.target.value);
-                        }}
+                        validator={this.debouncedOnSearchCallback}
                         value={
                             store.getState().page === '/search'
                                 ? decodeURI(store.getState().searchQuery)
