@@ -260,10 +260,6 @@
 }
 
 @media (max-width: 1199px) {
-    .back-btn {
-        display: none;
-    }
-
     .pin-view__content > .loader {
         display: none;
     }
@@ -318,6 +314,11 @@
 }
 
 @media (max-width: 768px) {
+    .back-btn {
+        height: 0px;
+        overflow: hidden;
+    }
+
     .pin-view__info {
         width: 336px;
     }
