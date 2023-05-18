@@ -26,6 +26,7 @@ interface StoreState {
     message: IMessage | undefined;
     chat: IChat | undefined;
     modalContentTag: string;
+    feedPos: number;
 }
 
 const initialState: StoreState = {
@@ -53,10 +54,17 @@ const initialState: StoreState = {
     message: undefined,
     chat: undefined,
     modalContentTag: '',
+    feedPos: 0,
 };
 
 const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: Action) => {
     switch (action.type) {
+        case 'safeFeedPos':
+            return {
+                ...state,
+                feedPos: action.payload?.feedPos,
+                type: 'safeFeedPos',
+            };
         case 'navigate':
             return {
                 ...state,

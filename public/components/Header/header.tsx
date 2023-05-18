@@ -99,6 +99,9 @@ export class Header extends Component<HeaderProps, HeaderState> {
                         <span className="material-symbols-outlined md-32">chat</span>
                     </button>
                     <img
+                        onclick={() => {
+                            navigate('/profile');
+                        }}
                         className="header__avatar"
                         src={
                             this.state.avatarSrc ??

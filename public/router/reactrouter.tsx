@@ -8,7 +8,6 @@ import { PinScreen } from '../components/PinPage/pin_page';
 import { store } from '../store/store';
 import PinCreationScreen from '../components/PinCreationPage/PinCreationPage';
 import PinChangingScreen from '../components/PinChangingPage/PinChangingPage';
-import { BoardCreationScreen } from '../components/BoardCreationPage/board-creation-page';
 import { SettingsScreen } from '../components/SettingsPage/settings';
 import { SearchPage } from '../components/SearchPage/SearchPage';
 import AuthRequired from '../components/AuthRequired/AuthRequired';

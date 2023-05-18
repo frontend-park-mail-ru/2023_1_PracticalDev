@@ -16,13 +16,20 @@ export default class Feed extends Component<FeedProps, FeedState> {
         super();
     }
 
-    componentDidMount(): void {}
+    componentDidMount(): void {
+        const feed = document.querySelector('.pin_container');
+    }
 
     componentWillUnmount(): void {}
 
     render() {
         return (
-            <div className="pin_container">
+            <div
+                className="pin_container"
+                onscroll={(event: any) => {
+                    console.log(event);
+                }}
+            >
                 {...(this.props.pins || []).map((pin) => {
                     return <Pin pin={pin} />;
                 })}

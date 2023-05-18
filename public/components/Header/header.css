@@ -21,6 +21,7 @@
     width: 40px;
     height: 40px;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .header__search-wrapper {
@@ -122,7 +123,7 @@
     .header__btn:nth-child(2) {
         display: none;
     }
-    
+
     .header__btn > span {
         font-size: 40px !important;
     }
