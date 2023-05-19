@@ -12,6 +12,7 @@ type CommentProps = {
 type CommentState = {
     author: IUser | undefined;
     isLoading: boolean;
+    intervalId: number;
 };
 export class Comment extends Component<CommentProps, CommentState> {
     constructor() {
@@ -19,23 +20,35 @@ export class Comment extends Component<CommentProps, CommentState> {
         this.state = {
             author: undefined,
             isLoading: true,
+            intervalId: 0,
         };
     }
 
     componentDidMount(): void {
+        const id = setInterval(() => {
+            this.setState(() => {
+                return this.state;
+            });
+        }, 15000);
+
         User.getUser(this.props.comment.author_id).then((res) => {
             this.setState((state) => {
                 return {
                     author: res,
                     isLoading: false,
+                    intervalId: id,
                 };
             });
         });
     }
 
+    componentWillUnmount(): void {
+        clearInterval(this.state.intervalId);
+    }
+
     render() {
         return (
-            <div className="comment ">
+            <div className="comment">
                 <div className="comment__author">
                     <img
                         className="comment__author-img"

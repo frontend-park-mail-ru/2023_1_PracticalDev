@@ -6,6 +6,10 @@
     border-radius: 10%;
 }
 
+.comments__list {
+    display: flex;
+    flex-direction: column-reverse;
+}
 .comments__comment-input {
     height: 40px;
     font-family: Inter;

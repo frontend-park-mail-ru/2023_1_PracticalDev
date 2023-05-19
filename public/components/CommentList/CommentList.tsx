@@ -49,7 +49,7 @@ export class CommentList extends Component<CommentListProps, CommentListState> {
                                 this.setState((state) => {
                                     return {
                                         ...state,
-                                        comments: [comment!, ...state.comments],
+                                        comments: [...state.comments, comment!],
                                     };
                                 });
                             });

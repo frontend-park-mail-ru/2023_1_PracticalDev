@@ -24,12 +24,7 @@ export default class Feed extends Component<FeedProps, FeedState> {
 
     render() {
         return (
-            <div
-                className="pin_container"
-                onscroll={(event: any) => {
-                    console.log(event);
-                }}
-            >
+            <div className="pin_container">
                 {...(this.props.pins || []).map((pin) => {
                     return <Pin pin={pin} />;
                 })}
