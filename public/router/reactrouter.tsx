@@ -25,7 +25,7 @@ function resolve(path: string = ''): VNode {
     switch (path) {
         case 'feed':
             return (
-                <AuthRequired>
+                <AuthRequired key="huina">
                     <MainScreen />
                 </AuthRequired>
             );
