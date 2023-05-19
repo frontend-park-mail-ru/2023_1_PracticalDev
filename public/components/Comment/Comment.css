@@ -43,3 +43,15 @@
     justify-content: start;
     align-items: baseline;
 }
+
+.comment__text {
+    max-inline-size: 80%;
+    overflow-wrap: break-word;
+}
+
+.comment__text-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    width: 90%;
+}

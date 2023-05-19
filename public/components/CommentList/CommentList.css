@@ -10,6 +10,7 @@
     display: flex;
     flex-direction: column-reverse;
 }
+
 .comments__comment-input {
     height: 40px;
     font-family: Inter;
@@ -32,12 +33,6 @@
 
 .comments__comment-form {
     width: 100%;
-}
-
-.comment__text-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
 }
 
 .comments {
