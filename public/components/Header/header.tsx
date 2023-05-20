@@ -5,18 +5,24 @@ import { navigate } from '../../actions/navigation';
 import { ActionList } from '../ActionList/ActionList';
 
 import './header.css';
+import { NotificationList } from '../NotificationList/NotificationList';
 
 type HeaderProps = {};
 
 type HeaderState = {
     avatarSrc: string | undefined;
     actionListVisible: boolean;
+    notificationListVisible: boolean;
 };
 
 export class Header extends Component<HeaderProps, HeaderState> {
     constructor() {
         super();
-        this.state = { avatarSrc: store.getState().user?.profile_image, actionListVisible: false };
+        this.state = {
+            avatarSrc: store.getState().user?.profile_image,
+            actionListVisible: false,
+            notificationListVisible: false,
+        };
     }
 
     private unsubs: Function[] = [];
@@ -34,7 +40,7 @@ export class Header extends Component<HeaderProps, HeaderState> {
         });
     };
 
-    onCloseActionList(event) {
+    onCloseActionList(event: any) {
         if (this.state.actionListVisible) {
             if (!event.target.classList.contains('header__action-list')) {
                 this.setState((state) => {
@@ -67,19 +73,17 @@ export class Header extends Component<HeaderProps, HeaderState> {
                         <Searchbar />
                     </div>
                     <div className="header__creation-block">
-                        <span className="header__creation-btn">
-                            <button
-                                onclick={(event) => {
-                                    this.setState((state) => {
-                                        return { ...state, actionListVisible: !state.actionListVisible };
-                                    });
-                                    event.stopPropagation();
-                                }}
-                                className="material-symbols-outlined header__creation-btn-icon md-40"
-                            >
-                                add
-                            </button>
-                        </span>
+                        <button
+                            onclick={(event: any) => {
+                                this.setState((state) => {
+                                    return { ...state, actionListVisible: !state.actionListVisible };
+                                });
+                                event.stopPropagation();
+                            }}
+                            className="material-symbols-outlined header__creation-btn-icon md-40"
+                        >
+                            add
+                        </button>
                         <span className={`header__action-list-wrapper ${this.state.actionListVisible ? 'active' : ''}`}>
                             <ActionList />
                         </span>
@@ -87,9 +91,25 @@ export class Header extends Component<HeaderProps, HeaderState> {
                 </div>
 
                 <div className="header__user-block">
-                    <button className="header__btn">
-                        <span className="material-symbols-outlined md-32">notifications</span>
-                    </button>
+                    <div className="header__notification-block">
+                        <button
+                            className="header__btn"
+                            onclick={() => {
+                                this.setState((state) => {
+                                    return { ...state, notificationListVisible: !state.notificationListVisible };
+                                });
+                            }}
+                        >
+                            <span className="material-symbols-outlined md-32">notifications</span>
+                        </button>
+                        <span
+                            className={`header__notification-list-wrapper ${
+                                this.state.notificationListVisible ? 'active' : ''
+                            }`}
+                        >
+                            <NotificationList />
+                        </span>
+                    </div>
                     <button
                         className="header__btn"
                         onclick={() => {

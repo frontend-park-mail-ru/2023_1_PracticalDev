@@ -1,5 +1,5 @@
 import { Store, Reducer, Action } from '@t1d333/pickpinreduxlib';
-import { IMessage, IPin, IUser, IBoard, IBoardWithPins, IChat } from '../models';
+import { IMessage, IPin, IUser, IBoard, IBoardWithPins, IChat, INotification } from '../models';
 
 interface StoreState {
     page: string;
@@ -22,11 +22,14 @@ interface StoreState {
     followers: IUser[];
     followees: IUser[];
     searchQuery: string;
-    wsConnection: WebSocket | undefined;
+    chatConnection: WebSocket | undefined;
+    notificationConnection: WebSocket | undefined;
     message: IMessage | undefined;
     chat: IChat | undefined;
     modalContentTag: string;
     feedPos: number;
+    newNotification: INotification | undefined;
+    notifications: INotification[];
 }
 
 const initialState: StoreState = {
@@ -50,11 +53,14 @@ const initialState: StoreState = {
     followers: [],
     followees: [],
     searchQuery: '',
-    wsConnection: undefined,
+    chatConnection: undefined,
+    notificationConnection: undefined,
     message: undefined,
     chat: undefined,
     modalContentTag: '',
     feedPos: 0,
+    newNotification: undefined,
+    notifications: [],
 };
 
 const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: Action) => {
@@ -200,14 +206,21 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 searchQuery: action.payload?.query,
             };
 
-        case 'connectWs': {
+        case 'connectChatWs': {
             return {
                 ...state,
-                type: 'connectWs',
-                wsConnection: action.payload?.wsConnection,
+                type: 'connectChatWs',
+                chatConnection: action.payload?.wsConnection,
             };
         }
 
+        case 'connectNotificationtWs': {
+            return {
+                ...state,
+                type: 'connectNotificationtWs',
+                notificationConnection: action.payload?.wsConnection,
+            };
+        }
         case 'newMessage': {
             return {
                 ...state,
@@ -238,6 +251,7 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 type: 'hideModal',
             };
         }
+
         case 'logout': {
             return {
                 ...state,
@@ -245,6 +259,23 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 type: 'logout',
             };
         }
+
+        case 'loadNotifications':
+            console.log(action.payload?.notifications);
+            return {
+                ...state,
+                notifications: action.payload?.notifications,
+                type: 'loadNotifications',
+            };
+
+        case 'newNotification':
+            return {
+                ...state,
+                newNotification: action.payload?.notification,
+                notifications: [action.payload?.notification, ...state.notifications],
+                type: 'newNotification',
+            };
+
         default:
             return state;
     }

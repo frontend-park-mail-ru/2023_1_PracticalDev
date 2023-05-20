@@ -43,4 +43,14 @@ type IChat = {
 
 type IBoardWithPins = IBoard & { pins: IPin[] };
 
-export { IPin, IUser, IBoard, IBoardWithPins, IMessage, IChat };
+type INotification = {
+    id: number;
+    is_read: boolean;
+    message: string;
+    type: 'new_comment' | 'new_like' | 'new_pin' | 'new_subscribe';
+    user_id: number;
+    created_at: string;
+    data: { [_: string]: any };
+};
+
+export { IPin, IUser, IBoard, IBoardWithPins, IMessage, IChat, INotification };

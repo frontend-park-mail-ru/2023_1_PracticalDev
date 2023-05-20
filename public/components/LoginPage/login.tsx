@@ -2,13 +2,14 @@ import { Component, createElement } from '@t1d333/pickpinlib';
 import { Form } from '../Form/form';
 import AuthLogoSection from '../AuthLogoSection/authLogoSection';
 import { store } from '../../store/store';
-import CheckAuth from '../../util/check';
 import User from '../../models/user';
 import { validationError } from '../../actions/error';
 import { loginUser } from '../../actions/user';
 import './login.css';
 import { navigate } from '../../actions/navigation';
 import { ChatWs } from '../../util/chatWs';
+import { Notification } from '../../models/notification';
+import { loadNotifications } from '../../actions/notification';
 type AuthProps = {};
 type AuthState = {};
 
@@ -60,9 +61,13 @@ export class LoginScreen extends Component<AuthProps, AuthState> {
         }
 
         User.login(formData.email, formData.password)
-            .then((res) => {
+            .then((user) => {
                 ChatWs.createSocket();
-                loginUser(res);
+                Notification.createSocket();
+                Notification.getNotifications().then((notifications) => {
+                    loadNotifications(notifications);
+                    loginUser(user);
+                });
             })
 
             .catch((res) => {

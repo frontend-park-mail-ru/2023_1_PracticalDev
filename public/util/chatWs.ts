@@ -1,12 +1,14 @@
+import { connectChatWs } from '../actions/chat';
 import { store } from '../store/store';
 
 export class ChatWs {
     static createSocket() {
-        const url = 'wss://pickpin.ru/api/chat';
-        // const url = 'ws://localhost:81/api/chat';
+        // const url = 'wss://pickpin.ru/api/chat';
+        const url = 'ws://localhost:81/api/chat';
         const socket = new WebSocket(url);
         socket.onopen = () => {
-            console.log('Web socket connection created');
+            console.log('Chat web socket connection created');
+            connectChatWs(socket);
         };
 
         socket.onmessage = (event) => {
@@ -22,12 +24,6 @@ export class ChatWs {
             }
         };
 
-        store.dispatch({
-            type: 'connectWs',
-            payload: {
-                wsConnection: socket,
-            },
-        });
         store.subscribe(() => {
             if (store.getState().type === 'logout') {
                 socket.close();

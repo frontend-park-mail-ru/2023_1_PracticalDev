@@ -10,11 +10,12 @@ import { loginUser } from '../../actions/user';
 import { navigate } from '../../actions/navigation';
 import { ChatWs } from '../../util/chatWs';
 import { debounce } from '../../util/debounce';
+import { Notification } from '../../models/notification';
 type SignupProps = {};
 type SignupState = {};
 
 const getDebouncedValidator = (validator: Function) => {
-    return debounce((event) => {
+    return debounce((event: any) => {
         try {
             validator(event.target.value);
         } catch (err: any) {
@@ -96,6 +97,7 @@ export class SignupScreen extends Component<SignupProps, SignupState> {
         User.signup(formData.username, formData.email.split('@')[0], formData.email, formData.password)
             .then((res) => {
                 ChatWs.createSocket();
+                Notification.createSocket();
                 loginUser(res);
             })
             .catch((res) => {
