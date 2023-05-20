@@ -9,6 +9,7 @@ import User from '../../models/user';
 import { Main } from '../Main/main';
 
 import './pin_page.css';
+import Feed from '../Feed/feed';
 
 type PinScreenState = {
     pin: IPin | undefined;
@@ -34,6 +35,17 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
             isFollow: false,
         };
     }
+
+    private CopyLink = (e: MouseEvent) => {
+        if (this.state.pin == undefined) {
+            return;
+        }
+        Pin.getShareLink(this.state.pin.id).then((resp) => {
+            navigator.clipboard.writeText(resp);
+            this.openPopup();
+            setTimeout(this.closePopup.bind(this),5000);
+        });
+    };
 
     private onSaveCallback = () => {
         const select = document.querySelector('.pin-view__board-list') as HTMLSelectElement;
@@ -157,9 +169,37 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
         }
     }
 
+    openPopup = function () {
+        let popupBg = document.querySelector('.popup');
+        popupBg?.classList.add('popup-active');
+        let popup = document.querySelector('.popup__form');
+        popup?.classList.add('popup__form-active');
+    };
+
+    closePopup = function () {
+        let popupBg = document.querySelector('.popup');
+        popupBg?.classList.remove('popup-active');
+        let popup = document.querySelector('.popup__form');
+        popup?.classList.remove('popup__form-active');
+    };
+
     render() {
         return (
             <Main>
+                <div className="popup">
+                    <form className="popup__form">
+                        <div className="popup__form__text">link copied!</div>
+                        <span className="popup__form__close-btn">
+                            <a
+                                key="popup-close-btn"
+                                className="material-symbols-outlined popup__close-btn__icon md-32"
+                                onclick={this.closePopup.bind(this)}
+                            >
+                                close
+                            </a>
+                        </span>
+                    </form>
+                </div>
                 <div className="pin-view">
                     <img className="pin-view__image" src={this.state.pin?.media_source!} alt="Pin image"></img>
                     <div className="pin-view__info">
@@ -178,6 +218,14 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
                             <p key="like-counter" className="pin-view__actions-stat">
                                 {String(this.state.pin ? this.state.pin.n_likes : '')}
                             </p>
+                            <button
+                                key="share_btn"
+                                className="pin-view__actions-like-btn material-symbols-outlined md-32"
+                                href="/pin-changing"
+                                onclick={this.CopyLink.bind(this)}
+                            >
+                                share
+                            </button>
                             <select name="boardName" className="pin-view__board-list">
                                 {...this.state.availableBoards.map((board) => {
                                     return <option value={board.id}>{board.name}</option>;
