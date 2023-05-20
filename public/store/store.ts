@@ -261,7 +261,6 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
         }
 
         case 'loadNotifications':
-            console.log(action.payload?.notifications);
             return {
                 ...state,
                 notifications: action.payload?.notifications,

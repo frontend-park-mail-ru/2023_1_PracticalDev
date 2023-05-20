@@ -6,6 +6,7 @@ import { ActionList } from '../ActionList/ActionList';
 
 import './header.css';
 import { NotificationList } from '../NotificationList/NotificationList';
+import { INotification } from '../../models';
 
 type HeaderProps = {};
 
@@ -13,6 +14,7 @@ type HeaderState = {
     avatarSrc: string | undefined;
     actionListVisible: boolean;
     notificationListVisible: boolean;
+    notifications: INotification[];
 };
 
 export class Header extends Component<HeaderProps, HeaderState> {
@@ -22,27 +24,31 @@ export class Header extends Component<HeaderProps, HeaderState> {
             avatarSrc: store.getState().user?.profile_image,
             actionListVisible: false,
             notificationListVisible: false,
+            notifications: store.getState().notifications,
         };
+        console.log(store.getState().notifications);
     }
 
     private unsubs: Function[] = [];
 
-    private userLoadHandler = () => {
-        if (store.getState().type !== 'loadedUser') {
-            return;
-        }
-
-        this.setState((s) => {
-            return {
-                ...s,
-                avatarSrc: store.getState().user?.profile_image || undefined,
-            };
+    onNewNotification() {
+        if (store.getState().type !== 'newNotification') return;
+        const notification = store.getState().newNotification;
+        this.setState((state) => {
+            return { ...state, notifications: store.getState().notifications, hasUnreadNotification: true };
         });
-    };
+    }
+
+    onLoadNotificatoins() {
+        if (store.getState().type !== 'loadNotifications') return;
+        this.setState((state) => {
+            return { ...state, notifications: store.getState().notifications };
+        });
+    }
 
     onCloseActionList(event: any) {
         if (this.state.actionListVisible) {
-            if (!event.target.classList.contains('header__action-list')) {
+            if (!event.target.classList.contains('header__action-list-wrapper')) {
                 this.setState((state) => {
                     return {
                         ...state,
@@ -53,8 +59,24 @@ export class Header extends Component<HeaderProps, HeaderState> {
         }
     }
 
+    onCloseNotificationList(event: any) {
+        if (this.state.notificationListVisible) {
+            if (!event.target.classList.contains('header__notification-list-wrapper')) {
+                this.setState((state) => {
+                    return {
+                        ...state,
+                        notificationListVisible: false,
+                    };
+                });
+            }
+        }
+    }
+
     componentDidMount(): void {
         window.addEventListener('click', this.onCloseActionList.bind(this));
+        window.addEventListener('click', this.onCloseNotificationList.bind(this));
+        this.unsubs.push(store.subscribe(this.onLoadNotificatoins.bind(this)));
+        this.unsubs.push(store.subscribe(this.onNewNotification.bind(this)));
     }
 
     componentWillUnmount(): void {
@@ -63,6 +85,7 @@ export class Header extends Component<HeaderProps, HeaderState> {
         });
 
         window.removeEventListener('click', this.onCloseActionList);
+        window.removeEventListener('click', this.onCloseNotificationList);
     }
 
     render() {
@@ -91,13 +114,26 @@ export class Header extends Component<HeaderProps, HeaderState> {
                 </div>
 
                 <div className="header__user-block">
-                    <div className="header__notification-block">
+                    <div
+                        className={`header__notification-block ${
+                            this.state.notifications.some((notification) => {
+                                return !notification.is_read;
+                            })
+                                ? 'has-unread'
+                                : ''
+                        }`}
+                    >
                         <button
                             className="header__btn"
-                            onclick={() => {
+                            onclick={(event: any) => {
                                 this.setState((state) => {
-                                    return { ...state, notificationListVisible: !state.notificationListVisible };
+                                    return {
+                                        ...state,
+                                        notificationListVisible: !state.notificationListVisible,
+                                        hasUnreadNotification: false,
+                                    };
                                 });
+                                event.stopPropagation();
                             }}
                         >
                             <span className="material-symbols-outlined md-32">notifications</span>

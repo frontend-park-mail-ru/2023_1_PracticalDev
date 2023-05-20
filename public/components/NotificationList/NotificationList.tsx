@@ -1,9 +1,10 @@
 import { Component, createElement } from '@t1d333/pickpinlib';
-import { INotification, NotificationType } from '../../models';
+import { INotification } from '../../models';
 import { store } from '../../store/store';
 import './NotificationList.css';
 import { NewPinNotification } from '../NewPinNotification/NewPinNotification';
 import { LikeNotification } from '../LikeNotification/LikeNotification';
+import { isFunctionOrConstructorTypeNode } from 'typescript';
 type NotificationListProps = {};
 type NotificationListState = {
     notifications: INotification[];
@@ -16,7 +17,6 @@ export class NotificationList extends Component<NotificationListProps, Notificat
         this.state = {
             notifications: store.getState().notifications,
         };
-        console.log(this.state);
     }
 
     getNotificatonComponent(notification: INotification) {
@@ -59,8 +59,11 @@ export class NotificationList extends Component<NotificationListProps, Notificat
         return (
             <div className="notification-list">
                 {...this.state.notifications
-                    .filter((notification) => {
-                        return !notification.is_read;
+                    .sort((lhs, rhs) => {
+                        if (lhs.is_read == rhs.is_read) {
+                            return lhs.created_at < rhs.created_at ? -1 : 1;
+                        }
+                        return !lhs.is_read ? -1 : 1;
                     })
                     .map((notification) => {
                         return this.getNotificatonComponent(notification);

@@ -192,7 +192,10 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
                         arrow_back
                     </button>
                     <div className="pin-view__content">
-                        <div className="pin-view__img-wrapper">
+                        <div
+                            className="pin-view__img-wrapper"
+                            style={`background-color: ${this.state.pin ? this.state.pin.media_source_color : ''};`}
+                        >
                             <img className="pin-view__image" src={this.state.pin?.media_source!}></img>
                         </div>
                         {!this.state.pinInfoLoad ? (

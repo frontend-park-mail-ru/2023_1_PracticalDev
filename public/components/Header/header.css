@@ -79,6 +79,23 @@
     margin-right: 20px;
 }
 
+.header__notification-block::after {
+    content: '';
+    display: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    position: relative;
+    border: 2px solid var(--color-light);
+    bottom: 33px;
+    left: 21px;
+}
+
+.header__notification-block.has-unread::after {
+    display: block;
+}
+
 .header__action-list-wrapper {
     -webkit-box-shadow: 0px 5px 8px 3px rgba(34, 60, 80, 0.2);
     -moz-box-shadow: 0px 5px 8px 3px rgba(34, 60, 80, 0.2);

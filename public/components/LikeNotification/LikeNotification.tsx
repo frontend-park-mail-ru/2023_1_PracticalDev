@@ -4,6 +4,9 @@ import { formatDate } from '../../util/formatDate';
 import User from '../../models/user';
 import './LikeNotification.css';
 import { navigate } from '../../actions/navigation';
+import { store } from '../../store/store';
+import { loadNotifications } from '../../actions/notification';
+import { Notification } from '../../models/notification';
 type LikeNotificationProps = { notification: INotification };
 type LikeNotificationState = { author: IUser | undefined };
 
@@ -24,7 +27,24 @@ export class LikeNotification extends Component<LikeNotificationProps, LikeNotif
 
     render() {
         return (
-            <div className="notification">
+            <div
+                className="notification"
+                onclick={() => {
+                    const notifications = store.getState().notifications;
+
+                    if (!this.props.notification.is_read) {
+                        loadNotifications(
+                            notifications.map((notification) => {
+                                if (notification !== this.props.notification) return notification;
+                                return { ...notification, is_read: true };
+                            }),
+                        );
+                        Notification.readNotification(this.props.notification);
+                    }
+
+                    navigate(`/pin/${this.props.notification.data.pin_id}`);
+                }}
+            >
                 <img
                     className="notification__author-avatar"
                     src={this.state.author ? this.state.author.profile_image : ''}

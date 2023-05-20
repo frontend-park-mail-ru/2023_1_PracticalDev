@@ -4,6 +4,7 @@ interface IPin {
     description: string;
     created_at: Date;
     media_source: string;
+    media_source_color: string;
     author_id: number;
     liked: boolean;
     n_likes: number;
