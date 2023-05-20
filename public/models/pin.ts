@@ -68,4 +68,14 @@ export class Pin {
     static UnLikePin(id: number) {
         return Ajax.delete(`/api/pins/${id}/like`);
     }
+
+    static getShareLink(id: number) {
+        return Ajax.post(`/api/share/pin/${id}`, {}).then((response) => {
+            if (!response.ok) {
+                return Promise.reject(response);
+            } else {
+                return response.body.url;
+            }
+        });
+    }
 }

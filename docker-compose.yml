@@ -7,7 +7,7 @@ services:
     command: node /home/code/server/
     volumes:
       - ./:/home/code/
-      - ./prod:/dist
+      - ./dist:/dist
     networks:
       - frontend-network
       - api-network

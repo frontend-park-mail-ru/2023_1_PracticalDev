@@ -131,13 +131,13 @@ export class Pin extends Component<PinProps, PinState> {
     }
 
     private CopyLink = (e: MouseEvent) => {
-        navigator.clipboard.writeText(location.href.replace('/feed','')+'/pin/'+this.props.pin.id);
-        var feed = new Feed;
-        feed.openPopup();
-        setTimeout(feed.closePopup,5000);
+        PinModel.getShareLink(this.props.pin.id).then((resp) => {
+            navigator.clipboard.writeText(resp);
+            var feed = new Feed;
+            feed.openPopup();
+            setTimeout(feed.closePopup,5000);
+        })
     }
-
-
 
     render() {
         return (
