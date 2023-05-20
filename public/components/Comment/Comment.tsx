@@ -12,7 +12,7 @@ type CommentProps = {
 type CommentState = {
     author: IUser | undefined;
     isLoading: boolean;
-    intervalId: number;
+    intervalId: any;
 };
 export class Comment extends Component<CommentProps, CommentState> {
     constructor() {
@@ -32,7 +32,7 @@ export class Comment extends Component<CommentProps, CommentState> {
         }, 15000);
 
         User.getUser(this.props.comment.author_id).then((res) => {
-            this.setState((state) => {
+            this.setState((state: CommentState) => {
                 return {
                     author: res,
                     isLoading: false,

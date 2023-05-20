@@ -48,14 +48,14 @@ export class Modal extends Component<{}, ModalState> {
             <div
                 className={`modal ${this.state.isVisible ? 'active' : ''}`}
                 onclick={() => {
-                    this.setState((state) => {
-                        return { isVisible: false };
+                    this.setState((state: ModalState) => {
+                        return { ...state, isVisible: false };
                     });
                 }}
             >
                 <div
                     className="modal__content"
-                    onclick={(event) => {
+                    onclick={(event: any) => {
                         event.stopPropagation();
                     }}
                 >

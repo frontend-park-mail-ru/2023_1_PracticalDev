@@ -1,5 +1,5 @@
 import { Component, createElement } from '@t1d333/pickpinlib';
-import { INotification, NotificationType } from '../../models';
+import { INotification } from '../../models';
 import { store } from '../../store/store';
 import './NotificationList.css';
 import { NewPinNotification } from '../NewPinNotification/NewPinNotification';

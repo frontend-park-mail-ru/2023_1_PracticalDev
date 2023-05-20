@@ -133,7 +133,7 @@ export default class User {
             })
             .then((chats) => {
                 return Promise.all(
-                    chats.map((chat) => {
+                    chats.map((chat: any) => {
                         return Ajax.get(`/api/users/${chat.user1_id === userId ? chat.user2_id : chat.user1_id}`).then(
                             (res) => {
                                 return res.body;
