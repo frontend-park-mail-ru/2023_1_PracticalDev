@@ -50,5 +50,6 @@
     "parcel": "^2.8.3",
     "pickpinreduxlib": "github:t1d333/PickpinReduxLib",
     "typescript": "^5.0.3"
-  }
+  },
+  "type": "module"
 }

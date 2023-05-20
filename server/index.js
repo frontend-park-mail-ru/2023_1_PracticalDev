@@ -41,35 +41,50 @@ function lookupContentType(fileName) {
     }
 }
 
-const SERVER_PORT = process.env.PORT || 8000;
+/**
+ * 
+ * @param {string} data 
+ * @param {string} url 
+ * 
+ */
+const processOGP = async (data, url) => {
+    // console.log(url)
+    if (url.indexOf("pin/") > 0) {
+        const id = url.substring(url.indexOf("pin") + 4)
+        const pin = await (await fetch(`http://backend:8080/pins/${id}`)).json()
+        data = data.replace(`<meta property="og:title" content=""`, `<meta property="og:title" content="${pin.title}"`)
+        data = data.replace(`<meta property="og:type" content=""`, `<meta property="og:type" content="website"`)
+        data = data.replace(`<meta property="og:url" content=""`, `<meta property="og:url" content="https://pickpin.ru${url}"`)
+        data = data.replace(`<meta property="og:image" content=""`, `<meta property="og:image" content="${pin.media_source}"`)
+        data = data.replace(`<meta property="og:description" content="">`, `<meta property="og:description" content="${pin.description}"`)
+    } else {
+        data = data.replace(`<meta property="og:title" content=""`, `<meta property="og:title" content="${Pickpin}"`)
+        data = data.replace(`<meta property="og:type" content=""`, `<meta property="og:type" content="website"`)
+        data = data.replace(`<meta property="og:url" content=""`, `<meta property="og:url" content="https://pickpin.ru${url}"`)
+        data = data.replace(`<meta property="og:image" content=""`, `<meta property="og:image" content="https://pickpin.hb.bizmrg.com/Logo2.svg"`)
+        data = data.replace(`<meta property="og:description" content="">`, `<meta property="og:description" content="Pick pictures for your pins"`)
+    }
+    return data
+}
+
+const SERVER_PORT = process.env.PORT || 3000;
 
 const async_server = http.createServer();
 async_server.on('request', async (req, res) => {
     let url = req.url;
     let response;
 
-    if (url === '/' || lookupContentType(url) === '') {
-        url = '/index.html';
-    }
-
     log.debug('got request', url);
     log.debug('request method', req.method);
-
-    await fs_async.access('./public' + url, fs.constants.R_OK).catch((val) => {
-        log.warn(val, url);
-        res.statusCode = 404;
-        response = 404;
-        res.end();
-    });
 
     if (response === 404) {
         return;
     }
 
     try {
-        let data = await fs_async.readFile('./public' + url);
-        res.setHeader('Content-Type', lookupContentType(url));
-        res.write(data);
+        const data = (await fs_async.readFile('./dist/index.html')).toString();
+        const processed = await processOGP(data, url);
+        res.write(processed);
         res.statusCode = 200;
         response = 200;
         res.end();
