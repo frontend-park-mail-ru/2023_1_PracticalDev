@@ -56,12 +56,14 @@ const processOGP = async (data, url) => {
         data = data.replace(`<meta property="og:type" content=""`, `<meta property="og:type" content="website"`)
         data = data.replace(`<meta property="og:url" content=""`, `<meta property="og:url" content="https://pickpin.ru${url}"`)
         data = data.replace(`<meta property="og:image" content=""`, `<meta property="og:image" content="${pin.media_source}"`)
+        data = data.replace(`<meta property="og:image:secure_url" content=""`, `<meta property="og:image:secure_url" content="${pin.media_source}"`)
         data = data.replace(`<meta property="og:description" content=""`, `<meta property="og:description" content="${pin.description}"`)
     } else {
         data = data.replace(`<meta property="og:title" content=""`, `<meta property="og:title" content="Pickpin"`)
         data = data.replace(`<meta property="og:type" content=""`, `<meta property="og:type" content="website"`)
         data = data.replace(`<meta property="og:url" content=""`, `<meta property="og:url" content="https://pickpin.ru${url}"`)
         data = data.replace(`<meta property="og:image" content=""`, `<meta property="og:image" content="https://pickpin.hb.bizmrg.com/Logo2.png"`)
+        data = data.replace(`<meta property="og:image:secure_url" content=""`, `<meta property="og:image:secure_url" content="${pin.media_source}"`)
         data = data.replace(`<meta property="og:description" content=""`, `<meta property="og:description" content="Pick pictures for your pins"`)
     }
     return data
