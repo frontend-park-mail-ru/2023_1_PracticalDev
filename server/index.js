@@ -1,45 +1,6 @@
 import * as http from 'http';
-import * as fs from 'fs';
 import * as fs_async from 'fs/promises';
 import * as log from './log.js';
-
-/**
- * lookup content type
- * by the extension
- * no extension would resolve in "text/plain"
- * @param {string} fileName
- *
- * @returns {string}
- */
-function lookupContentType(fileName) {
-    const ext = fileName.toLowerCase().split('.').slice(1).pop();
-    switch (ext) {
-        case 'txt':
-            return 'text/plain';
-        case 'html':
-            return 'text/html';
-        case 'js':
-        case 'handlebars':
-            return 'text/javascript';
-        case 'css':
-            return 'text/css';
-        case 'pdf':
-            return 'application/pdf';
-        case 'jpg':
-        case 'jpeg':
-            return 'image/jpeg';
-        case 'mp4':
-            return 'video/mp4';
-        case 'svg':
-            return 'image/svg+xml';
-        case 'webp':
-            return 'image/webp';
-        case 'ico':
-            return 'image/x-icon';
-        default:
-            return '';
-    }
-}
 
 /**
  * 
