@@ -3,6 +3,7 @@ import RouterProvider from './router/reactrouter';
 import { store } from './store/store';
 
 import './components/App/index.css';
+import './static/img/Logo2.svg';
 
 declare global {
     namespace JSX {

@@ -9,6 +9,9 @@ import { validatePassword } from '../../util/validator';
 import { loginUser } from '../../actions/user';
 import { navigate } from '../../actions/navigation';
 import { ChatWs } from '../../util/chatWs';
+
+import '../../static/img/search-animate.svg'
+
 type SignupProps = {};
 type SignupState = {};
 
@@ -17,7 +20,7 @@ const convertErrMsg = (msg: string): string => {
 };
 
 const debounce = (func: Function, timeout = 600) => {
-    let timer: number;
+    let timer: any;
     return (...args: any[]) => {
         clearTimeout(timer);
         timer = setTimeout(() => {
@@ -32,7 +35,7 @@ const formInputs = [
         type: 'text',
         placeholder: 'Enter your username',
         icon: 'person',
-        validator: debounce((e) => {
+        validator: debounce((e: any) => {
             try {
                 validateUsername(e.target.value);
             } catch (err: any) {
@@ -58,7 +61,7 @@ const formInputs = [
         type: 'email',
         placeholder: 'Enter your email',
         icon: 'alternate_email',
-        validator: debounce((e) => {
+        validator: debounce((e: any) => {
             try {
                 validateEmail(e.target.value);
             } catch (err: any) {
@@ -84,7 +87,7 @@ const formInputs = [
         type: 'password',
         placeholder: 'Enter your password',
         icon: 'lock',
-        validator: debounce((e) => {
+        validator: debounce((e: any) => {
             try {
                 validatePassword(e.target.value);
             } catch (err: any) {

@@ -8,16 +8,16 @@ const cachesRegexes = {
     imgRegex: /^(.*)\/img\/(.*)$/,
 };
 
-this.addEventListener('install', (event) => {
+self.addEventListener('install', (event) => {
     console.log('Installing [Service Worker]', event);
     event.waitUntil(caches.open(cacheName).then((cache) => cache.addAll(urls)));
 });
 
-this.addEventListener('activate', () => {
-    return this.clients.claim();
+self.addEventListener('activate', () => {
+    return self.clients.claim();
 });
 
-this.addEventListener('fetch', (event) => {
+self.addEventListener('fetch', (event) => {
     const needChache =
         Object.values(cachesRegexes).filter((regex) => {
             return regex.test(event.request.url);

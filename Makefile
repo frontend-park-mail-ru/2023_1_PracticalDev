@@ -32,6 +32,13 @@ mock:
 mock-down:
 	docker compose -f ./mock/docker-compose.dev.yml down
 
-compile-serve:
-	npm run compile
-	npm run dev
+.PHONY: build-deploy
+build-deploy:
+	DOCKER_BUILDKIT=1 docker build -f prod/Dockerfile.prod -t frontend .
+
+.PHONY: deploy
+deploy: build-deploy
+	docker run -it --rm \
+		-p 80:80 \
+		--network=nginx_network \
+		frontend

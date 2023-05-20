@@ -6,11 +6,11 @@ import CheckAuth from '../../util/check';
 import User from '../../models/user';
 import { validationError } from '../../actions/error';
 import { loginUser } from '../../actions/user';
-import './login.css';
 import { navigate } from '../../actions/navigation';
 import { ChatWs } from '../../util/chatWs';
 
 import './login.css';
+import '../../static/img/animate.svg';
 
 type AuthProps = {};
 type AuthState = {};

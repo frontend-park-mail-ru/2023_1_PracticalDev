@@ -13,7 +13,6 @@
         "experimentalDecorators": true,
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
-        "moduleResolution": "node",
-        "noEmit": true
+        "moduleResolution": "node"
     }
 }

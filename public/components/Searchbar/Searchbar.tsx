@@ -15,7 +15,7 @@ export class Searchbar extends Component<{}, {}> {
         return (
             <form
                 className="search-form"
-                onsubmit={(e) => {
+                onsubmit={(e: any) => {
                     e.preventDefault();
                     const query = e.target.search.value;
                     if (query) {

@@ -34,6 +34,6 @@ export default class AuthRequired extends Component<AuthRequiredProps, AuthRequi
     }
 
     render(): VNode {
-        return <div key="3">{...!this.state.isLoading ? this.props.children : []}</div>;
+        return <div>{...!this.state.isLoading ? this.props.children : []}</div>;
     }
 }
