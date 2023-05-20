@@ -8,9 +8,9 @@ import { navigate } from '../../actions/navigation';
 import './menu.css';
 
 const menuItems = [
-    { link: '/feed', name: 'home' },
+    { link: '/feed', name: 'dashboard' },
     { link: '/chats', name: 'chat' },
-    { link: '/profile', name: 'dashboard' },
+    { link: '/profile', name: 'favorite' },
     { link: '/settings', name: 'settings' },
 ];
 

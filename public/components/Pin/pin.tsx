@@ -4,6 +4,7 @@ import { store } from '../../store/store';
 import { Pin as PinModel } from '../../models/pin';
 import { IPin } from '../../models';
 import Board from '../../models/board';
+import Feed from '../Feed/feed';
 
 import './pin.css';
 
@@ -129,35 +130,47 @@ export class Pin extends Component<PinProps, PinState> {
         });
     }
 
+    private CopyLink = (e: MouseEvent) => {
+        navigator.clipboard.writeText(location.href.replace('/feed','')+'/pin/'+this.props.pin.id);
+        var feed = new Feed;
+        feed.openPopup();
+        setTimeout(feed.closePopup,5000);
+    }
+
+
+
     render() {
         return (
-            <div key={'pin-' + this.props.pin.id} className={'card ' + this.cardSize} onclick={this.onClick.bind(this)}>
-                <div key={'pin-title'} className="pin__title">
-                    {this.props.pin.title}
-                </div>
 
-                <div key={'pin-modal'} className="pin__modal">
-                    <div key={'pin-head'} className="pin__modal-head"></div>
-
-                    <div key={'pin-foot'} className="pin__modal-foot">
-                        <button
-                            key="share_btn"
-                            className="pin__icon-btn material-symbols-outlined md-24"
-                            href="/pin-changing"
-                        >
-                            share
-                        </button>
-                        <img
-                            key="author_avatar"
-                            src="https://pickpin.hb.bizmrg.com/default-user-icon-8-4024862977"
-                            alt=""
-                            className="pin__author-avatar"
-                        />
-                        {this.resolveSecondaryBtn()}
+                <div key={'pin-' + this.props.pin.id} className={'card ' + this.cardSize} onclick={this.onClick.bind(this)}>
+                    <div key={'pin-title'} className="pin__title">
+                        {this.props.pin.title}
                     </div>
+
+                    <div key={'pin-modal'} className="pin__modal">
+                        <div key={'pin-head'} className="pin__modal-head"></div>
+
+                        <div key={'pin-foot'} className="pin__modal-foot">
+                            <button
+                                key="share_btn"
+                                className="pin__icon-btn material-symbols-outlined md-24"
+                                href="/pin-changing"
+                                onclick={this.CopyLink.bind(this)}
+                            >
+                                share
+                            </button>
+                            <img
+                                key="author_avatar"
+                                src="https://pickpin.hb.bizmrg.com/default-user-icon-8-4024862977"
+                                alt=""
+                                className="pin__author-avatar"
+                            />
+                            {this.resolveSecondaryBtn()}
+                        </div>
+                    </div>
+                    <img key="pin_img" className="pin__image" src={this.props.pin.media_source} alt="abc" srcset="" />
                 </div>
-                <img key="pin_img" className="pin__image" src={this.props.pin.media_source} alt="abc" srcset="" />
-            </div>
+ 
         );
     }
 }
