@@ -12,8 +12,8 @@ services:
       - frontend-network
       - api-network
 
-  frontend:
-    container_name: frontend
+  nginx:
+    container_name: nginx
     build:
       dockerfile: "prod/Dockerfile.prod"
       context: "."
@@ -21,6 +21,7 @@ services:
       - ./:/home/code/
     networks:
       - frontend-network
+      - nginx-network
       - api-network
     depends_on:
       - ogpserver
