@@ -32,13 +32,8 @@ mock:
 mock-down:
 	docker compose -f ./mock/docker-compose.dev.yml down
 
-.PHONY: build-deploy
-build-deploy:
-	DOCKER_BUILDKIT=1 docker build -f prod/Dockerfile.prod -t frontend .
-
 .PHONY: deploy
-deploy: build-deploy
-	docker run -it --rm \
-		-p 80:80 \
-		--network=nginx_network \
-		frontend
+deploy: 
+	cp docker-compose.yml docker-compose.yml.old && cp prod/docker-compose.yml docker-compose.yml
+	docker compose -f docker-compose.yml up -d --build
+	cp docker-compose.yml.old docker-compose.yml && rm docker-compose.yml.old

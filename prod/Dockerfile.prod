@@ -9,7 +9,7 @@ COPY *.json /home/code/
 RUN npm install
 
 COPY public /home/code/public
-COPY webpack.config.js .
+COPY webpack.config.cjs .
 
 RUN npm run build
 

@@ -11,35 +11,19 @@ services:
     networks:
       - frontend-network
       - api-network
-    ports:
-      - 3001:3001
 
   frontend:
     container_name: frontend
     build:
+      dockerfile: "prod/Dockerfile.prod"
       context: "."
-    command: npm run dev
     volumes:
       - ./:/home/code/
-    ports:
-      - 8000:8000
     networks:
       - frontend-network
       - api-network
-    environment:
-      CHOKIDAR_USEPOLLING: 1
-
-  nginx:
-    image: nginx
-    container_name: nginx
-    volumes:
-      - ./config/front.conf:/etc/nginx/conf.d/default.conf
-    networks:
-      - api-network
-      - frontend-network
-      - nginx-network
-    ports:
-      - 81:80
+    depends_on:
+      - ogpserver
 
 networks:
   api-network:
