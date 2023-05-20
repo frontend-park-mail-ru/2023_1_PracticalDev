@@ -12,15 +12,15 @@ declare global {
         }
     }
 }
-const sw = navigator.serviceWorker;
+// const sw = navigator.serviceWorker;
 
-sw.register('/sw.js', { scope: '/' })
-    .then((registration) => {
-        console.log('SW registration OK:', registration.scope);
-    })
-    .catch((err) => {
-        console.log('SW registration FAIL:', err);
-    });
+// sw.register('/sw.js', { scope: '/' })
+//     .then((registration) => {
+//         console.log('SW registration OK:', registration.scope);
+//     })
+//     .catch((err) => {
+//         console.log('SW registration FAIL:', err);
+//     });
 
 document.addEventListener('submit', (e: SubmitEvent) => {
     e.preventDefault();
