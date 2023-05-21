@@ -46,6 +46,6 @@ export class Notification {
     }
 
     static readNotification(notification: INotification) {
-        this.connection.send(JSON.stringify({ id: notification.id }));
+        this.connection!.send(JSON.stringify({ id: notification.id }));
     }
 }
