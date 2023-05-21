@@ -2,7 +2,7 @@ import { INotification } from '../models';
 import { store } from '../store/store';
 
 export const connectNotificationWs = (ws: WebSocket) => {
-    store.dispatch({ type: 'connectNotificationtWs', payload: { wsConnectoin: ws } });
+    store.dispatch({ type: 'connectNotificationWs', payload: { wsConnection: ws } });
 };
 
 export const newNotification = (notification: INotification) => {

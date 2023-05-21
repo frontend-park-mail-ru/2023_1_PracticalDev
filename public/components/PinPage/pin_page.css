@@ -315,7 +315,7 @@
 
 @media (max-width: 768px) {
     .back-btn {
-        height: 0px;
+        display: none !important;
         overflow: hidden;
     }
 

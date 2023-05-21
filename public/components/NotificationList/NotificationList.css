@@ -1,11 +1,15 @@
 .notification-list {
     font-family: Inter;
     width: 360px;
-    height: 80vh;
+    max-height: 80vh;
     border-radius: 10px;
     background: #fff;
     padding: 10px 15px;
-    flex-direction: column;
+    flex-direction: column-reverse;
     display: flex;
     overflow-y: auto;
+}
+
+.notification-list__empty {
+    text-align: center;
 }

@@ -1,5 +1,4 @@
 .notification {
-    display: flex;
     padding: 10px;
     color: var(--color-dark);
     border: 2px solid #e9e9e9;
@@ -7,6 +6,12 @@
     margin-bottom: 15px;
     transition: background 0.2s ease;
     cursor: pointer;
+}
+
+.like-notification {
+    display: grid;
+    grid-template-columns: 45px auto 10px;
+    gap: 10px;
     align-items: center;
 }
 
@@ -17,8 +22,6 @@
     height: 10px;
     background: var(--color-primary);
     border-radius: 50%;
-    position: relative;
-    right: -100px;
 }
 
 .notification__read-indicator.active {
@@ -39,7 +42,7 @@
 }
 
 .notification__text {
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .notification__date {

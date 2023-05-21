@@ -103,15 +103,11 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
         });
     };
 
-    componentDidMount(): void {
-        this.unsubs.push(store.subscribe(this.onPinLoad.bind(this)));
-        this.unsubs.push(store.subscribe(this.onLoadAvailableBoards.bind(this)));
-
+    getPin = (id: number) => {
         Board.getBoards().then((boards) => {
             loadAvailableBoards(boards);
         });
 
-        const id = Number(location.href.split('/')[4]);
         Pin.getPin(id).then((pin) => {
             Pin.getPinAuhtor(pin).then((author) => {
                 User.getFollowers(author.id).then((followers) => {
@@ -131,6 +127,20 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
                 });
             });
         });
+    };
+
+    onUpdatePin = () => {
+        if (store.getState().type !== 'updatePin') return;
+        if (store.getState().pinId === this.state.pin?.id) return;
+        this.getPin(store.getState().pinId);
+    };
+
+    componentDidMount(): void {
+        this.unsubs.push(store.subscribe(this.onPinLoad));
+        this.unsubs.push(store.subscribe(this.onLoadAvailableBoards));
+        this.unsubs.push(store.subscribe(this.onUpdatePin));
+        const id = Number(location.href.split('/')[4]);
+        this.getPin(id);
     }
 
     private setCommentsLoadFlag() {
@@ -187,6 +197,10 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
                         className="back-btn material-symbols-outlined md-32"
                         onclick={() => {
                             window.history.back();
+                            if (store.getState().prevPage.startsWith('/pin/')) {
+                                const id = store.getState().prevPage.split('/')[2];
+                                store.dispatch({ type: 'updatePin', payload: { pinId: id } });
+                            }
                         }}
                     >
                         arrow_back

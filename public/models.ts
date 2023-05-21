@@ -48,7 +48,7 @@ type INotification = {
     id: number;
     is_read: boolean;
     message: string;
-    type: 'new_comment' | 'new_like' | 'new_pin' | 'new_subscribe';
+    type: 'new_comment' | 'new_like' | 'new_pin' | 'new_follower';
     user_id: number;
     created_at: string;
     data: { [_: string]: any };

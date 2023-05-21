@@ -33,6 +33,7 @@ export class Pin extends Component<PinProps, PinState> {
         }
         store.dispatch({ type: 'pinView', payload: { pin: this.props.pin } });
         navigate(`/pin/${this.props.pin.id}`);
+        event.stopPropagation();
     };
 
     private resolveSecondaryBtn = () => {
@@ -75,7 +76,7 @@ export class Pin extends Component<PinProps, PinState> {
         }
     };
 
-    private onLikePin = (e: MouseEvent) => {
+    private onLikePin = (event: MouseEvent) => {
         PinModel.LikePin(this.props.pin.id).then((resp) => {
             if (resp.ok) {
                 this.setState((_: PinState) => {
@@ -85,9 +86,11 @@ export class Pin extends Component<PinProps, PinState> {
                 });
             }
         });
+
+        event.stopPropagation();
     };
 
-    private onDislikePin = (e: MouseEvent) => {
+    private onDislikePin = (event: MouseEvent) => {
         PinModel.UnLikePin(this.props.pin.id).then((resp) => {
             if (resp.ok) {
                 this.setState((_: PinState) => {
@@ -97,14 +100,16 @@ export class Pin extends Component<PinProps, PinState> {
                 });
             }
         });
+        event.stopPropagation();
     };
 
-    private onChangePin = (e: MouseEvent) => {
+    private onChangePin = (event: MouseEvent) => {
         store.dispatch({ type: 'pinChanging', payload: { changingPin: this.props.pin } });
         navigate(`/pin-changing/${this.props.pin.id}`);
+        event.stopPropagation();
     };
 
-    private onDeletePin = (e: MouseEvent) => {
+    private onDeletePin = (event: MouseEvent) => {
         Board.deletePinFromBoard(store.getState().boardId, this.props.pin.id).then((res) => {
             const pins = store.getState().pins;
 
@@ -117,6 +122,7 @@ export class Pin extends Component<PinProps, PinState> {
                 },
             });
         });
+        event.stopPropagation();
     };
 
     componentDidMount(): void {

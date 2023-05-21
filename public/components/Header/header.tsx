@@ -26,14 +26,12 @@ export class Header extends Component<HeaderProps, HeaderState> {
             notificationListVisible: false,
             notifications: store.getState().notifications,
         };
-        console.log(store.getState().notifications);
     }
 
     private unsubs: Function[] = [];
 
     onNewNotification() {
         if (store.getState().type !== 'newNotification') return;
-        const notification = store.getState().newNotification;
         this.setState((state) => {
             return { ...state, notifications: store.getState().notifications, hasUnreadNotification: true };
         });

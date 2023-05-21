@@ -3,6 +3,7 @@ import { IMessage, IPin, IUser, IBoard, IBoardWithPins, IChat, INotification } f
 
 interface StoreState {
     page: string;
+    prevPage: string;
     pushToState: boolean;
     pins: IPin[];
     formData: { [_: string]: any };
@@ -16,6 +17,7 @@ interface StoreState {
     changingPin: IPin | undefined;
     type: string;
     pinView: IPin | undefined;
+    pinId: number;
     boardView: IBoard | undefined;
     boardId: number;
     availableBoards: IBoard[];
@@ -33,7 +35,8 @@ interface StoreState {
 }
 
 const initialState: StoreState = {
-    page: '/feed',
+    page: '',
+    prevPage: '',
     pushToState: true,
     pins: [],
     formData: {},
@@ -43,6 +46,7 @@ const initialState: StoreState = {
     profileBoards: [],
     availableBoards: [],
     pinView: undefined,
+    pinId: 0,
     boardView: undefined,
     author: undefined,
     pinCreationErrorMsg: '',
@@ -72,9 +76,13 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 type: 'safeFeedPos',
             };
         case 'navigate':
+            if (action.payload?.page === state.page) {
+                return state;
+            }
             return {
                 ...state,
                 ...(action.payload || {}),
+                prevPage: state.page,
                 type: 'navigate',
             };
 
@@ -149,6 +157,14 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 ...state,
                 changingPin: action.payload?.changingPin,
             };
+
+        case 'updatePin':
+            return {
+                ...state,
+                pinId: action.payload?.pinId,
+                type: 'updatePin',
+            };
+
         case 'pinChangingError':
             return {
                 ...state,
@@ -214,10 +230,10 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
             };
         }
 
-        case 'connectNotificationtWs': {
+        case 'connectNotificationWs': {
             return {
                 ...state,
-                type: 'connectNotificationtWs',
+                type: 'connectNotificationWs',
                 notificationConnection: action.payload?.wsConnection,
             };
         }
@@ -271,7 +287,7 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
             return {
                 ...state,
                 newNotification: action.payload?.notification,
-                notifications: [action.payload?.notification, ...state.notifications],
+                notifications: [...state.notifications, action.payload?.notification],
                 type: 'newNotification',
             };
 

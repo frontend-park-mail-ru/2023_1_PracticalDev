@@ -59,8 +59,10 @@ export class MainScreen extends Component<MainScreenProps, MainScreenState> {
 
     componentDidUpdate(): void {
         setTimeout(() => {
-            window.scrollTo(0, store.getState().feedPos);
-            safeFeedPos(0);
+            if (store.getState().page === '/feed') {
+                window.scrollTo(0, store.getState().feedPos);
+                safeFeedPos(0);
+            }
         }, 0);
     }
 

@@ -1,30 +1,27 @@
 import { Component, createElement } from '@t1d333/pickpinlib';
-import { INotification, IPin, IUser } from '../../models';
+import { INotification, IUser } from '../../models';
+import { formatDate } from '../../util/formatDate';
+import User from '../../models/user';
+import { navigate } from '../../actions/navigation';
 import { store } from '../../store/store';
 import { loadNotifications } from '../../actions/notification';
 import { Notification } from '../../models/notification';
-import { navigate } from '../../actions/navigation';
-import { formatDate } from '../../util/formatDate';
-import User from '../../models/user';
-import { Pin } from '../../models/pin';
-import './NewPinNotification.css';
-type NewPinNotificationProps = { notification: INotification };
-type NewPinNotificationState = {
-    author: IUser | undefined;
-    pin: IPin | undefined;
-};
+import './NewCommentNotification.css';
+type CommentNotificationProps = { notification: INotification };
+type CommentNotificationState = { author: IUser | undefined };
 
-export class NewPinNotification extends Component<NewPinNotificationProps, NewPinNotificationState> {
+export class CommentNotification extends Component<CommentNotificationProps, CommentNotificationState> {
     constructor() {
         super();
-        this.state = { author: undefined, pin: undefined };
+        this.state = {
+            author: undefined,
+        };
     }
+
     componentDidMount(): void {
-        Pin.getPin(this.props.notification.data.pin_id).then((pin) => {
-            User.getUser(pin.author_id).then((user) => {
-                this.setState(() => {
-                    return { pin: pin, author: user };
-                });
+        User.getUser(this.props.notification.data.author_id).then((user) => {
+            this.setState(() => {
+                return { author: user };
             });
         });
     }
@@ -32,7 +29,7 @@ export class NewPinNotification extends Component<NewPinNotificationProps, NewPi
     render() {
         return (
             <div
-                className="notification new-pin-notification"
+                className="notification comment-notification"
                 onclick={() => {
                     const notifications = store.getState().notifications;
 
@@ -47,32 +44,24 @@ export class NewPinNotification extends Component<NewPinNotificationProps, NewPi
                     }
 
                     navigate(`/pin/${this.props.notification.data.pin_id}`);
+                    store.dispatch({ type: 'updatePin', payload: { pinId: this.props.notification.data.pin_id } });
                 }}
             >
                 <img
                     className="notification__author-avatar"
                     src={this.state.author ? this.state.author.profile_image : ''}
                 />
-
                 <div className="notification__info">
                     <div className="notification__text">
                         <strong>{this.state.author ? this.state.author.username : ''} </strong>
-                        created new pin
+                        commented on your pin
                     </div>
                     <div className="notification__date">{formatDate(this.props.notification.created_at)}</div>
                 </div>
                 <div
                     className={`notification__read-indicator ${this.props.notification.is_read ? '' : 'active'}`}
                 ></div>
-                <div
-                    className="notification__pin-preview"
-                    style={`background-color: ${this.state.pin ? this.state.pin.media_source_color : ''};`}
-                >
-                    <img
-                        src={this.state.pin ? this.state.pin.media_source : ''}
-                        className="notification__pin-preview-img"
-                    />
-                </div>
+                <div className="notification__comment-preview">{this.props.notification.data.text}</div>
             </div>
         );
     }
