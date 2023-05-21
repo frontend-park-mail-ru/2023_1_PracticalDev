@@ -8,7 +8,7 @@ import './menu.css';
 import { showModal } from '../../actions/modal';
 
 const menuItems = [
-    { link: '/feed', name: 'dashboard' },
+    { link: '/feed', name: 'home' },
     { link: '/chats', name: 'chat' },
     {
         link: undefined,

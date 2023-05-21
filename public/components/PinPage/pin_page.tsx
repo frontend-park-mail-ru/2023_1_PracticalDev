@@ -274,6 +274,9 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
                                             favorite
                                         </button>
 
+                                        <p key="like-counter" className="pin-view__actions-stat">
+                                            {String(this.state.pin ? this.state.pin.n_likes : '')}
+                                        </p>
                                         <button
                                             key="share_btn"
                                             className="pin-view__actions-like-btn material-symbols-outlined md-32"
@@ -282,10 +285,6 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
                                         >
                                             share
                                         </button>
-
-                                        <p key="like-counter" className="pin-view__actions-stat">
-                                            {String(this.state.pin ? this.state.pin.n_likes : '')}
-                                        </p>
                                         <select name="boardName" className="pin-view__board-list">
                                             {...this.state.availableBoards.map((board) => {
                                                 return <option value={board.id}>{board.name}</option>;

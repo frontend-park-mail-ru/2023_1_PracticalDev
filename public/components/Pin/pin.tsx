@@ -143,6 +143,7 @@ export class Pin extends Component<PinProps, PinState> {
             feed.openPopup();
             setTimeout(feed.closePopup,5000);
         })
+        e.stopPropagation();
     }
 
     render() {
