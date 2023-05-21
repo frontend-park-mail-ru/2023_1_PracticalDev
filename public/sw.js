@@ -19,7 +19,7 @@ self.addEventListener('install', (event) => {
             .then((cache) => {
                 console.log(cache);
                 cache.addAll(urls);
-            }).then(self.skipWaitng())
+            })
     );
 });
 

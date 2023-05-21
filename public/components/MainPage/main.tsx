@@ -8,7 +8,7 @@ import { safeFeedPos } from '../../actions/feed';
 type MainScreenProps = {};
 type MainScreenState = {
     pins: IPin[];
-    pageNumber: number;
+    pageNumber: number; // TODO(@UjinIaly): убрать в переменную https://ru.react.js.org/docs/state-and-lifecycle.html
 };
 
 export class MainScreen extends Component<MainScreenProps, MainScreenState> {
@@ -83,12 +83,6 @@ export class MainScreen extends Component<MainScreenProps, MainScreenState> {
     }
 
     componentDidUpdate(): void {
-        setTimeout(() => {
-            if (store.getState().page === '/feed') {
-                window.scrollTo(0, store.getState().feedPos);
-                safeFeedPos(0);
-            }
-        }, 0);
     }
 
     private throttle = (callee:any, timeout:number) => {
@@ -115,7 +109,7 @@ export class MainScreen extends Component<MainScreenProps, MainScreenState> {
       
         const position = scrolled + screenHeight
         if (position >= threshold) {
-            this.state.pageNumber++;
+            this.state.pageNumber++; // TODO(@UjinIaly): убрать в переменную https://ru.react.js.org/docs/state-and-lifecycle.html
             this.fetchPosts();
         }
     }
