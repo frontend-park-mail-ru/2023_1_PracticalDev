@@ -14,9 +14,7 @@ services:
 
   nginx:
     container_name: nginx
-    build:
-      dockerfile: "prod/Dockerfile.prod"
-      context: "."
+    image: frontend
     volumes:
       - ./:/home/code/
     networks:
@@ -25,8 +23,6 @@ services:
       - api-network
     depends_on:
       - ogpserver
-    ports:
-      - "81:80"
 
 networks:
   api-network:

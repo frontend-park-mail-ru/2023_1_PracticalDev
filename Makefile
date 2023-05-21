@@ -37,3 +37,16 @@ deploy:
 	cp docker-compose.yml docker-compose.yml.old && cp prod/docker-compose.yml docker-compose.yml
 	docker compose -f docker-compose.yml up -d --build
 	cp docker-compose.yml.old docker-compose.yml && rm docker-compose.yml.old
+
+.PHONY: build-image
+build-image:
+	DOCKER_BUILDKIT=1 docker build -f prod/Dockerfile.prod -t cr.yandex/crp0bgh5kbj19plq4i85/frontend .
+
+.PHONY: push-image
+push-image:
+	docker push cr.yandex/crp0bgh5kbj19plq4i85/frontend
+
+.PHONY: pull-image
+pull-image:
+	docker pull cr.yandex/crp0bgh5kbj19plq4i85/frontend
+	docker tag cr.yandex/crp0bgh5kbj19plq4i85/frontend frontend
