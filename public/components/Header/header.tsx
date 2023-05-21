@@ -46,7 +46,7 @@ export class Header extends Component<HeaderProps, HeaderState> {
     };
 
     componentDidMount(): void {
-        window.addEventListener('click', this.onCloseActionList.bind(this));
+        window.addEventListener('click', this.onCloseActionList);
     }
 
     componentWillUnmount(): void {
