@@ -34,9 +34,11 @@ jobs:
             - name: ESLint Checking
               run: npm run lint
 
-            - name: Run mocha unit-tests Checking
-              # run: npm run test
-              run: "echo TODO: migrate from mocha"
+            - name: TSLint Checking
+              run: npx tsc --noEmit
+
+            - name: Run jest
+              run: npm run test
             
             - name: Run parcel build
               run: npm run build

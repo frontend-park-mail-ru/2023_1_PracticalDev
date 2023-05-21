@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Проект Pinterest команды \"Practical Dev\"",
   "scripts": {
-    "test": "mocha",
+    "test": "jest",
     "server": "node ./server/index.js",
     "dev": "concurrently \"parcel public/index.html public/static/img/* -p 8000 \" \"copy-and-watch --watch public/sw.js dist\"",
     "lint": "eslint --ignore-path ./config/.eslintignore --config ./config/.eslintrc public/**/*.js server/**/*.js",
@@ -22,8 +22,7 @@
   "homepage": "https://github.com/frontend-park-mail-ru/2023_1_PracticalDev#readme",
   "devDependencies": {
     "@types/assert": "^1.5.6",
-    "@types/mocha": "^10.0.1",
-    "assert": "^2.0.0",
+    "@types/jest": "^29.5.1",
     "concurrently": "^8.0.1",
     "copy-and-watch": "^0.1.6",
     "copy-webpack-plugin": "^11.0.0",
@@ -36,7 +35,10 @@
     "postcss-loader": "^6.2.1",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.2.8",
-    "webpack-cli": "^5.1.1"
+    "webpack-cli": "^5.1.1",
+    "jest": "^29.5.0",
+    "jest-websocket-mock": "^2.4.0",
+    "ts-jest": "^29.1.0"
   },
   "dependencies": {
     "@parcel/packager-ts": "^2.8.3",
