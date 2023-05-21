@@ -8,9 +8,11 @@ import Feed from '../Feed/feed';
 
 import './pin.css';
 import { safeFeedPos } from '../../actions/feed';
+import { IUser } from '../../models';
 
 interface PinState {
     isLiked: boolean;
+    author: IUser | undefined;
 }
 
 interface PinProps {
@@ -19,11 +21,13 @@ interface PinProps {
 }
 
 export class Pin extends Component<PinProps, PinState> {
+    private unsubs: Function[] = [];
     private sizes = ['card_small', 'card_medium', 'card_large'];
     private cardSize: string;
     constructor() {
         super();
         this.state = {
+            author:undefined,
             isLiked: false,
         };
         this.cardSize = this.sizes[Math.floor(Math.random() * this.sizes.length)];
@@ -83,6 +87,7 @@ export class Pin extends Component<PinProps, PinState> {
             if (resp.ok) {
                 this.setState((_: PinState) => {
                     return {
+                        author: this.state.author,
                         isLiked: true,
                     };
                 });
@@ -97,6 +102,7 @@ export class Pin extends Component<PinProps, PinState> {
             if (resp.ok) {
                 this.setState((_: PinState) => {
                     return {
+                        author: this.state.author,
                         isLiked: false,
                     };
                 });
@@ -127,11 +133,35 @@ export class Pin extends Component<PinProps, PinState> {
         event.stopPropagation();
     };
 
+    private onPinLoad = () => {
+        if (store.getState().type !== 'loadedPinInfo') {
+            return;
+        }
+
+        this.setState((s) => {
+            return {
+                ...s,
+                author: store.getState().author,
+            };
+        });
+    };
+
     componentDidMount(): void {
+        this.unsubs.push(store.subscribe(this.onPinLoad.bind(this)));
         this.setState((_: PinState) => {
             return {
+                author: this.state.author,
                 isLiked: this.props.pin.liked,
             };
+        });
+
+        PinModel.getPinAuhtor(this.props.pin).then((author) => {
+            this.setState((s) => {
+                return {
+                    ...s,
+                    author: author,
+                };
+            });
         });
     }
 
@@ -171,7 +201,7 @@ export class Pin extends Component<PinProps, PinState> {
                         </button>
                         <img
                             key="author_avatar"
-                            src="https://pickpin.hb.bizmrg.com/default-user-icon-8-4024862977"
+                            src={this.state.author?.profile_image ?? ''}
                             alt=""
                             className="pin__author-avatar"
                         />

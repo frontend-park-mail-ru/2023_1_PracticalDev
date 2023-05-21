@@ -41,6 +41,10 @@
     border-radius: 5px;
 }
 
+.user-list__btn:hover {
+    -webkit-filter: brightness(80%);
+}
+
 .user-list__btn.active {
     background: var(--color-primary);
     color: var(--color-light);

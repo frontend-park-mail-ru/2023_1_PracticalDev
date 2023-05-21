@@ -44,6 +44,11 @@
     cursor: pointer;
 }
 
+.btn_submit:hover {
+    background-color: #1687a7;
+    color:#f6f5f5;
+}
+
 .form_input_group {
     display: flex;
     flex-direction: column;

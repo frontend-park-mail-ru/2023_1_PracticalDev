@@ -24,8 +24,13 @@
     color: #1687a7;
     background: #f6f5f5;
     padding: 5px 10px;
+    -moz-transition: ease-out 0.3s;
+    transition: ease-out 0.3s;
 }
-
+.profile__tab-btn:hover{
+    color: #f6f5f5;
+    box-shadow: inset 400px 0 0 0 #1687a7;;
+}
 .profile__tab-btn-active {
     color: #f6f5f5;
     background: #1687a7;

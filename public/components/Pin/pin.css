@@ -124,6 +124,9 @@
     background: #1687a7;
     cursor: pointer;
 }
+.pin__icon-btn:hover {
+    background-color: #276678;
+}
 
 .pin__image {
     width: 100%;
@@ -140,6 +143,7 @@
     height: 50px;
     border-radius: 15px;
     object-fit: scale-down;
+    object-fit: cover;
 }
 
 .card_large .pin__modal-head {
