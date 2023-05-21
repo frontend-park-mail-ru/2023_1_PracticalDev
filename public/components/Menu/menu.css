@@ -36,6 +36,9 @@
     text-align: center;
     background-color: #1687a7;
 }
+.menu__item:hover {
+    background-color: #276678;
+}
 
 .menu__link {
     color: #d3e0ea;
@@ -55,6 +58,10 @@
     background-color: #1687a7;
     color: #d3e0ea;
     padding: calc(16px + 5%) 0px;
+}
+
+.menu__loguout-btn:hover {
+    background-color: #276678;
 }
 
 .menu__logo-container {

@@ -30,7 +30,7 @@
 
 .pin-builder__submit-btn {
     font-family: 'Inter';
-    background-color: #276678;
+    background-color: #1687a7;
     border: none;
     cursor: pointer;
     color: #d3e0ea;
@@ -38,6 +38,9 @@
     font-size: 20px;
     width: 35%;
     height: 150%;
+}
+.pin-builder__submit-btn:hover {
+    background-color: #276678;
 }
 
 .pin-builder__delete-btn {
@@ -80,6 +83,10 @@
 .pin-builder__img-container {
     width: 40%;
     height: 100%;
+}
+
+.pin-builder__img-input-container:hover{
+    -webkit-filter: brightness(80%);
 }
 
 .pin-builder__label {

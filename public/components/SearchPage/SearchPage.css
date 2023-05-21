@@ -21,6 +21,16 @@
     cursor: pointer;
 }
 
+.search-result__tab-btn:hover::after {
+    content: '';
+    width: 100%;
+    display: block;
+    left: 0;
+    background-color: var(--color-dark);
+    transition: width 0.3s;
+  
+}
+
 .search-result__tab-btn::after {
     content: '';
     display: block;

@@ -3,6 +3,8 @@
     height: 80px;
     margin-right: 10px;
     border-radius: 10px;
+    object-fit: cover;
+
 }
 
 .profile__user-info {

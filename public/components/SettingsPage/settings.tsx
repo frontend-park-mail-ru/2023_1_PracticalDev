@@ -100,6 +100,18 @@ export class SettingsScreen extends Component<SettingsScreenProps, SettingsScree
         });
     };
 
+    private onInputCallback = () => {
+        const form = document.getElementById('imageForm') as HTMLFormElement;
+        const imgInput = document.getElementById('input_img') as HTMLInputElement;
+        this.setState((s: SettingsScreenState) => {
+            return {
+                ...s,
+                avatarSrc: window.URL.createObjectURL(imgInput.files![0]),
+            };
+        });
+        
+    }
+
     componentDidMount(): void {
         this.unsubs.push(store.subscribe(this.userLoadHandler.bind(this)));
     }
@@ -113,7 +125,7 @@ export class SettingsScreen extends Component<SettingsScreenProps, SettingsScree
     render() {
         return (
             <Main>
-                <div className="settings__container">
+                <div className="settings__container" id="settings__container">
                     <div className="settings__content">
                         <form
                             id="usernameForm"
@@ -166,9 +178,9 @@ export class SettingsScreen extends Component<SettingsScreenProps, SettingsScree
                             />
 
                             <div className="settings__file-input-container">
-                                <input type="file" name="image" accept="image/jpeg,image/png" />
+                                <input type="file" id ="input_img" name="image" accept="image/jpeg,image/png" oninput={this.onInputCallback.bind(this)}/>
 
-                                <input type="submit" value="save" className="settings__submit-btn" />
+                                <input type="submit" value="save" className="settings__submit-btn"/>
                             </div>
                         </form>
                     </div>
