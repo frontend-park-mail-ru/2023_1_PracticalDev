@@ -38,7 +38,6 @@ export default class AuthRequired extends Component<AuthRequiredProps, AuthRequi
             })
             .catch(() => {
                 navigate('/login');
-                console.log(res)
             });
     }
 
