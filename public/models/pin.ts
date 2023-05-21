@@ -60,6 +60,18 @@ export class Pin {
             }
         });
     }
+    
+    static getNewPins(pageNumber: number){
+             return Ajax.get(`/api/pins?page=${pageNumber}&limit=30`).then((res) => {
+                if (res.ok) {
+                    return res.body.pins as IPin[];
+                }
+                else {
+                    console.log('out');
+                    return Promise.reject(res);
+                }
+            })
+    }
 
     static LikePin(id: number) {
         return Ajax.post(`/api/pins/${id}/like`, {});

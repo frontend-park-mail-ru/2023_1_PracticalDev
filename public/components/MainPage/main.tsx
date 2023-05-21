@@ -8,6 +8,7 @@ import { safeFeedPos } from '../../actions/feed';
 type MainScreenProps = {};
 type MainScreenState = {
     pins: IPin[];
+    pageNumber: number;
 };
 
 export class MainScreen extends Component<MainScreenProps, MainScreenState> {
@@ -16,6 +17,7 @@ export class MainScreen extends Component<MainScreenProps, MainScreenState> {
     constructor() {
         super();
         this.state = {
+            pageNumber:1,
             pins: [],
         };
     }
@@ -39,7 +41,30 @@ export class MainScreen extends Component<MainScreenProps, MainScreenState> {
         });
     }
 
+    private LoadNewPins() {
+        if (store.getState().type !== 'loadedNewPins') {
+            return;
+        }
+
+        const pins = store.getState().pins;
+
+        if (pins === this.state.pins) {
+            return;
+        }
+        this.setState((s: MainScreenState) => {
+            return {
+                ...s,
+                pins: pins,
+            };
+        });
+    }
+
     componentDidMount(): void {
+        window.addEventListener('scroll', this.throttle(this.checkPosition, 250));
+        window.addEventListener('resize', this.throttle(this.checkPosition, 250));
+
+        this.unsubs.push(store.subscribe(this.LoadNewPins.bind(this)));
+
         this.unsubs.push(store.subscribe(this.LoadPinsCallback.bind(this)));
         Pin.getFeed().then((res) => {
             store.dispatch({
@@ -50,7 +75,7 @@ export class MainScreen extends Component<MainScreenProps, MainScreenState> {
             });
         });
     }
-
+    
     componentWillUnmount(): void {
         this.unsubs.forEach((fun) => {
             fun();
@@ -66,6 +91,44 @@ export class MainScreen extends Component<MainScreenProps, MainScreenState> {
         }, 0);
     }
 
+    private throttle = (callee:any, timeout:number) => {
+        let timer: any
+      
+        return function perform(...args :any[]) {
+          if (timer) return
+      
+          timer = setTimeout(() => {
+            callee(...args)
+      
+            clearTimeout(timer)
+            timer = undefined
+          }, timeout)
+        }
+      }
+
+    private checkPosition = () => {
+        const height = document.body.scrollHeight
+        const screenHeight = window.innerHeight
+        const scrolled = window.scrollY
+      
+        const threshold = height - screenHeight / 6
+      
+        const position = scrolled + screenHeight
+        if (position >= threshold) {
+            this.state.pageNumber++;
+            this.fetchPosts();
+        }
+    }
+    private fetchPosts = () =>{
+        Pin.getNewPins(this.state.pageNumber).then((res) => {
+            store.dispatch({
+                type: 'loadedNewPins',
+                payload: {
+                   pins: res as IPin[],
+                },
+            });
+        });
+    }
     render() {
         return (
             <Main>

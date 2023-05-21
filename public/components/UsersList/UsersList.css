@@ -45,6 +45,9 @@
     background: var(--color-primary);
     color: var(--color-light);
 }
+.user-list__btn:hover {
+    background-color: #aaa;
+}
 
 .users-list__btn-container {
     width: 50%;

@@ -252,6 +252,12 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 chat: action.payload?.chat,
             };
         }
+        case 'loadedNewPins':
+            return {
+                ...state,
+                pins: [...state.pins,...action.payload?.pins],
+                type: 'loadedNewPins',
+            };
 
         case 'showModal': {
             return {
