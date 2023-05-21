@@ -16,7 +16,7 @@ const loginInputs = [
     {
         name: 'email',
         type: 'email',
-        placeholder: 'email',
+        placeholder: 'Input your email',
         icon: 'alternate_email',
     },
     {

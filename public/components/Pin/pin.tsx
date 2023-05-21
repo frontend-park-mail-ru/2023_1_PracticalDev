@@ -4,6 +4,7 @@ import { store } from '../../store/store';
 import { Pin as PinModel } from '../../models/pin';
 import { IPin } from '../../models';
 import Board from '../../models/board';
+import { saveFeedPos } from '../../actions/feed';
 
 interface PinState {
     isLiked: boolean;
@@ -26,13 +27,12 @@ export class Pin extends Component<PinProps, PinState> {
         this.cardSize = this.sizes[Math.floor(Math.random() * this.sizes.length)];
     }
 
-    private onClick = (e: MouseEvent) => {
-        switch ((e.target as HTMLElement).tagName) {
-            case 'DIV':
-                store.dispatch({ type: 'pinView', payload: { pin: this.props.pin } });
-                navigate(`/pin/${this.props.pin.id}`);
-                break;
+    private onClick = (event: any) => {
+        if (store.getState().page === '/feed') {
+            saveFeedPos(window.scrollY);
         }
+        store.dispatch({ type: 'pinView', payload: { pin: this.props.pin } });
+        navigate(`/pin/${this.props.pin.id}`);
     };
 
     private resolveSecondaryBtn = () => {

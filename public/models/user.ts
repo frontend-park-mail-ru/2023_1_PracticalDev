@@ -1,6 +1,7 @@
 import Ajax from '../util/ajax';
 import { IUser, IBoard } from '../models';
 import Board from './board';
+import { store } from '../store/store';
 
 export default class User {
     static getCSRF() {

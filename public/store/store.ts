@@ -25,6 +25,8 @@ interface StoreState {
     wsConnection: WebSocket | undefined;
     message: IMessage | undefined;
     chat: IChat | undefined;
+    modalContentTag: string;
+    feedPos: number;
 }
 
 const initialState: StoreState = {
@@ -51,10 +53,18 @@ const initialState: StoreState = {
     wsConnection: undefined,
     message: undefined,
     chat: undefined,
+    modalContentTag: '',
+    feedPos: 0,
 };
 
 const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: Action) => {
     switch (action.type) {
+        case 'saveFeedPos':
+            return {
+                ...state,
+                feedPos: action.payload?.feedPos,
+                type: 'saveFeedPos',
+            };
         case 'navigate':
             return {
                 ...state,
@@ -144,6 +154,7 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
             return {
                 ...state,
                 pinView: action.payload?.pin,
+                type: 'pinView',
             };
 
         case 'loadedPinInfo':
@@ -213,6 +224,27 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
             };
         }
 
+        case 'showModal': {
+            return {
+                ...state,
+                type: 'showModal',
+                modalContentTag: action.payload?.modalContentTag,
+            };
+        }
+
+        case 'hideModal': {
+            return {
+                ...state,
+                type: 'hideModal',
+            };
+        }
+        case 'logout': {
+            return {
+                ...state,
+                user: undefined,
+                type: 'logout',
+            };
+        }
         default:
             return state;
     }
