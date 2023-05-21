@@ -143,6 +143,7 @@
     height: 50px;
     border-radius: 15px;
     object-fit: scale-down;
+    object-fit: cover;
 }
 
 .card_large .pin__modal-head {
