@@ -59,11 +59,11 @@ const initialState: StoreState = {
 
 const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: Action) => {
     switch (action.type) {
-        case 'safeFeedPos':
+        case 'saveFeedPos':
             return {
                 ...state,
                 feedPos: action.payload?.feedPos,
-                type: 'safeFeedPos',
+                type: 'saveFeedPos',
             };
         case 'navigate':
             return {

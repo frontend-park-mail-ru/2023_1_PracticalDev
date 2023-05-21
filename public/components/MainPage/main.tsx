@@ -4,7 +4,7 @@ import { IPin } from '../../models';
 import { Main } from '../Main/main';
 import { store } from '../../store/store';
 import { Pin } from '../../models/pin';
-import { safeFeedPos } from '../../actions/feed';
+import { saveFeedPos } from '../../actions/feed';
 type MainScreenProps = {};
 type MainScreenState = {
     pins: IPin[];
@@ -60,7 +60,7 @@ export class MainScreen extends Component<MainScreenProps, MainScreenState> {
     componentDidUpdate(): void {
         setTimeout(() => {
             window.scrollTo(0, store.getState().feedPos);
-            safeFeedPos(0);
+            saveFeedPos(0);
         }, 0);
     }
 

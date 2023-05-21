@@ -1,5 +1,5 @@
 import { store } from '../store/store';
 
-export const safeFeedPos = (pos: number) => {
-    store.dispatch({ type: 'safeFeedPos', payload: { feedPos: pos } });
+export const saveFeedPos = (pos: number) => {
+    store.dispatch({ type: 'saveFeedPos', payload: { feedPos: pos } });
 };

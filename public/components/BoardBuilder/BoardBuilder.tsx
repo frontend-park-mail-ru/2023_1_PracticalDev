@@ -50,7 +50,6 @@ export class BoardBuilder extends Component<BoardBuilderProps, BoardBuilderState
             });
     };
 
-    componentDidMount(): void {}
     render() {
         return (
             <div className="createBoard__formContainer">
@@ -64,7 +63,7 @@ export class BoardBuilder extends Component<BoardBuilderProps, BoardBuilderState
                             min="1"
                             max="10"
                         ></input>
-                        <button className="createBoard__button" onclick={this.createBoardHandler.bind(this)}>
+                        <button className="createBoard__button" onclick={this.createBoardHandler}>
                             Create
                         </button>
                     </div>

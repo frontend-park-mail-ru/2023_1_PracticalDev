@@ -34,18 +34,16 @@ export class Header extends Component<HeaderProps, HeaderState> {
         });
     };
 
-    onCloseActionList(event) {
-        if (this.state.actionListVisible) {
-            if (!event.target.classList.contains('header__action-list')) {
-                this.setState((state) => {
-                    return {
-                        ...state,
-                        actionListVisible: false,
-                    };
-                });
-            }
-        }
-    }
+    onCloseActionList = (event: any) => {
+        if (!this.state.actionListVisible) return;
+        if (event.target.classList.contains('header__action-list')) return;
+        this.setState((state) => {
+            return {
+                ...state,
+                actionListVisible: false,
+            };
+        });
+    };
 
     componentDidMount(): void {
         window.addEventListener('click', this.onCloseActionList.bind(this));
@@ -69,7 +67,7 @@ export class Header extends Component<HeaderProps, HeaderState> {
                     <div className="header__creation-block">
                         <span className="header__creation-btn">
                             <button
-                                onclick={(event) => {
+                                onclick={(event: any) => {
                                     this.setState((state) => {
                                         return { ...state, actionListVisible: !state.actionListVisible };
                                     });

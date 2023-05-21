@@ -4,7 +4,7 @@ import { store } from '../../store/store';
 import { Pin as PinModel } from '../../models/pin';
 import { IPin } from '../../models';
 import Board from '../../models/board';
-import { safeFeedPos } from '../../actions/feed';
+import { saveFeedPos } from '../../actions/feed';
 
 interface PinState {
     isLiked: boolean;
@@ -29,7 +29,7 @@ export class Pin extends Component<PinProps, PinState> {
 
     private onClick = (event: any) => {
         if (store.getState().page === '/feed') {
-            safeFeedPos(window.scrollY);
+            saveFeedPos(window.scrollY);
         }
         store.dispatch({ type: 'pinView', payload: { pin: this.props.pin } });
         navigate(`/pin/${this.props.pin.id}`);
