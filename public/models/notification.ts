@@ -7,8 +7,8 @@ export class Notification {
     public static connection: WebSocket;
 
     static createSocket() {
-        const url = 'wss://pickpin.ru/api/ws/notifications';
-        // const url = 'ws://localhost:81/api/ws/notifications';
+        // const url = 'wss://pickpin.ru/api/ws/notifications';
+        const url = 'ws://localhost:81/api/ws/notifications';
         const socket = new WebSocket(url);
         socket.onopen = () => {
             console.log('Notification web socket connection created');

@@ -8,20 +8,28 @@ import { loadNotifications } from '../../actions/notification';
 import { Notification } from '../../models/notification';
 import './NewFollowerNotification.css';
 type NewFollowerNotificationProps = { notification: INotification };
-type NewFollowerNotificationState = { author: IUser | undefined };
+type NewFollowerNotificationState = { author: IUser | undefined; isFollow: boolean };
 
 export class NewFollowerNotification extends Component<NewFollowerNotificationProps, NewFollowerNotificationState> {
     constructor() {
         super();
         this.state = {
             author: undefined,
+            isFollow: false,
         };
     }
 
     componentDidMount(): void {
         User.getUser(this.props.notification.data.follower_id).then((user) => {
-            this.setState(() => {
-                return { author: user };
+            User.getFollowers(user.id).then((followers) => {
+                this.setState(() => {
+                    return {
+                        author: user,
+                        isFollow: followers.some((follower) => {
+                            return follower.id === store.getState().user!.id;
+                        }),
+                    };
+                });
             });
         });
     }
@@ -45,7 +53,24 @@ export class NewFollowerNotification extends Component<NewFollowerNotificationPr
                 ></div>
 
                 <div className="new-follower-notification__actions">
-                    <button className="new-follower-notification__follow-btn">follow</button>
+                    <button
+                        className="new-follower-notification__follow-btn"
+                        style={`display: ${this.state.isFollow ? 'none' : 'block'};`}
+                        onclick={(event: any) => {
+                            User.follow(this.state.author!.id).then(() => {
+                                const notifications = store.getState().notifications;
+                                loadNotifications(
+                                    notifications.filter((notification) => {
+                                        return notification !== this.props.notification;
+                                    }),
+                                );
+                                Notification.readNotification(this.props.notification);
+                            });
+                            event.stopPropagation();
+                        }}
+                    >
+                        follow
+                    </button>
                     <button
                         className="new-follower-notification__hide-btn"
                         onclick={(event: any) => {

@@ -78,7 +78,7 @@ export class NotificationList extends Component<NotificationListProps, Notificat
                           .map((notification) => {
                               return this.getNotificatonComponent(notification);
                           })
-                    : [<h3 className="notification-list__empty">No new notificatoins</h3>]}
+                    : [<h3 className="notification-list__empty">No new notifications</h3>]}
             </div>
         );
     }
