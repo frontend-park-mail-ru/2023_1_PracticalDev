@@ -48,11 +48,9 @@
     margin-top: 30px;
 }
 
-
 @media (max-width: 430px) {
     .profile__tab-buttons {
         overflow: auto;
-        width: 85%;
         -ms-overflow-style: none;
         scrollbar-width: none;
     }

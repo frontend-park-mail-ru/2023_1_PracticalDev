@@ -19,7 +19,9 @@ export default class Feed extends Component<FeedProps, FeedState> {
         super();
     }
 
-    componentDidMount(): void {}
+    componentDidMount(): void {
+        const feed = document.querySelector('.pin_container');
+    }
 
     componentWillUnmount(): void {}
 

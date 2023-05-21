@@ -4,6 +4,7 @@ import { IPin } from '../../models';
 import { Main } from '../Main/main';
 import { store } from '../../store/store';
 import { Pin } from '../../models/pin';
+import { safeFeedPos } from '../../actions/feed';
 type MainScreenProps = {};
 type MainScreenState = {
     pins: IPin[];
@@ -29,6 +30,7 @@ export class MainScreen extends Component<MainScreenProps, MainScreenState> {
         if (pins === this.state.pins) {
             return;
         }
+
         this.setState((s: MainScreenState) => {
             return {
                 ...s,
@@ -53,6 +55,15 @@ export class MainScreen extends Component<MainScreenProps, MainScreenState> {
         this.unsubs.forEach((fun) => {
             fun();
         });
+    }
+
+    componentDidUpdate(): void {
+        setTimeout(() => {
+            if (store.getState().page === '/feed') {
+                window.scrollTo(0, store.getState().feedPos);
+                safeFeedPos(0);
+            }
+        }, 0);
     }
 
     render() {

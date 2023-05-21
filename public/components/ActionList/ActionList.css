@@ -1,0 +1,32 @@
+.action-list {
+    font-family: Inter;
+    width: 190px;
+    border-radius: 5px;
+    background: #fff;
+    padding: 5px 10px;
+    flex-direction: column;
+    display: flex;
+}
+
+.action {
+    font-size: 22px;
+    padding: 5px 10px;
+    text-align: left;
+    color: var(--color-dark);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.action:hover {
+    background: #c9c9c9;
+}
+
+@media (max-width: 600px) {
+    .action {
+        margin-top: 10px;
+    }
+
+    .action:first-child {
+        margin-top: 0px;
+    }
+}

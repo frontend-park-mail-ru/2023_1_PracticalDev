@@ -3,7 +3,7 @@ import { Form } from '../Form/form';
 import AuthLogoSection from '../AuthLogoSection/authLogoSection';
 import User from '../../models/user';
 import { store } from '../../store/store';
-import { validateEmail } from '../../util/validator';
+import { validateEmail, validateUrl } from '../../util/validator';
 import { validateUsername } from '../../util/validator';
 import { validatePassword } from '../../util/validator';
 import { loginUser } from '../../actions/user';
@@ -12,21 +12,35 @@ import { ChatWs } from '../../util/chatWs';
 
 import '../../static/img/search-animate.svg'
 
+import { debounce } from '../../util/debounce';
+import { Notification } from '../../models/notification';
 type SignupProps = {};
 type SignupState = {};
 
+const getDebouncedValidator = (validator: Function) => {
+    return debounce((event: any) => {
+        try {
+            validator(event.target.value);
+        } catch (err: any) {
+            store.dispatch({
+                type: 'validationErrorMessage',
+                payload: {
+                    message: convertErrMsg(err.message),
+                },
+            });
+            return;
+        }
+
+        store.dispatch({
+            type: 'validationErrorMessage',
+            payload: {
+                message: '',
+            },
+        });
+    });
+};
 const convertErrMsg = (msg: string): string => {
     return msg === 'Empty string' ? 'All fields must be filled' : msg;
-};
-
-const debounce = (func: Function, timeout = 600) => {
-    let timer: any;
-    return (...args: any[]) => {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            func.apply(this, args);
-        }, timeout);
-    };
 };
 
 const formInputs = [
@@ -35,51 +49,14 @@ const formInputs = [
         type: 'text',
         placeholder: 'Enter your username',
         icon: 'person',
-        validator: debounce((e: any) => {
-            try {
-                validateUsername(e.target.value);
-            } catch (err: any) {
-                store.dispatch({
-                    type: 'validationErrorMessage',
-                    payload: {
-                        message: convertErrMsg(err.message),
-                    },
-                });
-                return;
-            }
-
-            store.dispatch({
-                type: 'validationErrorMessage',
-                payload: {
-                    message: '',
-                },
-            });
-        }),
+        validator: getDebouncedValidator(validateUsername),
     },
     {
         name: 'email',
         type: 'email',
         placeholder: 'Enter your email',
         icon: 'alternate_email',
-        validator: debounce((e: any) => {
-            try {
-                validateEmail(e.target.value);
-            } catch (err: any) {
-                store.dispatch({
-                    type: 'validationErrorMessage',
-                    payload: {
-                        message: convertErrMsg(err.message),
-                    },
-                });
-                return;
-            }
-            store.dispatch({
-                type: 'validationErrorMessage',
-                payload: {
-                    message: '',
-                },
-            });
-        }),
+        validator: getDebouncedValidator(validateEmail),
     },
 
     {
@@ -87,25 +64,7 @@ const formInputs = [
         type: 'password',
         placeholder: 'Enter your password',
         icon: 'lock',
-        validator: debounce((e: any) => {
-            try {
-                validatePassword(e.target.value);
-            } catch (err: any) {
-                store.dispatch({
-                    type: 'validationErrorMessage',
-                    payload: {
-                        message: convertErrMsg(err.message),
-                    },
-                });
-                return;
-            }
-            store.dispatch({
-                type: 'validationErrorMessage',
-                payload: {
-                    message: '',
-                },
-            });
-        }),
+        validator: getDebouncedValidator(validatePassword),
     },
 ];
 
@@ -141,6 +100,7 @@ export class SignupScreen extends Component<SignupProps, SignupState> {
         User.signup(formData.username, formData.email.split('@')[0], formData.email, formData.password)
             .then((res) => {
                 ChatWs.createSocket();
+                Notification.createSocket();
                 loginUser(res);
             })
             .catch((res) => {

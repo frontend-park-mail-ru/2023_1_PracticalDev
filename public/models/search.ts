@@ -1,8 +1,6 @@
 import { IBoard, IPin, IUser } from '../models';
-import { store } from '../store/store';
 import Ajax from '../util/ajax';
 import Board from './board';
-import User from './user';
 
 export class Search {
     static getDataBySearchQuery(query: string) {
@@ -29,5 +27,25 @@ export class Search {
                     ),
                 };
             });
+    }
+
+    static async getSuggestions(query: string) {
+        const res = await Ajax.get(`/api/search/${query}`);
+        if (res.ok) {
+            return [
+                ...new Set([
+                    ...(res.body.pins as IPin[]).map((pin) => {
+                        return pin.title;
+                    }),
+                    ...(res.body.boards as IBoard[]).map((board) => {
+                        return board.name;
+                    }),
+                    ...(res.body.users as IUser[]).map((user) => {
+                        return user.username;
+                    }),
+                ]),
+            ].slice(0, 10);
+        }
+        return Promise.reject(res);
     }
 }

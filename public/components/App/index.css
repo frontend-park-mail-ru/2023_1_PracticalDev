@@ -64,6 +64,7 @@ body {
     width: calc(100% - 100px);
     padding: 0px;
     background-color: #f6f5f5;
+    z-index: -1;
 }
 
 .main__content {

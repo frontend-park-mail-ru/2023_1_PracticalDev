@@ -8,7 +8,6 @@ import { PinScreen } from '../components/PinPage/pin_page';
 import { store } from '../store/store';
 import PinCreationScreen from '../components/PinCreationPage/PinCreationPage';
 import PinChangingScreen from '../components/PinChangingPage/PinChangingPage';
-import { BoardCreationScreen } from '../components/BoardCreationPage/board-creation-page';
 import { SettingsScreen } from '../components/SettingsPage/settings';
 import { SearchPage } from '../components/SearchPage/SearchPage';
 import AuthRequired from '../components/AuthRequired/AuthRequired';
@@ -38,14 +37,14 @@ function resolve(path: string = ''): VNode {
         case 'board':
             return (
                 <AuthRequired>
-                    <BoardScreen />;
+                    <BoardScreen />
                 </AuthRequired>
             );
 
         case 'board-changing':
             return (
                 <AuthRequired>
-                    <BoardScreen />;
+                    <BoardScreen />
                 </AuthRequired>
             );
 
@@ -56,49 +55,43 @@ function resolve(path: string = ''): VNode {
         case 'pin-builder':
             return (
                 <AuthRequired>
-                    <PinCreationScreen />;
+                    <PinCreationScreen />
                 </AuthRequired>
             );
         case 'pin-changing':
             return (
                 <AuthRequired>
-                    <PinChangingScreen />;
+                    <PinChangingScreen />
                 </AuthRequired>
             );
         case 'pin':
             return (
                 <AuthRequired>
-                    <PinScreen />;
-                </AuthRequired>
-            );
-        case 'board-builder':
-            return (
-                <AuthRequired>
-                    <BoardCreationScreen />;
+                    <PinScreen />
                 </AuthRequired>
             );
         case 'settings':
             return (
                 <AuthRequired>
-                    <SettingsScreen />;
+                    <SettingsScreen />
                 </AuthRequired>
             );
         case 'search':
             return (
                 <AuthRequired>
-                    <SearchPage />;
+                    <SearchPage />
                 </AuthRequired>
             );
         case 'chats':
             return (
                 <AuthRequired>
-                    <ChatList />;
+                    <ChatList />
                 </AuthRequired>
             );
         case 'chat':
             return (
                 <AuthRequired>
-                    <ChatPage />;
+                    <ChatPage />
                 </AuthRequired>
             );
         default:

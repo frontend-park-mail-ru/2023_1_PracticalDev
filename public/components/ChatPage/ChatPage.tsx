@@ -22,7 +22,7 @@ export class ChatPage extends Component<ChatPageProps, ChatPageState> {
         if (!msgText) {
             return;
         }
-        const socket = store.getState().wsConnection;
+        const socket = store.getState().chatConnection;
         socket?.send(JSON.stringify({ text: msgText, receiver_id: this.id }));
         input.value = '';
     };
