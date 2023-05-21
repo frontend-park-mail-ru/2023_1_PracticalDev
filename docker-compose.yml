@@ -39,7 +39,7 @@ services:
       - frontend-network
       - nginx-network
     ports:
-      - 81:80
+      - 80:80
 
 networks:
   api-network:

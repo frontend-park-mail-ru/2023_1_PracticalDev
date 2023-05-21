@@ -3,32 +3,56 @@ import * as fs_async from 'fs/promises';
 import * as log from './log.js';
 
 /**
- * 
- * @param {string} data 
- * @param {string} url 
- * 
+ *
+ * @param {string} data
+ * @param {string} url
+ *
  */
 const processOGP = async (data, url) => {
     // console.log(url)
-    if (url.indexOf("pin/") > 0) {
-        const id = url.substring(url.indexOf("pin") + 4)
-        const pin = await (await fetch(`http://backend:8080/pins/${id}`)).json()
-        data = data.replace(`<meta property="og:title" content=""`, `<meta property="og:title" content="${pin.title}"`)
-        data = data.replace(`<meta property="og:type" content=""`, `<meta property="og:type" content="website"`)
-        data = data.replace(`<meta property="og:url" content=""`, `<meta property="og:url" content="https://pickpin.ru${url}"`)
-        data = data.replace(`<meta property="og:image" content=""`, `<meta property="og:image" content="${pin.media_source}"`)
-        data = data.replace(`<meta property="og:image:secure_url" content=""`, `<meta property="og:image:secure_url" content="${pin.media_source}"`)
-        data = data.replace(`<meta property="og:description" content=""`, `<meta property="og:description" content="${pin.description}"`)
+    if (url.indexOf('pin/') > 0) {
+        const id = url.substring(url.indexOf('pin') + 4);
+        const pin = await (await fetch(`http://backend:8080/pins/${id}`)).json();
+        data = data.replace(`<meta property="og:title" content=""`, `<meta property="og:title" content="${pin.title}"`);
+        data = data.replace(`<meta property="og:type" content=""`, `<meta property="og:type" content="website"`);
+        data = data.replace(
+            `<meta property="og:url" content=""`,
+            `<meta property="og:url" content="https://pickpin.ru${url}"`,
+        );
+        data = data.replace(
+            `<meta property="og:image" content=""`,
+            `<meta property="og:image" content="${pin.media_source}"`,
+        );
+        data = data.replace(
+            `<meta property="og:image:secure_url" content=""`,
+            `<meta property="og:image:secure_url" content="${pin.media_source}"`,
+        );
+        data = data.replace(
+            `<meta property="og:description" content=""`,
+            `<meta property="og:description" content="${pin.description}"`,
+        );
     } else {
-        data = data.replace(`<meta property="og:title" content=""`, `<meta property="og:title" content="Pickpin"`)
-        data = data.replace(`<meta property="og:type" content=""`, `<meta property="og:type" content="website"`)
-        data = data.replace(`<meta property="og:url" content=""`, `<meta property="og:url" content="https://pickpin.ru${url}"`)
-        data = data.replace(`<meta property="og:image" content=""`, `<meta property="og:image" content="https://pickpin.hb.bizmrg.com/Logo2.png"`)
-        data = data.replace(`<meta property="og:image:secure_url" content=""`, `<meta property="og:image:secure_url" content="https://pickpin.hb.bizmrg.com/Logo2.png"`)
-        data = data.replace(`<meta property="og:description" content=""`, `<meta property="og:description" content="Pick pictures for your pins"`)
+        data = data.replace(`<meta property="og:title" content=""`, `<meta property="og:title" content="Pickpin"`);
+        data = data.replace(`<meta property="og:type" content=""`, `<meta property="og:type" content="website"`);
+        data = data.replace(
+            `<meta property="og:url" content=""`,
+            `<meta property="og:url" content="https://pickpin.ru${url}"`,
+        );
+        data = data.replace(
+            `<meta property="og:image" content=""`,
+            `<meta property="og:image" content="https://pickpin.hb.bizmrg.com/Logo2.png"`,
+        );
+        data = data.replace(
+            `<meta property="og:image:secure_url" content=""`,
+            `<meta property="og:image:secure_url" content="https://pickpin.hb.bizmrg.com/Logo2.png"`,
+        );
+        data = data.replace(
+            `<meta property="og:description" content=""`,
+            `<meta property="og:description" content="Pick pictures for your pins"`,
+        );
     }
-    return data
-}
+    return data;
+};
 
 const SERVER_PORT = process.env.PORT || 3001;
 
@@ -47,6 +71,7 @@ async_server.on('request', async (req, res) => {
     try {
         const data = (await fs_async.readFile('./dist/index.html')).toString();
         const processed = await processOGP(data, url);
+        res.setHeader('Content-type', 'text/html');
         res.write(processed);
         res.statusCode = 200;
         response = 200;

@@ -1,20 +1,30 @@
+'use strict';
+
 const cacheName = 'PICKPIN_CACHE';
-const urls = [];
+const urls = ['/', '/index.html', '/profile', '/feed'];
 
 const cachesRegexes = {
     jsRegex: /.js$/,
     cssRegex: /.css$/,
     apiRegex: /^(.*)\/api\/(.*)/,
     imgRegex: /^(.*)\/img\/(.*)$/,
+    htmlRegex: /\/$/,
 };
 
 self.addEventListener('install', (event) => {
     console.log('Installing [Service Worker]', event);
-    event.waitUntil(caches.open(cacheName).then((cache) => cache.addAll(urls)));
+    event.waitUntil(
+        caches
+            .open(cacheName)
+            .then((cache) => {
+                console.log(cache);
+                cache.addAll(urls);
+            }).then(self.skipWaitng())
+    );
 });
 
-self.addEventListener('activate', () => {
-    return self.clients.claim();
+self.addEventListener('activate', (event) => {    
+    event.waitUntil(clients.claim()); /* eslint-disable-line */
 });
 
 self.addEventListener('fetch', (event) => {

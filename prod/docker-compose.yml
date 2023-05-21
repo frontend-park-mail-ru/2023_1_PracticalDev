@@ -25,6 +25,8 @@ services:
       - api-network
     depends_on:
       - ogpserver
+    ports:
+      - "81:80"
 
 networks:
   api-network:
