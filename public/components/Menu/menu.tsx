@@ -37,18 +37,17 @@ export default class Menu extends Component<{}, {}> {
                 <div className="menu__box">
                     {...menuItems.map((item) => {
                         return (
-                            <span className="menu__item">
-                                <a
-                                    onclick={() => {
-                                        if (item.callback) {
-                                            item.callback();
-                                        }
-                                    }}
-                                    href={item.link ?? store.getState().page}
-                                    className={'material-symbols-outlined md-32 menu__link'}
-                                >
-                                    {item.name}
-                                </a>
+                            <span
+                                className="menu__item"
+                                onclick={() => {
+                                    if (item.callback) {
+                                        item.callback();
+                                    }
+
+                                    navigate(item.link ?? store.getState().page);
+                                }}
+                            >
+                                <a className={'material-symbols-outlined md-32 menu__link'}>{item.name}</a>
                             </span>
                         );
                     })}

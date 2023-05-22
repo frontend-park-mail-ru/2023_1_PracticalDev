@@ -34,6 +34,8 @@
     padding: calc(16px + 5%) 0px;
     color: #d3e0ea;
     text-align: center;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
     background-color: #1687a7;
 }
 .menu__item:hover {
@@ -56,6 +58,7 @@
     border: none;
     cursor: pointer;
     background-color: #1687a7;
+    transition: background-color 0.2s ease;
     color: #d3e0ea;
     padding: calc(16px + 5%) 0px;
 }
