@@ -35,6 +35,7 @@
     color: #d3e0ea;
     text-align: center;
     background-color: #1687a7;
+    cursor: pointer;
 }
 .menu__item:hover {
     background-color: #276678;

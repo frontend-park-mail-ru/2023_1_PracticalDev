@@ -18,6 +18,13 @@
     border-radius: 20%;
 }
 
+.header__btn:hover {
+    fill: black
+}
+.icon:hover{
+    font-variation-settings: 'FILL' 1;
+}
+
 .header__avatar {
     width: 40px;
     height: 40px;
@@ -85,6 +92,7 @@
     height: 32px;
     margin-right: 20px;
 }
+
 
 .header__notification-block::after {
     content: '';

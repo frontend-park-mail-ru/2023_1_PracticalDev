@@ -37,7 +37,7 @@ export default class Menu extends Component<{}, {}> {
                 <div className="menu__box">
                     {...menuItems.map((item) => {
                         return (
-                            <span className="menu__item">
+                            <a className="menu__item" href={item.link ?? store.getState().page}>
                                 <a
                                     onclick={() => {
                                         if (item.callback) {
@@ -49,7 +49,7 @@ export default class Menu extends Component<{}, {}> {
                                 >
                                     {item.name}
                                 </a>
-                            </span>
+                            </a>
                         );
                     })}
                 </div>
