@@ -23,10 +23,6 @@ export default class Feed extends Component<FeedProps, FeedState> {
 
     componentWillUnmount(): void {}
 
-    returnHeight() {
-        return document.getElementById('.pin_container')?.offsetHeight;
-    }
-
     openPopup = function () {
         let popupBg = document.querySelector('.popup');
         popupBg?.classList.add('popup-active');
@@ -43,27 +39,24 @@ export default class Feed extends Component<FeedProps, FeedState> {
 
     render() {
         return (
-            <div className="feed_wrapper">
-                <div className="pin_container" id="pin_container">
-                    <div className="popup">
-                        <form className="popup__form">
-                            <div className="popup__form__text">link copied!</div>
-                            <span className="popup__form__close-btn">
-                                <a
-                                    key="popup-close-btn"
-                                    className="material-symbols-outlined popup__close-btn__icon md-32"
-                                    onclick={this.closePopup.bind(this)}
-                                >
-                                    close
-                                </a>
-                            </span>
-                        </form>
-                    </div>
-                    {...(this.props.pins || []).map((pin) => {
-                        return <Pin pin={pin} />;
-                    })}
+            <div className="pin_container" id="pin_container">
+                <div className="popup">
+                    <form className="popup__form">
+                        <div className="popup__form__text">link copied!</div>
+                        <span className="popup__form__close-btn">
+                            <a
+                                key="popup-close-btn"
+                                className="material-symbols-outlined popup__close-btn__icon md-32"
+                                onclick={this.closePopup.bind(this)}
+                            >
+                                close
+                            </a>
+                        </span>
+                    </form>
                 </div>
-                <footer className="pin_container__footer" style="font-family:Inter; margin-bottom:30px; margin-top:20px; color:var(--color-dark);">PickPin, 2023</footer>
+                {...(this.props.pins || []).map((pin) => {
+                    return <Pin pin={pin} />;
+                })}
             </div>
         );
     }

@@ -127,6 +127,7 @@ export class MainScreen extends Component<MainScreenProps, MainScreenState> {
         return (
             <Main>
                 <Feed pins={this.state.pins} key="feed" />
+                <footer className="pin_container__footer" style="font-family:Inter; margin-bottom:30px; margin-top:20px; color:var(--color-dark);">PickPin, 2023</footer>
             </Main>
         );
     }
