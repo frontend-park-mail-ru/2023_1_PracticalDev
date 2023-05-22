@@ -52,6 +52,11 @@
     background: #1687a7;
 }
 
+.settings__submit-btn:hover {
+    background-color: var(--color-dark);
+}
+
+
 .settings__input {
     height: 4vh;
     width: 90%;
@@ -62,6 +67,8 @@
     width: 80px;
     height: 80px;
     border-radius: 15px; 
+    object-fit: cover;
+
 }
 
 
@@ -77,6 +84,9 @@ input[type=file]::file-selector-button {
     font-size: 15px;
     font-family: 'Inter'; 
     transition: background .2s ease-in-out;
+}
+input[type=file]::file-selector-button:hover{
+    background-color: var(--color-dark);
 }
 
 .settings__form-img {

@@ -1,12 +1,22 @@
 import { Component, createElement } from '@t1d333/pickpinlib';
 import { store } from '../../store/store';
-import Ajax from '../../util/ajax';
 import User from '../../models/user';
 import { logoutUser } from '../../actions/user';
 import { navigate } from '../../actions/navigation';
+
+import './menu.css';
+import { showModal } from '../../actions/modal';
+
 const menuItems = [
     { link: '/feed', name: 'home' },
     { link: '/chats', name: 'chat' },
+    {
+        link: undefined,
+        name: 'add',
+        callback: () => {
+            showModal('action-list');
+        },
+    },
     { link: '/profile', name: 'dashboard' },
     { link: '/settings', name: 'settings' },
 ];
@@ -28,7 +38,15 @@ export default class Menu extends Component<{}, {}> {
                     {...menuItems.map((item) => {
                         return (
                             <span className="menu__item">
-                                <a href={item.link} className={'material-symbols-outlined md-32 menu__link'}>
+                                <a
+                                    onclick={() => {
+                                        if (item.callback) {
+                                            item.callback();
+                                        }
+                                    }}
+                                    href={item.link ?? store.getState().page}
+                                    className={'material-symbols-outlined md-32 menu__link'}
+                                >
                                     {item.name}
                                 </a>
                             </span>

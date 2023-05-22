@@ -1,0 +1,38 @@
+.suggestion {
+    border: 2px solid var(--color-primary);
+    display: none;
+    position: relative;
+    border-radius: 10px;
+    background: var(--color-light);
+    top: 10px;
+    padding: 10px 0px;
+}
+
+.suggestion__item {
+    color: var(--color-dark);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.suggestion__item:hover {
+    background: #c9c9c9;
+}
+
+.suggestion__item-text {
+    font-family: Inter;
+    font-size: 22px;
+    margin-right: 5px;
+}
+
+.suggestion.active {
+    display: block;
+}
+
+@media (max-width: 600px) {
+    .suggestion {
+        left: 10px;
+    }
+}

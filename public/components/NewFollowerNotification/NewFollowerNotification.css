@@ -1,0 +1,61 @@
+.new-follower-notification {
+    display: grid;
+    grid-template-columns: 45px auto 10px;
+    gap: 10px;
+    align-items: center;
+    cursor: default;
+}
+
+.new-follower-notification__actions {
+    grid-row: 2/3;
+    grid-column: 1/4;
+    display: flex;
+}
+
+.new-follower-notification > .notification__read-indicator {
+    position: initial;
+}
+
+.new-follower-notification__actions > button {
+    width: 28%;
+    height: 30px;
+    border: none;
+    font-family: Inter;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    position: relative;
+}
+
+.new-follower-notification__follow-btn {
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    margin-right: 10px;
+}
+
+.new-follower-notification__actions > button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    border-radius: 5px;
+    transition: opacity 0.3s ease;
+}
+
+.new-follower-notification__actions > button:hover::after {
+    opacity: 1;
+}
+
+.new-follower-notification__hide-btn {
+    color: var(--color-dark);
+    background-color: var(--color-secondary);
+}
+
+.new-follower-notification:hover {
+    border: 2px solid #e9e9e9;
+    background: none;
+}

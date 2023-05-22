@@ -1,0 +1,25 @@
+.new-pin-notification {
+    display: grid;
+    grid-template-columns: 45px auto 10px;
+    gap: 10px;
+    align-items: center;
+}
+
+.new-pin-notification > .notification__read-indicator {
+    position: initial;
+}
+
+.notification__pin-preview {
+    height: 150px;
+    width: 100%;
+    display: flex;
+    grid-row: 2/3;
+    grid-column: 1/4;
+    border-radius: 5px;
+}
+
+.notification__pin-preview-img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}

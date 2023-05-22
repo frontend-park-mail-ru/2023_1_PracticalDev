@@ -1,10 +1,5 @@
-/* menu { */
-/*     z-index: 1000; */
-/*     height: 0; */
-/* } */
-
 .menu {
-    z-index: 10001;
+    z-index: 100;
     left: 0;
     width: 100px;
     display: flex;
@@ -29,6 +24,10 @@
     display: none;
 }
 
+.menu__item:nth-child(3) {
+    display: none;
+}
+
 .menu__item {
     font-weight: 600;
     display: block;
@@ -36,6 +35,9 @@
     color: #d3e0ea;
     text-align: center;
     background-color: #1687a7;
+}
+.menu__item:hover {
+    background-color: #276678;
 }
 
 .menu__link {
@@ -56,6 +58,10 @@
     background-color: #1687a7;
     color: #d3e0ea;
     padding: calc(16px + 5%) 0px;
+}
+
+.menu__loguout-btn:hover {
+    background-color: #276678;
 }
 
 .menu__logo-container {
@@ -106,6 +112,10 @@
     }
 
     .menu__item:nth-child(2) {
+        display: flex;
+    }
+
+    .menu__item:nth-child(3) {
         display: flex;
     }
 }

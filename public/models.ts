@@ -4,6 +4,7 @@ interface IPin {
     description: string;
     created_at: Date;
     media_source: string;
+    media_source_color: string;
     author_id: number;
     liked: boolean;
     n_likes: number;
@@ -43,4 +44,14 @@ type IChat = {
 
 type IBoardWithPins = IBoard & { pins: IPin[] };
 
-export { IPin, IUser, IBoard, IBoardWithPins, IMessage, IChat };
+type INotification = {
+    id: number;
+    is_read: boolean;
+    message: string;
+    type: 'new_comment' | 'new_like' | 'new_pin' | 'new_follower';
+    user_id: number;
+    created_at: string;
+    data: { [_: string]: any };
+};
+
+export { IPin, IUser, IBoard, IBoardWithPins, IMessage, IChat, INotification };

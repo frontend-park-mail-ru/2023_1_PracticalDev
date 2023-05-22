@@ -2,6 +2,8 @@ import { Component, createElement, renderElement } from '@t1d333/pickpinlib';
 import { Input, InputProps } from '../Input/input';
 import { store } from '../../store/store';
 
+import './form.css';
+
 type FormProps = {
     id: string;
     method: string;

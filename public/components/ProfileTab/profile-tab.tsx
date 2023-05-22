@@ -5,6 +5,9 @@ import { BoardList } from '../BoardList/boardlist';
 import { IBoardWithPins, IUser } from '../../models';
 import { IPin } from '../../models';
 import { UsersList } from '../UsersList/UsersList';
+import { showModal } from '../../actions/modal';
+
+import './profile-tab.css';
 
 type ProfileTabState = {
     currentTab: string;
@@ -90,16 +93,6 @@ export class ProfileTab extends Component<ProfileTabProps, ProfileTabState> {
                             followees
                         </span>
                     </div>
-
-                    <span className="profile__creation-btn">
-                        <a
-                            key="pin-creation-btn"
-                            href={this.state.currentTab === 'pins' ? '/pin-builder' : '/board-builder'}
-                            className="material-symbols-outlined profile__creation-btn-icon md-32"
-                        >
-                            add
-                        </a>
-                    </span>
                 </div>
                 <div className="profile__tab-content">{this.tagToComponent(this.state.currentTab)}</div>
             </div>

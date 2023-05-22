@@ -1,8 +1,9 @@
 import { Store, Reducer, Action } from '@t1d333/pickpinreduxlib';
-import { IMessage, IPin, IUser, IBoard, IBoardWithPins, IChat } from '../models';
+import { IMessage, IPin, IUser, IBoard, IBoardWithPins, IChat, INotification } from '../models';
 
 interface StoreState {
     page: string;
+    prevPage: string;
     pushToState: boolean;
     pins: IPin[];
     formData: { [_: string]: any };
@@ -16,19 +17,26 @@ interface StoreState {
     changingPin: IPin | undefined;
     type: string;
     pinView: IPin | undefined;
+    pinId: number;
     boardView: IBoard | undefined;
     boardId: number;
     availableBoards: IBoard[];
     followers: IUser[];
     followees: IUser[];
     searchQuery: string;
-    wsConnection: WebSocket | undefined;
+    chatConnection: WebSocket | undefined;
+    notificationConnection: WebSocket | undefined;
     message: IMessage | undefined;
     chat: IChat | undefined;
+    modalContentTag: string;
+    feedPos: number;
+    newNotification: INotification | undefined;
+    notifications: INotification[];
 }
 
 const initialState: StoreState = {
-    page: '/feed',
+    page: '',
+    prevPage: '',
     pushToState: true,
     pins: [],
     formData: {},
@@ -38,6 +46,7 @@ const initialState: StoreState = {
     profileBoards: [],
     availableBoards: [],
     pinView: undefined,
+    pinId: 0,
     boardView: undefined,
     author: undefined,
     pinCreationErrorMsg: '',
@@ -48,17 +57,32 @@ const initialState: StoreState = {
     followers: [],
     followees: [],
     searchQuery: '',
-    wsConnection: undefined,
+    chatConnection: undefined,
+    notificationConnection: undefined,
     message: undefined,
     chat: undefined,
+    modalContentTag: '',
+    feedPos: 0,
+    newNotification: undefined,
+    notifications: [],
 };
 
 const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: Action) => {
     switch (action.type) {
+        case 'safeFeedPos':
+            return {
+                ...state,
+                feedPos: action.payload?.feedPos,
+                type: 'safeFeedPos',
+            };
         case 'navigate':
+            if (action.payload?.page === state.page) {
+                return state;
+            }
             return {
                 ...state,
                 ...(action.payload || {}),
+                prevPage: state.page,
                 type: 'navigate',
             };
 
@@ -133,6 +157,14 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 ...state,
                 changingPin: action.payload?.changingPin,
             };
+
+        case 'updatePin':
+            return {
+                ...state,
+                pinId: action.payload?.pinId,
+                type: 'updatePin',
+            };
+
         case 'pinChangingError':
             return {
                 ...state,
@@ -144,6 +176,7 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
             return {
                 ...state,
                 pinView: action.payload?.pin,
+                type: 'pinView',
             };
 
         case 'loadedPinInfo':
@@ -189,14 +222,21 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 searchQuery: action.payload?.query,
             };
 
-        case 'connectWs': {
+        case 'connectChatWs': {
             return {
                 ...state,
-                type: 'connectWs',
-                wsConnection: action.payload?.wsConnection,
+                type: 'connectChatWs',
+                chatConnection: action.payload?.wsConnection,
             };
         }
 
+        case 'connectNotificationWs': {
+            return {
+                ...state,
+                type: 'connectNotificationWs',
+                notificationConnection: action.payload?.wsConnection,
+            };
+        }
         case 'newMessage': {
             return {
                 ...state,
@@ -212,6 +252,50 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 chat: action.payload?.chat,
             };
         }
+        case 'loadedNewPins':
+            return {
+                ...state,
+                pins: [...state.pins,...action.payload?.pins],
+                type: 'loadedNewPins',
+            };
+
+        case 'showModal': {
+            return {
+                ...state,
+                type: 'showModal',
+                modalContentTag: action.payload?.modalContentTag,
+            };
+        }
+
+        case 'hideModal': {
+            return {
+                ...state,
+                type: 'hideModal',
+            };
+        }
+
+        case 'logout': {
+            return {
+                ...state,
+                user: undefined,
+                type: 'logout',
+            };
+        }
+
+        case 'loadNotifications':
+            return {
+                ...state,
+                notifications: action.payload?.notifications,
+                type: 'loadNotifications',
+            };
+
+        case 'newNotification':
+            return {
+                ...state,
+                newNotification: action.payload?.notification,
+                notifications: [...state.notifications, action.payload?.notification],
+                type: 'newNotification',
+            };
 
         default:
             return state;

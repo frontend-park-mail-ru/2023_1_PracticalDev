@@ -1,9 +1,9 @@
-import { Component, VNode, createElement } from '@t1d333/pickpinlib';
-import { Header } from '../Header/header';
-import Menu from '../Menu/menu';
-import { Input } from '../Input/input';
+import { Component, createElement } from '@t1d333/pickpinlib';
 import { Pin } from '../../models/pin';
 import { store } from '../../store/store';
+import { Main } from '../Main/main';
+
+import './PinCreationPage.css';
 
 type PinCreationScreenState = {
     name: string;
@@ -90,66 +90,60 @@ export default class PinCreationScreen extends Component<{}, PinCreationScreenSt
 
     render() {
         return (
-            <div>
-                <Menu />
-                <Header />
-                <div id="app">
-                    <div className="main__content">
-                        <div className="pin-builder__container">
-                            <form id="pin-builder__form" onsubmit={this.onSubmitCallback.bind(this)}>
-                                <div className="pin-builder__img-input-container">
-                                    <label
-                                        className="pin-builder__label"
-                                        for="pin-image"
-                                        style={!this.state.imgUrl ? '' : `background-image: url(${this.state.imgUrl});`}
-                                    >
-                                        {this.state.imgUrl ? (
-                                            <div> </div>
-                                        ) : (
-                                            <div>
-                                                <div className="material-symbols-outlined md-48">upload</div>
-                                                <div>Upload</div>
-                                            </div>
-                                        )}
-
-                                        <input
-                                            oninput={this.onInputCallback.bind(this)}
-                                            accept="image/jpeg,image/png"
-                                            id="pin-image"
-                                            type="file"
-                                            name="pinImg"
-                                            style="display: none;"
-                                        />
-                                    </label>
-                                </div>
-
-                                <div className="pin-builder__form-container">
-                                    <h2 className="pin-builder__header">Create a pin</h2>
-                                    <div className="pin-builder__inputs-container">
-                                        <div className="pin-builder__error-msg-container">{this.state.errorMsg}</div>
-                                        <input
-                                            type="text"
-                                            name="pinTitle"
-                                            placeholder="Add name of the pin"
-                                            className="input__custom"
-                                            value={this.state.name}
-                                        />
-                                        <textarea
-                                            className="pin-builder__description-input"
-                                            name="pinDescription"
-                                            placeholder="Add a Pin Description"
-                                            value={this.state.description}
-                                        />
+            <Main>
+                <div className="pin-builder__container">
+                    <form id="pin-builder__form" onsubmit={this.onSubmitCallback.bind(this)}>
+                        <div className="pin-builder__img-input-container">
+                            <label
+                                className="pin-builder__label"
+                                for="pin-image"
+                                style={!this.state.imgUrl ? '' : `background-image: url(${this.state.imgUrl});`}
+                            >
+                                {this.state.imgUrl ? (
+                                    <div> </div>
+                                ) : (
+                                    <div>
+                                        <div className="material-symbols-outlined md-48">upload</div>
+                                        <div>Upload</div>
                                     </div>
-                                    <div className="pin-builder__btn-container">
-                                        <button className="pin-builder__submit-btn">save</button>
-                                    </div>
-                                </div>
-                            </form>
+                                )}
+
+                                <input
+                                    oninput={this.onInputCallback.bind(this)}
+                                    accept="image/jpeg,image/png"
+                                    id="pin-image"
+                                    type="file"
+                                    name="pinImg"
+                                    style="display: none;"
+                                />
+                            </label>
                         </div>
-                    </div>
+
+                        <div className="pin-builder__form-container">
+                            <h2 className="pin-builder__header">Create a pin</h2>
+                            <div className="pin-builder__inputs-container">
+                                <div className="pin-builder__error-msg-container">{this.state.errorMsg}</div>
+                                <input
+                                    type="text"
+                                    name="pinTitle"
+                                    placeholder="Add name of the pin"
+                                    className="input__custom"
+                                    value={this.state.name}
+                                />
+                                <textarea
+                                    className="pin-builder__description-input"
+                                    name="pinDescription"
+                                    placeholder="Add a Pin Description"
+                                    value={this.state.description}
+                                />
+                            </div>
+                            <div className="pin-builder__btn-container">
+                                <button className="pin-builder__submit-btn">save</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </div>
+            </Main>
         );
     }
 }

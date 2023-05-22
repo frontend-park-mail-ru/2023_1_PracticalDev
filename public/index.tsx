@@ -1,6 +1,10 @@
 import { Component, VAttributes, createElement, renderElement } from '@t1d333/pickpinlib';
 import RouterProvider from './router/reactrouter';
 import { store } from './store/store';
+import { Modal } from './components/Modal/Modal';
+
+import './components/App/index.css';
+import './static/img/Logo2.svg';
 
 declare global {
     namespace JSX {
@@ -45,6 +49,8 @@ class App extends Component<AppProps, AppState> {
 }
 
 const root = document.getElementById('root');
-
+const body = document.querySelector('body');
 const app = <App />;
+const modal = <Modal />;
+body?.appendChild(renderElement(modal));
 root?.appendChild(renderElement(app));

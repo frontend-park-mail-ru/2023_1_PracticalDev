@@ -7,6 +7,8 @@ import User from '../../models/user';
 import { loadProfile } from '../../actions/user';
 import { Main } from '../Main/main';
 
+import './profile.css';
+
 type ProfileProps = {};
 type ProfileState = {
     user: IUser | undefined;

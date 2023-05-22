@@ -1,0 +1,47 @@
+.comments__comment-builder-avatar {
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    margin-right: 5px;
+    border-radius: 10%;
+}
+
+.comments__list {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.comments__comment-input {
+    height: 40px;
+    font-family: Inter;
+    font-size: 20px;
+    padding: 5px;
+    border: 2px solid var(--color-dark);
+    border-radius: 5px;
+    width: 90%;
+}
+
+.comments__comment-builder {
+    display: flex;
+    justify-content: center;
+    position: sticky;
+    bottom: 0px;
+    background: #fff;
+    padding-top: 10px;
+    padding-bottom: 28px;
+}
+
+.comments__comment-form {
+    width: 100%;
+}
+
+.comments {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.comment__text {
+    text-align: left;
+}

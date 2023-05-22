@@ -4,6 +4,8 @@ import { IUser, IMessage } from '../../models';
 import User from '../../models/user';
 import { Main } from '../Main/main';
 
+import './ChatPage.css';
+
 type ChatPageProps = {};
 type ChatPageState = { user: IUser | undefined; messages: IMessage[] };
 export class ChatPage extends Component<ChatPageProps, ChatPageState> {
@@ -20,7 +22,7 @@ export class ChatPage extends Component<ChatPageProps, ChatPageState> {
         if (!msgText) {
             return;
         }
-        const socket = store.getState().wsConnection;
+        const socket = store.getState().chatConnection;
         socket?.send(JSON.stringify({ text: msgText, receiver_id: this.id }));
         input.value = '';
     };

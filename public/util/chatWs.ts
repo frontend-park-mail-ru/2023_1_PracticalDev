@@ -1,12 +1,17 @@
+import { connectChatWs } from '../actions/chat';
 import { store } from '../store/store';
 
 export class ChatWs {
+    public static connection: WebSocket | undefined = undefined;
     static createSocket() {
+        if (this.connection) return;
         const url = 'wss://pickpin.ru/api/chat';
+        // const url = 'ws://localhost:81/api/chat';
         const socket = new WebSocket(url);
-
+        this.connection = socket;
+        connectChatWs(socket);
         socket.onopen = () => {
-            console.log('Web socket connection created');
+            console.log('Chat web socket connection created');
         };
 
         socket.onmessage = (event) => {
@@ -22,11 +27,11 @@ export class ChatWs {
             }
         };
 
-        store.dispatch({
-            type: 'connectWs',
-            payload: {
-                wsConnection: socket,
-            },
+        store.subscribe(() => {
+            if (store.getState().type === 'logout') {
+                socket.close();
+                this.connection = undefined;
+            }
         });
     }
 }

@@ -1,10 +1,11 @@
 import Ajax from '../util/ajax';
 import { IUser, IBoard } from '../models';
 import Board from './board';
+import { store } from '../store/store';
 
 export default class User {
     static getCSRF() {
-        const [cookie] = document.cookie.split(';').filter((cookie) => {
+        const [cookie] = document.cookie.split('; ').filter((cookie) => {
             return cookie.startsWith('XSRF-TOKEN');
         });
         return cookie ? cookie.split('=')[1] : '';
@@ -132,7 +133,7 @@ export default class User {
             })
             .then((chats) => {
                 return Promise.all(
-                    chats.map((chat) => {
+                    chats.map((chat: any) => {
                         return Ajax.get(`/api/users/${chat.user1_id === userId ? chat.user2_id : chat.user1_id}`).then(
                             (res) => {
                                 return res.body;

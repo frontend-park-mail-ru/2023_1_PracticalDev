@@ -5,12 +5,20 @@ WORKDIR /home/code/
 RUN adduser node sudo
 
 COPY *.json /home/code/
+
+RUN npm install
+
 COPY public /home/code/public
-COPY server /home/code/server
+COPY webpack.config.cjs .
 
-RUN npm install --omit=dev
-RUN npm run compile
+RUN npm run build
 
-EXPOSE 8000
+FROM nginx
 
-CMD [ "npm", "run", "server" ]
+WORKDIR /app/
+
+COPY --from=base /home/code/dist /app/
+COPY prod/nginx.conf /etc/nginx/conf.d/default.conf
+COPY prod/index.html /app/
+
+CMD ["nginx", "-g", "daemon off;"]

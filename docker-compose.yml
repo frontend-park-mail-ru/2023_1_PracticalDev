@@ -1,6 +1,19 @@
 version: "3.9"
 
 services:
+  ogpserver:
+    image: node:19
+    container_name: ogpserver
+    command: node /home/code/server/
+    volumes:
+      - ./:/home/code/
+      - ./dist:/dist
+    networks:
+      - frontend-network
+      - api-network
+    ports:
+      - 3001:3001
+
   frontend:
     container_name: frontend
     build:
@@ -25,10 +38,8 @@ services:
       - api-network
       - frontend-network
       - nginx-network
-    depends_on:
-      - frontend
     ports:
-      - 81:80
+      - 80:80
 
 networks:
   api-network:
