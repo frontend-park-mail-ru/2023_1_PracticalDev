@@ -208,7 +208,7 @@ export class Pin extends Component<PinProps, PinState> {
                         {this.resolveSecondaryBtn()}
                     </div>
                 </div>
-                <img key="pin_img" className="pin__image" src={this.props.pin.media_source} alt="abc" srcset="" />
+                <img key="pin_img" className="pin__image" src={this.props.pin.media_source} srcset="" />
             </div>
         );
     }
