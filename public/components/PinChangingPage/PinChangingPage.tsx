@@ -16,6 +16,7 @@ export default class PinChangingScreen extends Component<PinChangingScreenProps,
     constructor() {
         super();
         this.state = { pin: store.getState().changingPin, errorMsg: '' };
+        //TODO: ломается при перезагрузке
         if (!this.state.pin) {
             navigate('/profile');
         }
@@ -97,6 +98,15 @@ export default class PinChangingScreen extends Component<PinChangingScreenProps,
     render() {
         return (
             <Main>
+                <button
+                    className="back-btn material-symbols-outlined md-32"
+                    onclick={() => {
+                        window.history.back();
+                    }}
+                >
+                    arrow_back
+                </button>
+
                 <div className="pin-builder__container">
                     <form id="pin-builder__form" onsubmit={this.onSubmitCallback.bind(this)}>
                         <div className="pin-builder__img-container">
