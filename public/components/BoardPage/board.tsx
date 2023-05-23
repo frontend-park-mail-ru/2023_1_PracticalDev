@@ -84,7 +84,7 @@ export class BoardScreen extends Component<BoardScreenProps, BoardScreenState> {
                 Board.getBoardPins(this.id).then((res) => {
                     store.dispatch({
                         type: 'loadedPins',
-                        payload: { pins: res },
+                        payload: { pins: res || [] },
                     });
                 });
             });

@@ -12,22 +12,20 @@ type UsersListProps = {
 type UsersListState = {
     subscriptions: Boolean[];
 };
+
 export class UsersList extends Component<UsersListProps, UsersListState> {
-    constructor() {
-        super();
-        this.state = { subscriptions: [] };
-    }
+    protected state: UsersListState = { subscriptions: [] };
 
     componentDidMount(): void {
         const user = store.getState().user!;
         User.getFollowees(user.id).then((followees) => {
-            this.setState((s) => {
+            this.setState(() => {
                 return {
-                    subscriptions: this.props.users.map((user) => {
+                    subscriptions: this.props.users.map((usr) => {
                         return (
-                            followees.filter((fol) => {
-                                return fol.id !== user.id;
-                            }).length > 0
+                            followees.findIndex((fol) => {
+                                return fol.id === usr.id;
+                            }) !== -1
                         );
                     }),
                 };
