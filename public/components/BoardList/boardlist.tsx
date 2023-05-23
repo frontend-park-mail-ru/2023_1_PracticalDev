@@ -2,7 +2,6 @@ import { Component, createElement, VNode } from '@t1d333/pickpinlib';
 import { IBoardWithPins } from '../../models';
 import { navigate } from '../../actions/navigation';
 import { loadBoard } from '../../actions/board';
-import { store } from '../../store/store';
 
 import './boardlist.css';
 

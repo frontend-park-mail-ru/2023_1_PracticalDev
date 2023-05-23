@@ -17,8 +17,8 @@ const menuItems = [
             showModal('action-list');
         },
     },
-    { link: '/profile', name: 'dashboard' },
-    { link: '/settings', name: 'settings' },
+    { link: '/profile', name: 'person' },
+    { link: '/settings', name: 'favorite' },
 ];
 
 export default class Menu extends Component<{}, {}> {
@@ -43,11 +43,10 @@ export default class Menu extends Component<{}, {}> {
                                     if (item.callback) {
                                         item.callback();
                                     }
-
                                     navigate(item.link ?? store.getState().page);
                                 }}
                             >
-                                <a className={'material-symbols-outlined md-32 menu__link'}>{item.name}</a>
+                                <span className={'material-symbols-outlined md-32 menu__link'}>{item.name}</span>
                             </span>
                         );
                     })}

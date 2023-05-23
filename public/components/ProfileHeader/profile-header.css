@@ -2,9 +2,8 @@
     width: 80px;
     height: 80px;
     margin-right: 10px;
-    border-radius: 10px;
+    border-radius: 5px;
     object-fit: cover;
-
 }
 
 .profile__user-info {
@@ -44,6 +43,9 @@
     flex-direction: row;
     justify-content: space-between;
     margin-top: 10px;
+    border: 2px solid var(--color-primary);
+    padding: 100px 10px 10px;
+    border-radius: 5px;
 }
 
 .profile__statistics {

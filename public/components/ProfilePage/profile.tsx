@@ -16,7 +16,9 @@ type ProfileState = {
     boards: IBoardWithPins[];
     followers: IUser[];
     followees: IUser[];
+    isLoading: boolean;
 };
+
 export class ProfileScreen extends Component<ProfileProps, ProfileState> {
     private unsubs: Function[] = [];
     constructor() {
@@ -27,10 +29,11 @@ export class ProfileScreen extends Component<ProfileProps, ProfileState> {
             boards: [],
             followers: [],
             followees: [],
+            isLoading: true,
         };
     }
 
-    profileLoadHandler() {
+    profileLoadHandler = () => {
         if (store.getState().type !== 'loadedProfile') {
             return;
         }
@@ -43,9 +46,10 @@ export class ProfileScreen extends Component<ProfileProps, ProfileState> {
                 boards: store.getState().profileBoards,
                 followers: store.getState().followers,
                 followees: store.getState().followees,
+                isLoading: false,
             };
         });
-    }
+    };
 
     userLoadHandler() {
         if (store.getState().type !== 'loadedUser') {
@@ -57,20 +61,16 @@ export class ProfileScreen extends Component<ProfileProps, ProfileState> {
     }
 
     componentDidMount(): void {
-        if (store.getState().user) {
-            User.getUserProfile(store.getState().user!.id).then(([pins, boards, followers, followees]) => {
-                loadProfile(pins!, boards!, followers!, followees!);
-            });
-        } else {
-            this.unsubs.push(store.subscribe(this.userLoadHandler.bind(this)));
-        }
-        this.unsubs.push(store.subscribe(this.profileLoadHandler.bind(this)));
+        this.unsubs.push(store.subscribe(this.profileLoadHandler));
+        User.getUserProfile(store.getState().user!.id).then(([pins, boards, followers, followees]) => {
+            loadProfile(pins!, boards!, followers!, followees!);
+        });
     }
 
     componentWillUnmount(): void {
-        for (const func of this.unsubs) {
+        this.unsubs.forEach((func) => {
             func();
-        }
+        });
     }
 
     render() {
@@ -79,6 +79,7 @@ export class ProfileScreen extends Component<ProfileProps, ProfileState> {
                 <div className="profile__container">
                     <ProfileHeader user={this.state.user} />
                     <ProfileTab
+                        isLoading={this.state.isLoading}
                         userContent={{
                             pins: this.state.pins || [],
                             boards: this.state.boards || [],

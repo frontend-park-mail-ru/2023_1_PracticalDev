@@ -38,6 +38,7 @@
     cursor: pointer;
     background-color: #1687a7;
 }
+
 .menu__item:hover {
     background-color: #276678;
 }
@@ -80,6 +81,10 @@
 }
 
 @media (max-width: 600px) {
+    .main__content {
+        margin-bottom: 65px;
+    }
+
     .menu {
         bottom: 0px !important;
         flex-direction: row;

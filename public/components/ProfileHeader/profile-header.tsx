@@ -47,14 +47,7 @@ export class ProfileHeader extends Component<ProfileHeaderProps, ProfileHeaderSt
         return (
             <div key="profile__header" className="profile__header">
                 <div key="profile__user-info" className="profile__user-info">
-                    <img
-                        key="profile__avatar"
-                        className="profile__avatar"
-                        src={
-                            this.state.user?.profile_image ??
-                            'https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fronaldmottram.co.nz%2Fwp-content%2Fuploads%2F2019%2F01%2Fdefault-user-icon-8.jpg&f=1&nofb=1&ipt=0f4bb63803b8e35bc0848494b5d7e5350abf5edd0d8284b2b2f305a3766a02fc&ipo=images'
-                        }
-                    />
+                    <img key="profile__avatar" className="profile__avatar" src={this.state.user?.profile_image ?? ''} />
                     <div key="profile__text-container" className="profile__text-container">
                         <div key="profile__username" className="profile__username">
                             {this.state.user ? this.state.user.username : ''}

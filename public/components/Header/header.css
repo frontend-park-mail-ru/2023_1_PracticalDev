@@ -24,7 +24,6 @@
     border-radius: 5px;
     cursor: pointer;
     object-fit: cover;
-
 }
 
 .header__search-wrapper {
@@ -171,5 +170,9 @@
 
     .header__btn > span {
         font-size: 40px !important;
+    }
+
+    .header__notification-block {
+        margin-right: 10px;
     }
 }

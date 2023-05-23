@@ -9,7 +9,6 @@ import User from '../../models/user';
 import { Main } from '../Main/main';
 
 import './pin_page.css';
-import Feed from '../Feed/feed';
 import { CommentList } from '../CommentList/CommentList';
 import { Loader } from '../Loader/Loader';
 
@@ -289,6 +288,7 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
                                             {...this.state.availableBoards.map((board) => {
                                                 return <option value={board.id}>{board.name}</option>;
                                             })}
+                                            <input type="text" />
                                         </select>
                                         <button
                                             className="pin-view__actions-save-btn"
