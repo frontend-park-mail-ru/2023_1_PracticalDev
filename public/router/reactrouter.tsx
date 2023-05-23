@@ -13,6 +13,7 @@ import { SearchPage } from '../components/SearchPage/SearchPage';
 import AuthRequired from '../components/AuthRequired/AuthRequired';
 import { ChatList } from '../components/ChatList/ChatList';
 import { ChatPage } from '../components/ChatPage/ChatPage';
+import { FavoritePage } from '../components/FavoritePage/FavoritePage';
 
 interface RouterProps {
     page: string;
@@ -86,6 +87,12 @@ function resolve(path: string = ''): VNode {
             return (
                 <AuthRequired>
                     <ChatList />
+                </AuthRequired>
+            );
+        case 'favorite':
+            return (
+                <AuthRequired>
+                    <FavoritePage />
                 </AuthRequired>
             );
         case 'chat':

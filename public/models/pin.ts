@@ -22,6 +22,16 @@ export class Pin {
         });
     }
 
+    static getLikedPins(id: number) {
+        return Ajax.get(`/api/pins?liked=true`).then((response) => {
+            if (!response.ok) {
+                return Promise.reject(response);
+            } else {
+                return response.body.pins as IPin[];
+            }
+        });
+    }
+
     static uploadPin(fd: FormData) {
         return Ajax.post('/api/pins', fd, true);
     }
@@ -60,17 +70,16 @@ export class Pin {
             }
         });
     }
-    
-    static getNewPins(pageNumber: number){
-             return Ajax.get(`/api/pins?page=${pageNumber}&limit=30`).then((res) => {
-                if (res.ok) {
-                    return res.body.pins as IPin[];
-                }
-                else {
-                    console.log('out');
-                    return Promise.reject(res);
-                }
-            })
+
+    static getNewPins(pageNumber: number) {
+        return Ajax.get(`/api/pins?page=${pageNumber}&limit=30`).then((res) => {
+            if (res.ok) {
+                return res.body.pins as IPin[];
+            } else {
+                console.log('out');
+                return Promise.reject(res);
+            }
+        });
     }
 
     static LikePin(id: number) {

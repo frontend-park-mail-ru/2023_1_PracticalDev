@@ -18,7 +18,7 @@ const menuItems = [
         },
     },
     { link: '/profile', name: 'person' },
-    { link: '/settings', name: 'favorite' },
+    { link: '/favorite', name: 'favorite' },
 ];
 
 export default class Menu extends Component<{}, {}> {
