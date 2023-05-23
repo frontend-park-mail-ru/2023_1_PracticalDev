@@ -11,7 +11,6 @@ import { navigate } from '../../actions/navigation';
 import { ChatWs } from '../../util/chatWs';
 
 import '../../static/img/search-animate.svg'
-
 import { debounce } from '../../util/debounce';
 import { Notification } from '../../models/notification';
 type SignupProps = {};

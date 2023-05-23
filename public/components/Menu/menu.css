@@ -37,6 +37,7 @@
     transition: background-color 0.2s ease;
     cursor: pointer;
     background-color: #1687a7;
+    cursor: pointer;
 }
 
 .menu__item:hover {

@@ -136,7 +136,7 @@ export class Header extends Component<HeaderProps, HeaderState> {
                                 event.stopPropagation();
                             }}
                         >
-                            <span className="material-symbols-outlined md-32">notifications</span>
+                            <span className="material-symbols-outlined md-32 icon">notifications</span>
                         </button>
                         <span
                             className={`header__notification-list-wrapper ${
@@ -152,7 +152,7 @@ export class Header extends Component<HeaderProps, HeaderState> {
                             navigate('/chats');
                         }}
                     >
-                        <span className="material-symbols-outlined md-32">chat</span>
+                        <span className="material-symbols-outlined md-32 icon">chat</span>
                     </button>
                     <img
                         onclick={() => {
