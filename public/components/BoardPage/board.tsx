@@ -1,10 +1,7 @@
 import { Component, createElement } from '@t1d333/pickpinlib';
-import { Header } from '../Header/header';
-import Menu from '../Menu/menu';
 import { IBoard, IPin, IUser } from '../../models';
 import Feed from '../Feed/feed';
 import { store } from '../../store/store';
-import User from '../../models/user';
 import Board from '../../models/board';
 import { loadBoard } from '../../actions/board';
 import { navigate } from '../../actions/navigation';
@@ -16,6 +13,7 @@ type BoardScreenProps = {};
 type BoardScreenState = {
     board: IBoard | undefined;
     pins: IPin[];
+    isLoading: boolean;
 };
 
 export class BoardScreen extends Component<BoardScreenProps, BoardScreenState> {
@@ -27,6 +25,7 @@ export class BoardScreen extends Component<BoardScreenProps, BoardScreenState> {
         this.state = {
             board: store.getState().boardView,
             pins: [],
+            isLoading: true,
         };
     }
 
@@ -39,6 +38,7 @@ export class BoardScreen extends Component<BoardScreenProps, BoardScreenState> {
             return {
                 ...s,
                 pins: pins,
+                isLoading: false,
             };
         });
     }
@@ -57,13 +57,9 @@ export class BoardScreen extends Component<BoardScreenProps, BoardScreenState> {
     }
 
     private DeleteBoardCallback() {
-        Board.deleteBoard(this.state.board?.id!)
-            .then(() => {
-                navigate('/profile');
-            })
-            .catch((res) => {
-                //TODO: добавить обработку ошикби
-            });
+        Board.deleteBoard(this.state.board?.id!).then(() => {
+            navigate('/profile');
+        });
     }
     componentDidMount(): void {
         this.unsubs.push(store.subscribe(this.LoadPinsCallback.bind(this)));
@@ -105,6 +101,15 @@ export class BoardScreen extends Component<BoardScreenProps, BoardScreenState> {
         return (
             <Main>
                 <div className="board-header">
+                    <button
+                        className="back-btn material-symbols-outlined md-32"
+                        onclick={() => {
+                            window.history.back();
+                        }}
+                    >
+                        arrow_back
+                    </button>
+
                     <h2 className="board-header__name">{this.state.board?.name || ''}</h2>
                     <div className="board-header__buttons-container">
                         {curPage === 'board-changing' ? (
@@ -119,7 +124,21 @@ export class BoardScreen extends Component<BoardScreenProps, BoardScreenState> {
                         )}
                     </div>
                 </div>
-                <Feed pins={this.state.pins} />
+                {this.state.pins.length > 0 ? (
+                    <Feed pins={this.state.pins} />
+                ) : (
+                    <div className="board__empty">
+                        <h2 className="board__empty-header">There are no pins on this board</h2>
+                        <button
+                            className="profile-tab__create-btn"
+                            onclick={() => {
+                                navigate('/feed');
+                            }}
+                        >
+                            Go to feed
+                        </button>
+                    </div>
+                )}
             </Main>
         );
     }

@@ -1,22 +1,32 @@
 .board-header {
-   display: flex;
-   flex-direction: row;
-   align-items: center;
-   justify-content: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 .board-header__name {
-    font-family: "Inter";
+    font-family: 'Inter';
     color: #276678;
 }
 
 .board-header__btn {
     padding: 5px 5px;
     margin-left: 5px;
-    background: #1687A7;
-    color: #D3E0EA;
+    background: #1687a7;
+    color: #d3e0ea;
     border: none;
-    
+
     cursor: pointer;
     border-radius: 5px;
 }
 
+.board__empty-header {
+    font-family: Inter;
+    color: var(--color-dark);
+}
+
+.board__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
