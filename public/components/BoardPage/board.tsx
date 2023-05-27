@@ -3,11 +3,13 @@ import { IBoard, IPin, IUser } from '../../models';
 import Feed from '../Feed/feed';
 import { store } from '../../store/store';
 import Board from '../../models/board';
-import { loadBoard } from '../../actions/board';
+import { loadBoard, saveBoardId } from '../../actions/board';
 import { navigate } from '../../actions/navigation';
 import { Main } from '../Main/main';
 
 import './board.css';
+import { loadPins } from '../../actions/feed';
+import { Loader } from '../Loader/Loader';
 
 type BoardScreenProps = {};
 type BoardScreenState = {
@@ -65,27 +67,17 @@ export class BoardScreen extends Component<BoardScreenProps, BoardScreenState> {
         this.unsubs.push(store.subscribe(this.LoadPinsCallback.bind(this)));
         this.unsubs.push(store.subscribe(this.LoadBoardInfoCallback.bind(this)));
 
-        this.id = Number(location.href.split('/')[4]);
+        this.id = Number(store.getState().page.split('/')[2]);
 
-        if (store.getState().boardId === 0) {
-            store.dispatch({
-                type: 'boardView',
-                payload: {
-                    boardId: this.id,
-                },
-            });
-        }
+        saveBoardId(this.id);
 
         Board.getBoard(this.id)
             .then((res) => {
                 loadBoard(res);
             })
             .then(() => {
-                Board.getBoardPins(this.id).then((res) => {
-                    store.dispatch({
-                        type: 'loadedPins',
-                        payload: { pins: res || [] },
-                    });
+                Board.getBoardPins(this.id).then((pins) => {
+                    loadPins(pins);
                 });
             });
     }
@@ -124,7 +116,9 @@ export class BoardScreen extends Component<BoardScreenProps, BoardScreenState> {
                         )}
                     </div>
                 </div>
-                {this.state.pins.length > 0 ? (
+                {this.state.isLoading ? (
+                    <Loader />
+                ) : this.state.pins.length > 0 ? (
                     <Feed pins={this.state.pins} />
                 ) : (
                     <div className="board__empty">

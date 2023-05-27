@@ -1,0 +1,6 @@
+.login-modal__header {
+    color: var(--color-dark);
+    font-family: Inter;
+    text-align: center;
+    margin: 0;
+}

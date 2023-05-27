@@ -7,12 +7,11 @@ import Board from '../../models/board';
 import Feed from '../Feed/feed';
 
 import './pin.css';
-import { safeFeedPos } from '../../actions/feed';
-import { IUser } from '../../models';
+import { loadPinView, loadPins, safeFeedPos } from '../../actions/feed';
+import { showModal } from '../../actions/modal';
 
 interface PinState {
     isLiked: boolean;
-    author: IUser | undefined;
 }
 
 interface PinProps {
@@ -27,23 +26,38 @@ export class Pin extends Component<PinProps, PinState> {
     constructor() {
         super();
         this.state = {
-            author:undefined,
             isLiked: false,
         };
         this.cardSize = this.sizes[Math.floor(Math.random() * this.sizes.length)];
     }
 
+    private onUserLoad = () => {
+        if (store.getState().type !== 'updateLikeState') return;
+        const pin = store.getState().pins.find((pin) => {
+            return pin.id === this.props.pin.id;
+        });
+
+        if (pin?.liked === this.state.isLiked) return;
+
+        this.setState((state) => {
+            return {
+                isLiked: !state.isLiked,
+            };
+        });
+    };
+
     private onClick = (event: any) => {
         if (store.getState().page === '/feed') {
             safeFeedPos(window.scrollY);
         }
-        store.dispatch({ type: 'pinView', payload: { pin: this.props.pin } });
+
+        loadPinView(this.props.pin);
         navigate(`/pin/${this.props.pin.id}`);
         event.stopPropagation();
     };
 
     private resolveSecondaryBtn = () => {
-        const curPage = location.href.split('/')[3];
+        const curPage = store.getState().page.split('/')[1];
         switch (curPage) {
             case 'profile': {
                 return (
@@ -59,7 +73,6 @@ export class Pin extends Component<PinProps, PinState> {
             case 'board-changing': {
                 return (
                     <button
-                        key="delete_btn"
                         onclick={this.onDeletePin.bind(this)}
                         className="pin__icon-btn material-symbols-outlined md-24"
                     >
@@ -70,8 +83,19 @@ export class Pin extends Component<PinProps, PinState> {
             default:
                 return (
                     <button
-                        key="like_btn"
-                        onclick={this.state.isLiked ? this.onDislikePin.bind(this) : this.onLikePin.bind(this)}
+                        onclick={(event: any) => {
+                            event.stopPropagation();
+                            if (!store.getState().user) {
+                                showModal('login');
+                                return;
+                            }
+
+                            if (this.state.isLiked) {
+                                this.onDislikePin();
+                            } else {
+                                this.onLikePin();
+                            }
+                        }}
                         className={
                             'pin__icon-btn material-symbols-outlined md-24 ' + (this.state.isLiked ? 'active' : '')
                         }
@@ -82,33 +106,28 @@ export class Pin extends Component<PinProps, PinState> {
         }
     };
 
-    private onLikePin = (event: MouseEvent) => {
+    private onLikePin = () => {
         PinModel.LikePin(this.props.pin.id).then((resp) => {
             if (resp.ok) {
                 this.setState((_: PinState) => {
                     return {
-                        author: this.state.author,
                         isLiked: true,
                     };
                 });
             }
         });
-
-        event.stopPropagation();
     };
 
-    private onDislikePin = (event: MouseEvent) => {
+    private onDislikePin = () => {
         PinModel.UnLikePin(this.props.pin.id).then((resp) => {
             if (resp.ok) {
                 this.setState((_: PinState) => {
                     return {
-                        author: this.state.author,
                         isLiked: false,
                     };
                 });
             }
         });
-        event.stopPropagation();
     };
 
     private onChangePin = (event: MouseEvent) => {
@@ -118,17 +137,12 @@ export class Pin extends Component<PinProps, PinState> {
     };
 
     private onDeletePin = (event: MouseEvent) => {
-        Board.deletePinFromBoard(store.getState().boardId, this.props.pin.id).then((res) => {
-            const pins = store.getState().pins;
-
-            store.dispatch({
-                type: 'loadedPins',
-                payload: {
-                    pins: pins.filter((pin) => {
-                        return pin.id !== this.props.pin.id;
-                    }),
-                },
+        Board.deletePinFromBoard(store.getState().boardId, this.props.pin.id).then(() => {
+            const pins = store.getState().pins.filter((pin) => {
+                return pin.id !== this.props.pin.id;
             });
+
+            loadPins(pins);
         });
         event.stopPropagation();
     };
@@ -147,21 +161,12 @@ export class Pin extends Component<PinProps, PinState> {
     };
 
     componentDidMount(): void {
-        this.unsubs.push(store.subscribe(this.onPinLoad.bind(this)));
-        this.setState((_: PinState) => {
+        this.unsubs.push(store.subscribe(this.onPinLoad));
+        this.unsubs.push(store.subscribe(this.onUserLoad));
+        this.setState(() => {
             return {
-                author: this.state.author,
                 isLiked: this.props.pin.liked,
             };
-        });
-
-        PinModel.getPinAuhtor(this.props.pin).then((author) => {
-            this.setState((s) => {
-                return {
-                    ...s,
-                    author: author,
-                };
-            });
         });
     }
 
@@ -178,37 +183,28 @@ export class Pin extends Component<PinProps, PinState> {
     render() {
         return (
             <div
-                key={'pin-' + this.props.pin.id}
                 className={'card ' + this.cardSize}
                 onclick={this.onClick.bind(this)}
                 style={'background-color:' + this.props.pin.media_source_color + ';'}
             >
-                <div key={'pin-title'} className="pin__title">
-                    {this.props.pin.title}
-                </div>
+                <div className="pin__title">{this.props.pin.title}</div>
 
-                <div key={'pin-modal'} className="pin__modal">
-                    <div key={'pin-head'} className="pin__modal-head"></div>
+                <div className="pin__modal">
+                    <div className="pin__modal-head"></div>
 
-                    <div key={'pin-foot'} className="pin__modal-foot">
+                    <div className="pin__modal-foot">
                         <button
-                            key="share_btn"
                             className="pin__icon-btn material-symbols-outlined md-24"
                             href="/pin-changing"
                             onclick={this.CopyLink.bind(this)}
                         >
                             share
                         </button>
-                        <img
-                            key="author_avatar"
-                            src={this.state.author?.profile_image ?? ''}
-                            alt=""
-                            className="pin__author-avatar"
-                        />
+                        <img src={this.props.pin.author.profile_image} className="pin__author-avatar" />
                         {this.resolveSecondaryBtn()}
                     </div>
                 </div>
-                <img key="pin_img" className="pin__image" src={this.props.pin.media_source} srcset="" />
+                <img className="pin__image" src={this.props.pin.media_source} srcset="" />
             </div>
         );
     }

@@ -4,6 +4,7 @@ import { store } from '../../store/store';
 import { Main } from '../Main/main';
 
 import './PinCreationPage.css';
+import { navigate } from '../../actions/navigation';
 
 type PinCreationScreenState = {
     name: string;
@@ -60,7 +61,7 @@ export default class PinCreationScreen extends Component<{}, PinCreationScreenSt
         fd.append('bytes', imgInput.files![0]);
         Pin.uploadPin(fd).then((res) => {
             if (res.ok) {
-                store.dispatch({ type: 'navigate', payload: { page: '/profile' } });
+                navigate('/profile');
             }
         });
     };

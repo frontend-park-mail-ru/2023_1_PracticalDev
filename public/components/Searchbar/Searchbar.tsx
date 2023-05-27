@@ -7,6 +7,7 @@ import { Suggestion } from '../Suggestion/Suggestion';
 import { Search } from '../../models/search';
 import { search } from '../../actions/search';
 import { debounce } from '../../util/debounce';
+import { showModal } from '../../actions/modal';
 
 type SearchbarState = {
     query: string;
@@ -45,18 +46,17 @@ export class Searchbar extends Component<{}, SearchbarState> {
     }
 
     onSearch(query: string) {
-        if (query) {
-            search(query);
-            const curPage = location.href.split('/')[3];
-            if (curPage !== 'search') {
-                navigate(`/search/?q=${query.trim()}`);
-            } else {
-                window.history.pushState('data', 'title', `/search/?q=${query.trim()}`);
-            }
-            this.setState((state) => {
-                return { ...state, query: query, suggestionsVisible: false };
-            });
+        if (!query) return;
+        search(query);
+        const curPage = location.href.split('/')[3];
+        if (curPage !== 'search') {
+            navigate(`/search/?q=${query.trim()}`);
+        } else {
+            window.history.pushState('data', 'title', `/search/?q=${query.trim()}`);
         }
+        this.setState((state) => {
+            return { ...state, query: query, suggestionsVisible: false };
+        });
     }
 
     closeSuggestions() {
@@ -93,6 +93,11 @@ export class Searchbar extends Component<{}, SearchbarState> {
                     className="searchbar__form"
                     onsubmit={(event: any) => {
                         event.preventDefault();
+                        if (!store.getState().user) {
+                            showModal('login');
+                            return;
+                        }
+
                         const query = event.target.search.value;
                         this.onSearch(query);
                     }}

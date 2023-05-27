@@ -7,9 +7,27 @@ import { navigate } from '../../actions/navigation';
 import './menu.css';
 import { showModal } from '../../actions/modal';
 
+const checkAuth = (link: string) => {
+    if (store.getState().user) {
+        navigate(link);
+    } else {
+        showModal('login');
+    }
+};
+
 const menuItems = [
-    { link: '/feed', name: 'home' },
-    { link: '/chats', name: 'chat' },
+    {
+        link: '/feed',
+        name: 'home',
+        callback: () => {
+            navigate('/feed');
+        },
+    },
+    {
+        link: '/chats',
+        name: 'chat',
+        callback: checkAuth.bind(this, '/chats'),
+    },
     {
         link: undefined,
         name: 'add',
@@ -17,11 +35,44 @@ const menuItems = [
             showModal('action-list');
         },
     },
-    { link: '/profile', name: 'person' },
-    { link: '/favorite', name: 'favorite' },
+    {
+        link: '/profile',
+        name: 'person',
+        callback: checkAuth.bind(this, '/profile'),
+    },
+    {
+        link: '/favorite',
+        name: 'favorite',
+        callback: checkAuth.bind(this, '/favorite'),
+    },
 ];
 
-export default class Menu extends Component<{}, {}> {
+type MenuState = { isAuthorized: boolean };
+type MenuProps = {};
+
+export default class Menu extends Component<MenuProps, MenuState> {
+    protected state = {
+        isAuthorized: store.getState().user !== undefined,
+    };
+    private unsubs: Function[] = [];
+    private onLogin = () => {
+        if (store.getState().type !== 'loadedUser') return;
+        this.setState(() => {
+            return {
+                isAuthorized: true,
+            };
+        });
+    };
+
+    componentDidMount(): void {
+        this.unsubs.push(store.subscribe(this.onLogin));
+    }
+
+    componentWillUnmount(): void {
+        this.unsubs.forEach((func) => {
+            func();
+        });
+    }
     private logoutCallback() {
         User.logout().then(() => {
             logoutUser();
@@ -43,7 +94,6 @@ export default class Menu extends Component<{}, {}> {
                                     if (item.callback) {
                                         item.callback();
                                     }
-                                    navigate(item.link ?? store.getState().page);
                                 }}
                             >
                                 <span className={'material-symbols-outlined md-32 menu__link'}>{item.name}</span>
@@ -51,10 +101,13 @@ export default class Menu extends Component<{}, {}> {
                         );
                     })}
                 </div>
-                <button className="menu__loguout-btn material-symbols-outlined md-32" onclick={this.logoutCallback}>
-                    logout
-                </button>
-                <a href="/login" id="menu__logout-link" style="display: none;"></a>
+                {this.state.isAuthorized ? (
+                    <button className="menu__loguout-btn material-symbols-outlined md-32" onclick={this.logoutCallback}>
+                        logout
+                    </button>
+                ) : (
+                    <div />
+                )}
             </div>
         );
     }

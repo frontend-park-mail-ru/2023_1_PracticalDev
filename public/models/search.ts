@@ -30,21 +30,9 @@ export class Search {
     }
 
     static async getSuggestions(query: string) {
-        const res = await Ajax.get(`/api/search/${query}`);
+        const res = await Ajax.get(`/api/suggestions/${query}`);
         if (res.ok) {
-            return [
-                ...new Set([
-                    ...(res.body.pins as IPin[]).map((pin) => {
-                        return pin.title;
-                    }),
-                    ...(res.body.boards as IBoard[]).map((board) => {
-                        return board.name;
-                    }),
-                    ...(res.body.users as IUser[]).map((user) => {
-                        return user.username;
-                    }),
-                ]),
-            ].slice(0, 10);
+            return (res.body.items || []) as string[];
         }
         return Promise.reject(res);
     }

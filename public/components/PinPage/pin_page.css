@@ -48,6 +48,7 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    align-items: center;
 }
 
 .pin-view__image {
@@ -220,7 +221,6 @@
     border: none;
     cursor: pointer;
 }
-
 
 .pin-view__comments-header {
     margin-top: 28px;

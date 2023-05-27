@@ -10,7 +10,7 @@ import PinCreationScreen from '../components/PinCreationPage/PinCreationPage';
 import PinChangingScreen from '../components/PinChangingPage/PinChangingPage';
 import { SettingsScreen } from '../components/SettingsPage/settings';
 import { SearchPage } from '../components/SearchPage/SearchPage';
-import AuthRequired from '../components/AuthRequired/AuthRequired';
+import AuthChecker from '../components/AuthChecker/AuthChecker';
 import { ChatList } from '../components/ChatList/ChatList';
 import { ChatPage } from '../components/ChatPage/ChatPage';
 import { FavoritePage } from '../components/FavoritePage/FavoritePage';
@@ -25,28 +25,28 @@ function resolve(path: string = ''): VNode {
     switch (path) {
         case 'feed':
             return (
-                <AuthRequired key="huina">
+                <AuthChecker authRequired={false}>
                     <MainScreen />
-                </AuthRequired>
+                </AuthChecker>
             );
         case 'profile':
             return (
-                <AuthRequired>
+                <AuthChecker authRequired={true}>
                     <ProfileScreen />
-                </AuthRequired>
+                </AuthChecker>
             );
         case 'board':
             return (
-                <AuthRequired>
+                <AuthChecker authRequired={true}>
                     <BoardScreen />
-                </AuthRequired>
+                </AuthChecker>
             );
 
         case 'board-changing':
             return (
-                <AuthRequired>
+                <AuthChecker authRequired={true}>
                     <BoardScreen />
-                </AuthRequired>
+                </AuthChecker>
             );
 
         case 'login':
@@ -55,51 +55,51 @@ function resolve(path: string = ''): VNode {
             return <SignupScreen />;
         case 'pin-builder':
             return (
-                <AuthRequired>
+                <AuthChecker authRequired={true}>
                     <PinCreationScreen />
-                </AuthRequired>
+                </AuthChecker>
             );
         case 'pin-changing':
             return (
-                <AuthRequired>
+                <AuthChecker authRequired={true}>
                     <PinChangingScreen />
-                </AuthRequired>
+                </AuthChecker>
             );
         case 'pin':
             return (
-                <AuthRequired>
+                <AuthChecker authRequired={false}>
                     <PinScreen />
-                </AuthRequired>
+                </AuthChecker>
             );
         case 'settings':
             return (
-                <AuthRequired>
+                <AuthChecker authRequired={true}>
                     <SettingsScreen />
-                </AuthRequired>
+                </AuthChecker>
             );
         case 'search':
             return (
-                <AuthRequired>
+                <AuthChecker authRequired={true}>
                     <SearchPage />
-                </AuthRequired>
+                </AuthChecker>
             );
         case 'chats':
             return (
-                <AuthRequired>
+                <AuthChecker authRequired={true}>
                     <ChatList />
-                </AuthRequired>
+                </AuthChecker>
             );
         case 'favorite':
             return (
-                <AuthRequired>
+                <AuthChecker authRequired={true}>
                     <FavoritePage />
-                </AuthRequired>
+                </AuthChecker>
             );
         case 'chat':
             return (
-                <AuthRequired>
+                <AuthChecker authRequired={true}>
                     <ChatPage />
-                </AuthRequired>
+                </AuthChecker>
             );
         default:
             return <div>404</div>;

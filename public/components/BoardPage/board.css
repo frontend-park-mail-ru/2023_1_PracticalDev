@@ -20,6 +20,11 @@
     border-radius: 5px;
 }
 
+.board-header__buttons-container {
+    position: absolute;
+    right: 10px;
+}
+
 .board__empty-header {
     font-family: Inter;
     color: var(--color-dark);

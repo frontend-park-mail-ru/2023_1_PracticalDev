@@ -4,18 +4,17 @@ import { IBoard, IPin, IUser } from '../../models';
 import { store } from '../../store/store';
 import { Pin } from '../../models/pin';
 import Board from '../../models/board';
-import { loadAvailableBoards } from '../../actions/board';
 import User from '../../models/user';
 import { Main } from '../Main/main';
 
 import './pin_page.css';
 import { CommentList } from '../CommentList/CommentList';
 import { Loader } from '../Loader/Loader';
+import { showModal } from '../../actions/modal';
 
 type PinScreenState = {
     pin: IPin | undefined;
     availableBoards: IBoard[];
-    author: IUser | undefined;
     response: string;
     isLiked: boolean;
     isFollow: boolean;
@@ -32,7 +31,6 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
         this.state = {
             pin: store.getState().pinView,
             availableBoards: store.getState().availableBoards,
-            author: undefined,
             response: '',
             isLiked: false,
             isFollow: false,
@@ -41,7 +39,7 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
         };
     }
 
-    private CopyLink = (e: MouseEvent) => {
+    private CopyLink = () => {
         if (this.state.pin == undefined) {
             return;
         }
@@ -53,6 +51,11 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
     };
 
     private onSaveCallback = () => {
+        if (!store.getState().user) {
+            showModal('login');
+            return;
+        }
+
         const select = document.querySelector('.pin-view__board-list') as HTMLSelectElement;
         if (select.value === '') {
             this.setState((s) => {
@@ -86,57 +89,58 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
                     this.setState((state) => {
                         return { ...state, response: '' };
                     });
-                }, 3000);
+                }, 1500);
             });
     };
 
-    private onPinLoad = () => {
-        if (store.getState().type !== 'loadedPinInfo') {
-            return;
-        }
-
-        this.setState((s) => {
-            return {
-                ...s,
-                author: store.getState().author,
-            };
+    private onLoadUser = () => {
+        if (store.getState().type !== 'loadedUser') return;
+        const id = this.state.pin?.id!;
+        Pin.getPin(id).then((pin) => {
+            this.getFollowStatus(pin.author.id);
+            this.setState((state) => {
+                return { ...state, isLiked: pin.liked };
+            });
         });
+        this.getAvailableBoards();
     };
 
-    private onLoadAvailableBoards = () => {
-        if (store.getState().type !== 'loadedAvailableBoards') {
-            return;
-        }
-        this.setState((s) => {
-            return {
-                ...s,
-                availableBoards: store.getState().availableBoards,
-            };
+    getAvailableBoards = () => {
+        Board.getBoards().then((boards) => {
+            this.setState((state) => {
+                return { ...state, availableBoards: boards };
+            });
         });
     };
 
     getPin = (id: number) => {
-        Board.getBoards().then((boards) => {
-            loadAvailableBoards(boards);
-        });
-
         Pin.getPin(id).then((pin) => {
-            Pin.getPinAuhtor(pin).then((author) => {
-                User.getFollowers(author.id).then((followers) => {
-                    this.setState((s) => {
-                        return {
-                            ...s,
-                            author: author,
-                            pin: pin,
-                            isLiked: pin.liked,
-                            pinInfoLoad: true,
-                            isFollow:
-                                followers.find((f) => {
-                                    return f.id === store.getState().user?.id;
-                                }) !== undefined,
-                        };
-                    });
-                });
+            this.setState((s) => {
+                return {
+                    ...s,
+                    pin: pin,
+                    isLiked: pin.liked,
+                    pinInfoLoad: store.getState().user === undefined,
+                    isFollow: false,
+                };
+            });
+
+            if (!store.getState().user) return;
+            this.getFollowStatus(pin.author.id);
+        });
+    };
+
+    getFollowStatus = (id: number) => {
+        User.getFollowers(id).then((followers) => {
+            this.setState((s) => {
+                return {
+                    ...s,
+                    pinInfoLoad: true,
+                    isFollow:
+                        followers.find((f) => {
+                            return f.id === store.getState().user?.id;
+                        }) !== undefined,
+                };
             });
         });
     };
@@ -145,14 +149,15 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
         if (store.getState().type !== 'updatePin') return;
         if (store.getState().pinId === this.state.pin?.id) return;
         this.getPin(store.getState().pinId);
+        this.getAvailableBoards();
     };
 
     componentDidMount(): void {
-        this.unsubs.push(store.subscribe(this.onPinLoad));
-        this.unsubs.push(store.subscribe(this.onLoadAvailableBoards));
         this.unsubs.push(store.subscribe(this.onUpdatePin));
-        const id = Number(location.href.split('/')[4]);
+        this.unsubs.push(store.subscribe(this.onLoadUser));
+        const id = Number(store.getState().page.split('/')[2]);
         this.getPin(id);
+        this.getAvailableBoards();
     }
 
     private setCommentsLoadFlag() {
@@ -163,7 +168,8 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
             };
         });
     }
-    private onLikePin = (e: MouseEvent) => {
+
+    private onLikePin = () => {
         Pin.LikePin(this.state.pin?.id!).then((resp) => {
             if (resp.ok) {
                 const pin = this.state.pin;
@@ -179,7 +185,7 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
         });
     };
 
-    private onDislikePin = (e: MouseEvent) => {
+    private onDislikePin = () => {
         Pin.UnLikePin(this.state.pin?.id!).then((resp) => {
             if (resp.ok) {
                 const pin = this.state.pin;
@@ -193,6 +199,27 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
                 });
             }
         });
+    };
+
+    private onFollow = () => {
+        if (!store.getState().user) {
+            showModal('login');
+            return;
+        }
+
+        if (this.state.isFollow) {
+            User.unfollow(this.state.pin?.author.id!).then(() => {
+                this.setState((s) => {
+                    return { ...s, isFollow: false };
+                });
+            });
+        } else {
+            User.follow(this.state.pin?.author.id!).then(() => {
+                this.setState((s) => {
+                    return { ...s, isFollow: true };
+                });
+            });
+        }
     };
 
     componentWillUnmount(): void {
@@ -259,12 +286,17 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
                                 <div className="pin-view__actions">
                                     <div className="pin-view__actions-list">
                                         <button
-                                            key="like-btn"
-                                            onclick={
-                                                this.state.isLiked
-                                                    ? this.onDislikePin.bind(this)
-                                                    : this.onLikePin.bind(this)
-                                            }
+                                            onclick={() => {
+                                                if (!store.getState().user) {
+                                                    showModal('login');
+                                                    return;
+                                                }
+                                                if (this.state.isLiked) {
+                                                    this.onDislikePin();
+                                                } else {
+                                                    this.onLikePin();
+                                                }
+                                            }}
                                             className={
                                                 'pin-view__actions-like-btn material-symbols-outlined md-32 ' +
                                                 (this.state.isLiked ? 'active' : '')
@@ -313,29 +345,15 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
                                 <div className="pin-view__author">
                                     <img
                                         className="pin-view__author-avatar-img"
-                                        src={this.state.author?.profile_image ?? ''}
+                                        src={this.state.pin?.author?.profile_image ?? ''}
                                         alt="Pin author avatar"
                                     ></img>
-                                    <p className="pin-view__author-name">{this.state.author?.username ?? ''}</p>
+                                    <p className="pin-view__author-name">{this.state.pin?.author.username ?? ''}</p>
                                 </div>
-                                {this.state.author && this.state.author.id !== store.getState().user?.id ? (
+                                {this.state.pin && this.state.pin.author.id !== store.getState().user?.id ? (
                                     <button
                                         className={`pin-view__follow-btn ${this.state.isFollow ? 'active' : ''}`}
-                                        onclick={() => {
-                                            if (this.state.isFollow) {
-                                                User.unfollow(this.state.author?.id!).then(() => {
-                                                    this.setState((s) => {
-                                                        return { ...s, isFollow: false };
-                                                    });
-                                                });
-                                            } else {
-                                                User.follow(this.state.author?.id!).then(() => {
-                                                    this.setState((s) => {
-                                                        return { ...s, isFollow: true };
-                                                    });
-                                                });
-                                            }
-                                        }}
+                                        onclick={this.onFollow}
                                     >
                                         {this.state.isFollow ? 'unfollow' : 'follow'}
                                     </button>

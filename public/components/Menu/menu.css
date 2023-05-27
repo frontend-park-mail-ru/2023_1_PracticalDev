@@ -82,6 +82,10 @@
 }
 
 @media (max-width: 600px) {
+    .menu__item:hover {
+        background: var(--color-primary);
+    }
+
     .main__content {
         margin-bottom: 65px;
     }

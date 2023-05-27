@@ -1,12 +1,5 @@
+import { IComment } from '../models';
 import Ajax from '../util/ajax';
-
-export type IComment = {
-    id: number;
-    author_id: number;
-    pin_id: number;
-    text: string;
-    created_at: string;
-};
 
 export class Comment {
     static async getComments(id: number) {

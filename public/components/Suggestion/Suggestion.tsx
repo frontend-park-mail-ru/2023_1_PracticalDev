@@ -1,5 +1,7 @@
 import { Component, createElement } from '@t1d333/pickpinlib';
 import './Suggestion.css';
+import { store } from '../../store/store';
+import { showModal } from '../../actions/modal';
 
 type SuggestionProps = {
     suggestions: string[];
@@ -23,6 +25,11 @@ export class Suggestion extends Component<SuggestionProps, SuggestionState> {
                         <div
                             className="suggestion__item"
                             onclick={() => {
+                                if (!store.getState().user) {
+                                    showModal('login');
+                                    return;
+                                }
+
                                 this.props.onActivateSuggestion(suggestion);
                             }}
                         >

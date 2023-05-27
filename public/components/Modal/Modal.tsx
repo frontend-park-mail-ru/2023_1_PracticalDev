@@ -1,4 +1,4 @@
-import { Component, VComponent, createElement, renderElement } from '@t1d333/pickpinlib';
+import { Component, createElement } from '@t1d333/pickpinlib';
 import './Modal.css';
 import { store } from '../../store/store';
 import { tagToContent } from './tagToContent';

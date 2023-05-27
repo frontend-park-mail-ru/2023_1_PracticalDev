@@ -10,7 +10,7 @@ import { loginUser } from '../../actions/user';
 import { navigate } from '../../actions/navigation';
 import { ChatWs } from '../../util/chatWs';
 
-import '../../static/img/search-animate.svg'
+import '../../static/img/search-animate.svg';
 import { debounce } from '../../util/debounce';
 import { Notification } from '../../models/notification';
 type SignupProps = {};
@@ -71,7 +71,7 @@ const formProps = {
     id: 'loginForm',
     method: 'post',
     inputs: formInputs,
-    submitBtnText: 'signup',
+    submitBtnText: 'Sign up',
 };
 
 export class SignupScreen extends Component<SignupProps, SignupState> {

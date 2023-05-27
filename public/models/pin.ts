@@ -1,35 +1,32 @@
 import Ajax, { HEADERS } from '../util/ajax';
 import { IPin, IUser } from '../models';
 export class Pin {
-    static getUserPins(id: number) {
-        return Ajax.get(`/api/users/${id}/pins`).then((response) => {
-            if (!response.ok) {
-                if (response.status !== 200) {
-                    return Promise.reject(response);
-                }
-            } else {
-                return response.body as IPin[];
-            }
-        });
-    }
-
-    static getPin(id: number) {
-        return Ajax.get(`/api/pins/${id}`).then((res) => {
-            if (res.ok) {
-                return res.body as IPin;
-            }
-            return Promise.reject(res);
-        });
-    }
-
-    static getLikedPins(id: number) {
-        return Ajax.get(`/api/pins?liked=true`).then((response) => {
-            if (!response.ok) {
+    static async getUserPins(id: number) {
+        const response = await Ajax.get(`/api/users/${id}/pins`);
+        if (!response.ok) {
+            if (response.status !== 200) {
                 return Promise.reject(response);
-            } else {
-                return response.body.pins as IPin[];
             }
-        });
+        } else {
+            return response.body as IPin[];
+        }
+    }
+
+    static async getPin(id: number) {
+        const res = await Ajax.get(`/api/pins/${id}`);
+        if (res.ok) {
+            return res.body as IPin;
+        }
+        return Promise.reject(res);
+    }
+
+    static async getLikedPins(id: number) {
+        const response = await Ajax.get(`/api/pins?liked=true`);
+        if (!response.ok) {
+            return Promise.reject(response);
+        } else {
+            return response.body.pins as IPin[];
+        }
     }
 
     static uploadPin(fd: FormData) {
@@ -54,32 +51,22 @@ export class Pin {
         return Ajax.put(`/api/pins/${pin.id}`, fd);
     }
 
-    static getPinAuhtor(pin: IPin) {
-        const author = Ajax.get(`/api/users/${pin.author_id}`).then((res) => {
-            return res.body as IUser;
-        });
-        return author;
+    static async getFeed() {
+        const response = await Ajax.get('/api/pins');
+        if (!response.ok) {
+            return Promise.reject(response);
+        } else {
+            return response.body.pins;
+        }
     }
 
-    static getFeed() {
-        return Ajax.get('/api/pins').then((response) => {
-            if (!response.ok) {
-                return Promise.reject(response);
-            } else {
-                return response.body.pins;
-            }
-        });
-    }
-
-    static getNewPins(pageNumber: number) {
-        return Ajax.get(`/api/pins?page=${pageNumber}&limit=30`).then((res) => {
-            if (res.ok) {
-                return res.body.pins as IPin[];
-            } else {
-                console.log('out');
-                return Promise.reject(res);
-            }
-        });
+    static async getNewPins(pageNumber: number) {
+        const res = await Ajax.get(`/api/pins?page=${pageNumber}&limit=30`);
+        if (res.ok) {
+            return res.body.pins as IPin[];
+        } else {
+            return Promise.reject(res);
+        }
     }
 
     static LikePin(id: number) {
@@ -90,13 +77,12 @@ export class Pin {
         return Ajax.delete(`/api/pins/${id}/like`);
     }
 
-    static getShareLink(id: number) {
-        return Ajax.post(`/api/share/pin/${id}`, {}).then((response) => {
-            if (!response.ok) {
-                return Promise.reject(response);
-            } else {
-                return response.body.url;
-            }
-        });
+    static async getShareLink(id: number) {
+        const response = await Ajax.post(`/api/share/pin/${id}`, {});
+        if (!response.ok) {
+            return Promise.reject(response);
+        } else {
+            return response.body.url;
+        }
     }
 }

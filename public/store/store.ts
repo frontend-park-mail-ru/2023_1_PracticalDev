@@ -77,7 +77,7 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
             };
         case 'navigate':
             if (action.payload?.page === state.page) {
-                return state;
+                return { ...state, type: 'navigate' };
             }
             return {
                 ...state,
@@ -91,6 +91,13 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 ...state,
                 pins: action.payload?.pins,
                 type: 'loadedPins',
+            };
+
+        case 'updateLikeState':
+            return {
+                ...state,
+                pins: action.payload?.pins,
+                type: 'updateLikeState',
             };
 
         case 'addedPins':
@@ -255,7 +262,7 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
         case 'loadedNewPins':
             return {
                 ...state,
-                pins: [...state.pins,...action.payload?.pins],
+                pins: [...state.pins, ...action.payload?.pins],
                 type: 'loadedNewPins',
             };
 

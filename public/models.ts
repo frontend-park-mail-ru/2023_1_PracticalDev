@@ -5,7 +5,7 @@ interface IPin {
     created_at: Date;
     media_source: string;
     media_source_color: string;
-    author_id: number;
+    author: IUser;
     liked: boolean;
     n_likes: number;
 }
@@ -40,6 +40,14 @@ type IChat = {
     user2_id: number;
     created_at: string;
     updated_at: string;
+};
+
+export type IComment = {
+    id: number;
+    author: IUser;
+    pin_id: number;
+    text: string;
+    created_at: string;
 };
 
 type IBoardWithPins = IBoard & { pins: IPin[] };

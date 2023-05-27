@@ -1,7 +1,7 @@
 import { createElement } from '@t1d333/pickpinlib';
 import { BoardBuilder } from '../BoardBuilder/BoardBuilder';
-import PinCreationScreen from '../PinCreationPage/PinCreationPage';
 import { ActionList } from '../ActionList/ActionList';
+import { LoginModal } from '../LoginModal/LoginModal';
 
 export const tagToContent = (tag: string) => {
     switch (tag) {
@@ -9,6 +9,8 @@ export const tagToContent = (tag: string) => {
             return <BoardBuilder />;
         case 'action-list':
             return <ActionList />;
+        case 'login':
+            return <LoginModal />;
         default:
             return <div></div>;
     }

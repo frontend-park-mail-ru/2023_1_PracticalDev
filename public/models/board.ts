@@ -2,46 +2,42 @@ import Ajax, { HEADERS } from '../util/ajax';
 import { IBoard, IPin } from '../models';
 
 export default class Board {
-    static getBoards() {
-        return Ajax.get('/api/boards').then((res) => {
-            if (res.status === 200) {
-                return (res.body.boards || []) as IBoard[];
-            } else {
-                return Promise.reject(res);
-            }
-        });
+    static async getBoards() {
+        const res = await Ajax.get('/api/boards');
+        if (res.status === 200) {
+            return (res.body.boards || []) as IBoard[];
+        } else {
+            return Promise.reject(res);
+        }
     }
 
-    static getBoard(id: number) {
-        return Ajax.get(`/api/boards/${id}`).then((res) => {
-            if (res.status === 200) {
-                return res.body as IBoard;
-            } else {
-                return Promise.reject();
-            }
-        });
+    static async getBoard(id: number) {
+        const res = await Ajax.get(`/api/boards/${id}`);
+        if (res.status === 200) {
+            return res.body as IBoard;
+        } else {
+            return Promise.reject(res);
+        }
     }
 
     static deleteBoard(id: number) {
         return Ajax.delete(`/api/boards/${id}`);
     }
 
-    static updateBoard(board: IBoard) {
-        return Ajax.put(`/api/boards/${board.id}`, board).then((res) => {
-            if (res.status !== 200) {
-                return Promise.reject(res);
-            }
-        });
+    static async updateBoard(board: IBoard) {
+        const res = await Ajax.put(`/api/boards/${board.id}`, board);
+        if (res.status !== 200) {
+            return Promise.reject(res);
+        }
     }
 
-    static getBoardPins(id: number) {
-        return Ajax.get(`/api/boards/${id}/pins`).then((res) => {
-            if (res.status === 200) {
-                return res.body.pins as IPin[];
-            } else {
-                return Promise.reject(res);
-            }
-        });
+    static async getBoardPins(id: number) {
+        const res = await Ajax.get(`/api/boards/${id}/pins`);
+        if (res.status === 200) {
+            return (res.body.pins || []) as IPin[];
+        } else {
+            return Promise.reject(res);
+        }
     }
 
     static deletePinFromBoard(boardId: number, pinId: number) {
@@ -54,13 +50,12 @@ export default class Board {
         });
     }
 
-    static createBoard(name: string) {
-        return Ajax.post('/api/boards', { name: name, description: '' }).then((res) => {
-            if (res.status !== 200) {
-                return Promise.reject(res);
-            }
-            return res.body as IBoard;
-        });
+    static async createBoard(name: string) {
+        const res = await Ajax.post('/api/boards', { name: name, description: '' });
+        if (res.status !== 200) {
+            return Promise.reject(res);
+        }
+        return res.body as IBoard;
     }
 
     static addPinToBoard(boardId: number, pinId: number) {

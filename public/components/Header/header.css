@@ -19,9 +19,9 @@
 }
 
 .header__btn:hover {
-    fill: black
+    fill: black;
 }
-.icon:hover{
+.icon:hover {
     font-variation-settings: 'FILL' 1;
 }
 
@@ -53,9 +53,54 @@
     align-items: center;
 }
 
+.header__unauthorized-block {
+    display: flex;
+    width: 20%;
+    justify-content: end;
+}
+
+.header__unauthorized-block > button {
+    font-family: Inter;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    position: relative;
+    height: 50px;
+    width: 48%;
+}
+
+.header__unauthorized-block > button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    border-radius: 5px;
+    transition: opacity 0.2s ease;
+}
+
+.header__unauthorized-block > button:hover::after {
+    opacity: 1;
+}
+
 .header__search-block {
     width: 100%;
     display: flex;
+}
+
+.header__login-btn {
+    color: var(--color-secondary);
+    background: var(--color-primary);
+    margin-right: 5px;
+}
+
+.header__signup-btn {
+    background: var(--color-secondary);
+    color: var(--color-dark);
 }
 
 .header__creation-btn {
@@ -88,10 +133,17 @@
 
 .header__notification-block {
     width: 32px;
-    height: 32px;
+    height: 50px;
     margin-right: 20px;
 }
 
+.header__notification-block > .header__btn {
+    width: 32px;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+}
 
 .header__notification-block::after {
     content: '';
@@ -140,7 +192,23 @@
     display: block;
 }
 
+@media (max-width: 1199px) {
+    .header__unauthorized-block {
+        width: 40%;
+    }
+}
+
+@media (max-width: 899px) {
+    .header__unauthorized-block {
+        width: 60%;
+    }
+}
+
 @media (max-width: 600px) {
+    .header__creation-btn-icon:hover {
+        background: inherit;
+    }
+
     .header {
         width: 100%;
         height: 65px;
@@ -156,6 +224,10 @@
     }
 
     .header__creation-block {
+        display: none;
+    }
+
+    .header__unauthorized-block {
         display: none;
     }
 
@@ -182,5 +254,9 @@
 
     .header__notification-block {
         margin-right: 10px;
+    }
+
+    .login-modal__header {
+        font-size: 25px;
     }
 }

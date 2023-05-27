@@ -31,11 +31,11 @@ const loginInputs = [
     },
 ];
 
-const formProps = {
+export const loginFormProps = {
     id: 'loginForm',
     method: 'post',
     inputs: loginInputs,
-    submitBtnText: 'login',
+    submitBtnText: 'Sign in',
 };
 
 export class LoginScreen extends Component<AuthProps, AuthState> {
@@ -84,9 +84,11 @@ export class LoginScreen extends Component<AuthProps, AuthState> {
 
     componentDidMount(): void {
         this.unsubs.push(store.subscribe(this.SubmitCallback.bind(this)));
-        User.getMe().then(() => {
-            navigate('/feed');
-        });
+        User.getMe()
+            .then(() => {
+                navigate('/feed');
+            })
+            .catch(() => {});
     }
 
     componentWillUnmount(): void {
@@ -104,7 +106,7 @@ export class LoginScreen extends Component<AuthProps, AuthState> {
                     <h1 className="header__login">Welcome back</h1>
                     <hr style="width:85%;border:1px solid #276678;" />
                     <div className="form_wrapper">
-                        <Form {...formProps} />
+                        <Form {...loginFormProps} />
                         <div className="form_help_section">
                             <a href="/signup" id="register_link">
                                 Don't have an account?

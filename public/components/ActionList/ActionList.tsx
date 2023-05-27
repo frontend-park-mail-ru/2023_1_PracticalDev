@@ -2,6 +2,7 @@ import { Component, createElement } from '@t1d333/pickpinlib';
 import { navigate } from '../../actions/navigation';
 import { hideModal, showModal } from '../../actions/modal';
 import './ActionList.css';
+import { store } from '../../store/store';
 
 export class ActionList extends Component<{}, {}> {
     render() {
@@ -10,8 +11,11 @@ export class ActionList extends Component<{}, {}> {
                 <span
                     className="action"
                     onclick={() => {
-                        hideModal();
-                        navigate('/pin-builder');
+                        if (store.getState().user) {
+                            navigate('/pin-builder');
+                            return;
+                        }
+                        showModal('login');
                     }}
                 >
                     Create pin
@@ -19,7 +23,7 @@ export class ActionList extends Component<{}, {}> {
                 <span
                     className="action"
                     onclick={() => {
-                        showModal('board-builder');
+                        showModal(store.getState().user ? 'board-builder' : 'login');
                     }}
                 >
                     Create board
