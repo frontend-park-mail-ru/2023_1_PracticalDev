@@ -4,6 +4,8 @@ import { navigate } from '../../actions/navigation';
 import { loadBoard } from '../../actions/board';
 
 import './boardlist.css';
+import { store } from '../../store/store';
+import { showModal } from '../../actions/modal';
 
 type BoardListItemProps = { board: IBoardWithPins };
 type BoardListItemState = {};
@@ -55,8 +57,23 @@ type BoardListState = {};
 
 export class BoardList extends Component<BoardListProps, BoardListState> {
     render() {
-        return (
+        return store.getState().page !== '/profile' ? (
             <div className="boardlist">
+                {...this.props.boards.map((board) => {
+                    return <BoardListItem key={board.id} board={board} />;
+                })}
+            </div>
+        ) : (
+            <div className="boardlist">
+                <button
+                    className="profile__board-creation-btn"
+                    onclick={() => {
+                        showModal('board-builder');
+                    }}
+                >
+                    <div>Create board</div>
+                    <div className="material-symbols-outlined md-40"> add</div>
+                </button>
                 {...this.props.boards.map((board) => {
                     return <BoardListItem key={board.id} board={board} />;
                 })}

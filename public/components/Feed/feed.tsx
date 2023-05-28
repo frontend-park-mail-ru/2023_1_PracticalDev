@@ -5,6 +5,7 @@ import { store } from '../../store/store';
 import './feed.css';
 import Board from '../../models/board';
 import { loadAvailableBoards } from '../../actions/board';
+import { navigate } from '../../actions/navigation';
 
 interface FeedProps {
     pins: IPin[];
@@ -67,6 +68,19 @@ export default class Feed extends Component<FeedProps, FeedState> {
                         </button>
                     </form>
                 </div>
+                {store.getState().page === '/profile' ? (
+                    <button
+                        className="card card_small profile__pin-creation-btn"
+                        onclick={() => {
+                            navigate('/pin-builder');
+                        }}
+                    >
+                        <div>Create pin</div>
+                        <div className="material-symbols-outlined md-40"> add</div>
+                    </button>
+                ) : (
+                    ''
+                )}
                 {...(this.props.pins || []).map((pin) => {
                     return <Pin pin={pin} availableBoards={this.state.availableBoards} />;
                 })}
