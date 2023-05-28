@@ -13,3 +13,10 @@
 .notification-list__empty {
     text-align: center;
 }
+
+@media (max-width: 400px) {
+    .notification-list {
+        width: 270px;
+        padding: 10px 5px;
+    }
+}
