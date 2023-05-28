@@ -1,11 +1,24 @@
 .profile__container {
     margin-top: 50px;
-    padding: 0 10px;    
+    padding: 0 10px;
+    width: 70vw;
+    margin: 0 auto;
 }
 
+@media (max-width: 1199px) {
+    .profile__container {
+        width: 75vw;
+    }
+}
 
+@media (max-width: 899x) {
+    .profile__container {
+        width: 85vw;
+    }
+}
 
-
-/* Boards*/
-
-
+@media (max-width: 600px) {
+    .profile__container {
+        width: calc(100% - 20px);
+    }
+}
