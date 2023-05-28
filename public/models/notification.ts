@@ -8,8 +8,8 @@ export class Notification {
 
     static createSocket() {
         if (this.connection) return;
-        const url = 'wss://pickpin.ru/api/ws/notifications';
-        // const url = 'ws://localhost/api/ws/notifications';
+        // const url = 'wss://pickpin.ru/api/ws/notifications';
+        const url = 'ws://localhost/api/ws/notifications';
         const socket = new WebSocket(url);
         this.connection = socket;
         connectNotificationWs(socket);

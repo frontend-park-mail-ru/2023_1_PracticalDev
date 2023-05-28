@@ -1,6 +1,6 @@
 import { Component, createElement } from '@t1d333/pickpinlib';
 
-import { IBoard, IPin, IUser } from '../../models';
+import { IBoard, IPin } from '../../models';
 import { store } from '../../store/store';
 import { Pin } from '../../models/pin';
 import Board from '../../models/board';

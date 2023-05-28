@@ -83,14 +83,36 @@
     opacity: 1;
 }
 
-.pin__modal .pin__modal-head {
-    width: 100%;
+.pin__modal-head {
+    width: calc(100% - 30px);
     height: 20%;
+    padding: 0 15px;
     position: fixed;
     top: 5px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
+}
+
+.pin__modal-head > .pin-view__board-list {
+    width: 55%;
+    height: 45px;
+}
+
+.pin__modal-head > .pin-view__actions-save-btn {
+    width: 43%;
+    height: 45px;
+}
+
+.pin__modal-head > .pin-view__actions-save-btn.active {
+    background: var(--color-dark);
+}
+
+.save-btn__content {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: space-evenly;
 }
 
 .pib__save-btn {
@@ -105,12 +127,13 @@
 }
 
 .pin__modal .pin__modal-foot {
-    width: 100%;
+    width: calc(100% - 30px);
     height: 20%;
     position: fixed;
     bottom: 10px;
+    padding: 0 15px;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -146,10 +169,6 @@
     object-fit: cover;
 }
 
-.card_large .pin__modal-head {
-    top: 0px;
-}
-
 @media (max-width: 600px) {
     :root {
         --card_width: 170px;
@@ -172,4 +191,3 @@
         width: 140px;
     }
 }
-

@@ -1,27 +1,43 @@
 import { Component, createElement } from '@t1d333/pickpinlib';
 import { Pin } from '../Pin/pin';
-import { IPin } from '../../models';
-import Ajax from '../../util/ajax';
+import { IBoard, IPin } from '../../models';
 import { store } from '../../store/store';
 import './feed.css';
-
-import './feed.css';
+import Board from '../../models/board';
+import { loadAvailableBoards } from '../../actions/board';
 
 interface FeedProps {
     pins: IPin[];
 }
-interface FeedState {}
+
+interface FeedState {
+    availableBoards: IBoard[];
+}
 
 export default class Feed extends Component<FeedProps, FeedState> {
-    private unsubs: (() => void)[] = [];
+    private unsubs: Function[] = [];
+    protected state: FeedState = { availableBoards: store.getState().availableBoards };
 
-    constructor() {
-        super();
+    onLoadAvailableBoards = () => {
+        if (store.getState().type !== 'loadedAvailableBoards') return;
+        this.setState(() => {
+            return { availableBoards: store.getState().availableBoards };
+        });
+    };
+
+    componentDidMount(): void {
+        this.unsubs.push(store.subscribe(this.onLoadAvailableBoards));
+        if (!store.getState().user) return;
+        Board.getBoards().then((boards) => {
+            loadAvailableBoards(boards);
+        });
     }
 
-    componentDidMount(): void {}
-
-    componentWillUnmount(): void {}
+    componentWillUnmount(): void {
+        this.unsubs.forEach((func) => {
+            func();
+        });
+    }
 
     openPopup = function () {
         let popupBg = document.querySelector('.popup');
@@ -55,7 +71,7 @@ export default class Feed extends Component<FeedProps, FeedState> {
                     </form>
                 </div>
                 {...(this.props.pins || []).map((pin) => {
-                    return <Pin pin={pin} />;
+                    return <Pin pin={pin} availableBoards={this.state.availableBoards} />;
                 })}
             </div>
         );

@@ -2,7 +2,7 @@ import { Component, createElement } from '@t1d333/pickpinlib';
 import { navigate } from '../../actions/navigation';
 import { store } from '../../store/store';
 import { Pin as PinModel } from '../../models/pin';
-import { IPin } from '../../models';
+import { IBoard, IPin } from '../../models';
 import Board from '../../models/board';
 import Feed from '../Feed/feed';
 
@@ -12,11 +12,14 @@ import { showModal } from '../../actions/modal';
 
 interface PinState {
     isLiked: boolean;
+    selectedBoardId: number;
+    saveState: 'notSaved' | 'saved' | 'alreadySaved' | 'serverError';
 }
 
 interface PinProps {
     pin: IPin;
     page: string;
+    availableBoards: IBoard[];
 }
 
 export class Pin extends Component<PinProps, PinState> {
@@ -27,6 +30,8 @@ export class Pin extends Component<PinProps, PinState> {
         super();
         this.state = {
             isLiked: false,
+            saveState: 'notSaved',
+            selectedBoardId: store.getState().availableBoards.length > 0 ? store.getState().availableBoards[0].id : -1,
         };
         this.cardSize = this.sizes[Math.floor(Math.random() * this.sizes.length)];
     }
@@ -41,6 +46,7 @@ export class Pin extends Component<PinProps, PinState> {
 
         this.setState((state) => {
             return {
+                ...state,
                 isLiked: !state.isLiked,
             };
         });
@@ -109,8 +115,9 @@ export class Pin extends Component<PinProps, PinState> {
     private onLikePin = () => {
         PinModel.LikePin(this.props.pin.id).then((resp) => {
             if (resp.ok) {
-                this.setState((_: PinState) => {
+                this.setState((state) => {
                     return {
+                        ...state,
                         isLiked: true,
                     };
                 });
@@ -121,8 +128,9 @@ export class Pin extends Component<PinProps, PinState> {
     private onDislikePin = () => {
         PinModel.UnLikePin(this.props.pin.id).then((resp) => {
             if (resp.ok) {
-                this.setState((_: PinState) => {
+                this.setState((state) => {
                     return {
+                        ...state,
                         isLiked: false,
                     };
                 });
@@ -160,11 +168,49 @@ export class Pin extends Component<PinProps, PinState> {
         });
     };
 
+    private onSavePin = (event: any) => {
+        event.stopPropagation();
+        if (!store.getState().user) {
+            showModal('login');
+            return;
+        }
+
+        if (this.state.saveState === 'saved') return;
+
+        Board.addPinToBoard(this.state.selectedBoardId, this.props.pin.id).then((res) => {
+            switch (res.status) {
+                case 204:
+                    this.setState((state) => {
+                        return { ...state, saveState: 'saved' };
+                    });
+                    break;
+                case 409:
+                    this.setState((state) => {
+                        return { ...state, saveState: 'saved' };
+                    });
+                    break;
+
+                default:
+                    this.setState((state) => {
+                        return { ...state, saveState: 'serverError' };
+                    });
+                    break;
+            }
+        });
+
+        setTimeout(() => {
+            this.setState((state) => {
+                return { ...state, saveState: 'notSaved' };
+            });
+        }, 5000);
+    };
+
     componentDidMount(): void {
         this.unsubs.push(store.subscribe(this.onPinLoad));
         this.unsubs.push(store.subscribe(this.onUserLoad));
-        this.setState(() => {
+        this.setState((state) => {
             return {
+                ...state,
                 isLiked: this.props.pin.liked,
             };
         });
@@ -177,6 +223,7 @@ export class Pin extends Component<PinProps, PinState> {
             feed.openPopup();
             setTimeout(feed.closePopup, 5000);
         });
+
         e.stopPropagation();
     };
 
@@ -190,7 +237,51 @@ export class Pin extends Component<PinProps, PinState> {
                 <div className="pin__title">{this.props.pin.title}</div>
 
                 <div className="pin__modal">
-                    <div className="pin__modal-head"></div>
+                    <div className="pin__modal-head">
+                        <select
+                            name="boardName"
+                            className="pin-view__board-list"
+                            onchange={(event: any) => {
+                                this.setState((state) => {
+                                    return {
+                                        ...state,
+                                        selectedBoardId: event.target.value,
+                                        saveState: 'notSaved',
+                                    };
+                                });
+                            }}
+                            onclick={(event: any) => {
+                                event.stopPropagation();
+                            }}
+                        >
+                            {...this.props.availableBoards.map((board) => {
+                                return <option value={board.id}>{board.name}</option>;
+                            })}
+                        </select>
+                        <button
+                            className={`pin-view__actions-save-btn ${this.state.saveState === 'saved' ? 'active' : ''}`}
+                            onclick={this.onSavePin}
+                        >
+                            {this.state.saveState === 'saved' ? (
+                                <span className="save-btn__content">
+                                    Saved
+                                    <span className="material-symbols-outlined md-24">check_circle</span>
+                                </span>
+                            ) : (
+                                <span
+                                    className="save-btn__content"
+                                    style={this.state.saveState === 'serverError' ? 'color: red;' : ''}
+                                >
+                                    Save
+                                    {this.state.saveState === 'notSaved' ? (
+                                        <span className="material-symbols-outlined md-24"></span>
+                                    ) : (
+                                        <span className="material-symbols-outlined md-24">error</span>
+                                    )}
+                                </span>
+                            )}
+                        </button>
+                    </div>
 
                     <div className="pin__modal-foot">
                         <button

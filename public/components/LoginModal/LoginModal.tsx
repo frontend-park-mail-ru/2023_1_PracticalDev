@@ -10,6 +10,8 @@ import { loadUser } from '../../actions/user';
 import { loadNotifications } from '../../actions/notification';
 import { hideModal } from '../../actions/modal';
 import './LoginModal.css';
+import Board from '../../models/board';
+import { loadAvailableBoards } from '../../actions/board';
 
 export class LoginModal extends Component<{}, {}> {
     private unsubs: Function[] = [];
@@ -42,9 +44,12 @@ export class LoginModal extends Component<{}, {}> {
                 ChatWs.createSocket();
                 Notification.createSocket();
                 Notification.getNotifications().then((notifications) => {
-                    loadNotifications(notifications);
-                    loadUser(user);
-                    hideModal();
+                    Board.getBoards().then((boards) => {
+                        loadAvailableBoards(boards);
+                        loadNotifications(notifications);
+                        loadUser(user);
+                        hideModal();
+                    });
                 });
             })
             .catch((res) => {
