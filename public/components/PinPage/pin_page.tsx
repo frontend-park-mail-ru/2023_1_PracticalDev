@@ -228,7 +228,7 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
         }
     }
 
-    openPopup = function () {
+    openPopup = () => {
         let popupBg = document.querySelector('.popup');
         popupBg?.classList.add('popup-active');
         let popup = document.querySelector('.popup__form');
@@ -246,17 +246,14 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
         return (
             <Main>
                 <div className="popup">
-                    <form className="popup__form">
-                        <div className="popup__form__text">link copied!</div>
-                        <span className="popup__form__close-btn">
-                            <a
-                                key="popup-close-btn"
-                                className="material-symbols-outlined popup__close-btn__icon md-32"
-                                onclick={this.closePopup.bind(this)}
-                            >
-                                close
-                            </a>
-                        </span>
+                    <form className="popup__form ">
+                        <div className="popup__form__text">Link copied!</div>
+                        <button
+                            className="material-symbols-outlined popup__close-btn md-32"
+                            onclick={this.closePopup.bind(this)}
+                        >
+                            close
+                        </button>
                     </form>
                 </div>
                 <div className="pin-view">

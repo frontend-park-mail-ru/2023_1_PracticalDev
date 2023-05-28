@@ -58,16 +58,13 @@ export default class Feed extends Component<FeedProps, FeedState> {
             <div className="pin_container" id="pin_container">
                 <div className="popup">
                     <form className="popup__form">
-                        <div className="popup__form__text">link copied!</div>
-                        <span className="popup__form__close-btn">
-                            <a
-                                key="popup-close-btn"
-                                className="material-symbols-outlined popup__close-btn__icon md-32"
-                                onclick={this.closePopup.bind(this)}
-                            >
-                                close
-                            </a>
-                        </span>
+                        <div className="popup__form__text">Link copied!</div>
+                        <button
+                            className="material-symbols-outlined popup__close-btn md-32"
+                            onclick={this.closePopup.bind(this)}
+                        >
+                            close
+                        </button>
                     </form>
                 </div>
                 {...(this.props.pins || []).map((pin) => {
