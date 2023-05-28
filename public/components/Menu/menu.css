@@ -28,6 +28,10 @@
     display: none;
 }
 
+.menu__item:nth-child(6) {
+    display: none;
+}
+
 .menu__item {
     font-weight: 600;
     display: block;
@@ -129,6 +133,10 @@
     }
 
     .menu__item:nth-child(3) {
+        display: flex;
+    }
+
+    .menu__item:nth-child(6) {
         display: flex;
     }
 }

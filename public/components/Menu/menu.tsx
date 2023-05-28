@@ -54,9 +54,30 @@ export default class Menu extends Component<MenuProps, MenuState> {
     protected state = {
         isAuthorized: store.getState().user !== undefined,
     };
+
+    constructor() {
+        super();
+        if (!this.state.isAuthorized) {
+            menuItems.push({
+                link: '/login',
+                name: 'login',
+                callback: checkAuth.bind(this, '/login'),
+            });
+        }
+    }
+
     private unsubs: Function[] = [];
     private onLogin = () => {
         if (store.getState().type !== 'loadedUser') return;
+
+        if (
+            menuItems.findIndex((item) => {
+                return item.link === '/login';
+            }) !== -1
+        ) {
+            menuItems.pop();
+        }
+
         this.setState(() => {
             return {
                 isAuthorized: true,

@@ -21,3 +21,9 @@
     align-items: center;
     z-index: 102;
 }
+
+@media (max-width: 600px) {
+    .modal__content {
+        max-width: 80vw;
+    }
+}

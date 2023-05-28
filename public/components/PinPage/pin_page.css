@@ -160,9 +160,9 @@
 }
 
 .pin-view__title {
+    color: var(--color-dark);
     margin-top: 25px;
     margin-bottom: 0;
-    color: #141414;
     font-size: 32px;
     font-weight: 700;
     line-height: 38px;
@@ -173,7 +173,7 @@
 .pin-view__description {
     margin-top: 20px;
     margin-bottom: 0;
-    color: #141414;
+    color: var(--color-dark);
     font-size: 16px;
     font-weight: 700;
     line-height: 20px;
@@ -184,7 +184,7 @@
 .pin-view__author {
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
     justify-content: start;
     margin-top: 50px;
 }
@@ -201,7 +201,7 @@
 }
 
 .pin-view__author-name {
-    color: black;
+    color: var(--color-dark);
     font-size: 1.3em;
     font-weight: 600;
     line-height: 29px;
@@ -226,7 +226,7 @@
     margin-top: 28px;
     margin-bottom: 0;
     text-align: left;
-    color: #141414;
+    color: var(--color-dark);
     font-size: 24px;
     font-weight: bold;
     font-family: 'Inter', sans-serif;
