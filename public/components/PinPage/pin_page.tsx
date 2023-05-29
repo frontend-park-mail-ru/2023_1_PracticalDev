@@ -86,6 +86,7 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
             })
             .then(() => {
                 setTimeout(() => {
+                    if (!store.getState().page.startsWith('/pin/')) return;
                     this.setState((state) => {
                         return { ...state, response: '' };
                     });
@@ -155,19 +156,19 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
     componentDidMount(): void {
         this.unsubs.push(store.subscribe(this.onUpdatePin));
         this.unsubs.push(store.subscribe(this.onLoadUser));
+        this.unsubs.push(store.subscribe(this.onNewBoard));
         const id = Number(store.getState().page.split('/')[2]);
         this.getPin(id);
         this.getAvailableBoards();
     }
 
-    private setCommentsLoadFlag() {
+    private onNewBoard = () => {
+        if (store.getState().type !== 'newBoard') return;
+        const board = store.getState().newBoard!;
         this.setState((state) => {
-            return {
-                ...state,
-                commentsLoad: true,
-            };
+            return { ...state, availableBoards: [...state.availableBoards, board] };
         });
-    }
+    };
 
     private onLikePin = () => {
         Pin.LikePin(this.state.pin?.id!).then((resp) => {
@@ -359,10 +360,7 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
                                 )}
 
                                 <p className="pin-view__comments-header">Comments</p>
-                                <CommentList
-                                    pin={this.state.pin}
-                                    onLoadListCallback={this.setCommentsLoadFlag.bind(this)}
-                                />
+                                <CommentList pin={this.state.pin} />
                             </div>
                         )}
                     </div>

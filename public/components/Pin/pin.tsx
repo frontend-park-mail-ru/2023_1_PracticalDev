@@ -274,7 +274,7 @@ export class Pin extends Component<PinProps, PinState> {
                                 >
                                     Save
                                     {this.state.saveState === 'notSaved' ? (
-                                        <span className="material-symbols-outlined md-24"></span>
+                                        ''
                                     ) : (
                                         <span className="material-symbols-outlined md-24">error</span>
                                     )}

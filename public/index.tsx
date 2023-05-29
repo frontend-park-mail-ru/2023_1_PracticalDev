@@ -5,6 +5,7 @@ import { Modal } from './components/Modal/Modal';
 
 import './components/App/index.css';
 import './static/img/Logo2.svg';
+import { BoardCreationPopup } from './components/BoardCreationPopup/BoardCreationPopup';
 
 declare global {
     namespace JSX {
@@ -52,5 +53,6 @@ const root = document.getElementById('root');
 const body = document.querySelector('body');
 const app = <App />;
 const modal = <Modal />;
+
 body?.appendChild(renderElement(modal));
 root?.appendChild(renderElement(app));

@@ -8,6 +8,7 @@ import { loadProfile } from '../../actions/user';
 import { Main } from '../Main/main';
 
 import './profile.css';
+import Board from '../../models/board';
 
 type ProfileProps = {};
 type ProfileState = {
@@ -51,10 +52,21 @@ export class ProfileScreen extends Component<ProfileProps, ProfileState> {
         });
     };
 
+    onNewBoard = () => {
+        if (store.getState().type !== 'newBoard') return;
+        const board = store.getState().newBoard!;
+        Board.getBoardPins(board.id).then((pins) => {
+            this.setState((state) => {
+                return { ...state, boards: [{ ...board, pins: pins }, ...state.boards] };
+            });
+        });
+    };
+
     userLoadHandler() {
         if (store.getState().type !== 'loadedUser') {
             return;
         }
+
         User.getUserProfile(store.getState().user!.id).then(([pins, boards, followers, followees]) => {
             loadProfile(pins!, boards!, followers!, followees!);
         });
@@ -62,6 +74,7 @@ export class ProfileScreen extends Component<ProfileProps, ProfileState> {
 
     componentDidMount(): void {
         this.unsubs.push(store.subscribe(this.profileLoadHandler));
+        this.unsubs.push(store.subscribe(this.onNewBoard));
         User.getUserProfile(store.getState().user!.id).then(([pins, boards, followers, followees]) => {
             loadProfile(pins!, boards!, followers!, followees!);
         });

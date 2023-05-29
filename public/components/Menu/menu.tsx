@@ -45,6 +45,11 @@ const menuItems = [
         name: 'favorite',
         callback: checkAuth.bind(this, '/favorite'),
     },
+    {
+        link: '/login',
+        name: 'login',
+        callback: navigate.bind(this, '/login'),
+    },
 ];
 
 type MenuState = { isAuthorized: boolean };
@@ -57,12 +62,13 @@ export default class Menu extends Component<MenuProps, MenuState> {
 
     constructor() {
         super();
-        if (!this.state.isAuthorized) {
-            menuItems.push({
-                link: '/login',
-                name: 'login',
-                callback: checkAuth.bind(this, '/login'),
-            });
+        if (
+            this.state.isAuthorized &&
+            menuItems.findIndex((item) => {
+                return item.link === '/login';
+            }) !== -1
+        ) {
+            menuItems.pop();
         }
     }
 

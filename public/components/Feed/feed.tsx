@@ -26,8 +26,17 @@ export default class Feed extends Component<FeedProps, FeedState> {
         });
     };
 
+    private onNewBoard = () => {
+        if (store.getState().type !== 'newBoard') return;
+        const board = store.getState().newBoard!;
+        this.setState((state) => {
+            return { ...state, availableBoards: [...state.availableBoards, board] };
+        });
+    };
+
     componentDidMount(): void {
         this.unsubs.push(store.subscribe(this.onLoadAvailableBoards));
+        this.unsubs.push(store.subscribe(this.onNewBoard));
         if (!store.getState().user) return;
         Board.getBoards().then((boards) => {
             loadAvailableBoards(boards);

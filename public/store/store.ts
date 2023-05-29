@@ -20,6 +20,7 @@ interface StoreState {
     pinId: number;
     boardView: IBoard | undefined;
     boardId: number;
+    newBoard: IBoard | undefined;
     availableBoards: IBoard[];
     followers: IUser[];
     followees: IUser[];
@@ -50,6 +51,7 @@ const initialState: StoreState = {
     boardView: undefined,
     author: undefined,
     pinCreationErrorMsg: '',
+    newBoard: undefined,
     changingPin: undefined,
     pinChangingErrorMsg: '',
     type: '',
@@ -85,7 +87,12 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 prevPage: state.page,
                 type: 'navigate',
             };
-
+        case 'boardCreation':
+            return {
+                ...state,
+                newBoard: action.payload?.board,
+                type: 'newBoard',
+            };
         case 'loadedPins':
             return {
                 ...state,

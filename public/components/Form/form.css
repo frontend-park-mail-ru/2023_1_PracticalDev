@@ -27,6 +27,7 @@
 }
 
 #register_link #password_recover_link {
+    cursor: pointer;
     display: inline-block;
     width: 100%;
 }
@@ -46,7 +47,7 @@
 
 .btn_submit:hover {
     background-color: #1687a7;
-    color:#f6f5f5;
+    color: #f6f5f5;
 }
 
 .form_input_group {

@@ -12,6 +12,7 @@ import { hideModal } from '../../actions/modal';
 import './LoginModal.css';
 import Board from '../../models/board';
 import { loadAvailableBoards } from '../../actions/board';
+import { navigate } from '../../actions/navigation';
 
 export class LoginModal extends Component<{}, {}> {
     private unsubs: Function[] = [];
@@ -76,7 +77,14 @@ export class LoginModal extends Component<{}, {}> {
                 <h1 className="login-modal__header">Sign in to complete this action</h1>
                 <Form {...loginFormProps} />
                 <div className="form_help_section">
-                    <a id="register_link" href="/signup">
+                    <a
+                        id="register_link"
+                        onclick={(event: any) => {
+                            event.preventDefault();
+                            hideModal();
+                            navigate('/signup');
+                        }}
+                    >
                         Don't have an account?
                     </a>
                 </div>

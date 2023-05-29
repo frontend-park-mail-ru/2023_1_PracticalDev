@@ -6,6 +6,7 @@ import { Pin } from '../../models/pin';
 import { store } from '../../store/store';
 import { Loader } from '../Loader/Loader';
 import './FavoritePage.css';
+import { navigate } from '../../actions/navigation';
 type FavoritePageProps = {};
 type FavoritePageState = {
     pins: IPin[];
@@ -32,7 +33,24 @@ export class FavoritePage extends Component<FavoritePageProps, FavoritePageState
         return (
             <Main>
                 <h1 className="favorite__header">Favorite pins</h1>
-                {this.state.isLoading ? <Loader /> : <Feed pins={this.state.pins} />}
+
+                {this.state.isLoading ? (
+                    <Loader />
+                ) : this.state.pins.length > 0 ? (
+                    <Feed pins={this.state.pins} />
+                ) : (
+                    <div className="profile-tab__empty">
+                        <h2 className="profile-tab__empty-header">You don't have favorite pins</h2>
+                        <button
+                            className="profile-tab__create-btn"
+                            onclick={() => {
+                                navigate('/feed');
+                            }}
+                        >
+                            Go to feed
+                        </button>
+                    </div>
+                )}
             </Main>
         );
     }

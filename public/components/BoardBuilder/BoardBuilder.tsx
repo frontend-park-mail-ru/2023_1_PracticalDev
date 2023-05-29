@@ -3,6 +3,7 @@ import Board from '../../models/board';
 import './BoardBuilder.css';
 import { hideModal } from '../../actions/modal';
 import { navigate } from '../../actions/navigation';
+import { createBoard } from '../../actions/board';
 type BoardBuilderProps = {};
 
 type BoardBuilderState = {
@@ -39,7 +40,8 @@ export class BoardBuilder extends Component<BoardBuilderProps, BoardBuilderState
         Board.createBoard(input.value)
             .then((board) => {
                 hideModal();
-                navigate(`/board-changing/${board.id}`);
+                createBoard(board);
+                // navigate(`/board-changing/${board.id}`);
             })
             .catch((res) => {
                 this.setState((s) => {

@@ -4,7 +4,6 @@
     align-items: end;
 }
 
-
 .settings__content {
     display: flex;
     flex-direction: column;
@@ -15,8 +14,6 @@
     border-radius: 20px;
     border: 4px solid #d9d9d9;
 }
-
-
 
 .settings__container {
     display: flex;
@@ -30,14 +27,11 @@
     text-align: start;
 }
 
-
 .settings__input-content {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    
 }
-
 
 .settings__submit-btn {
     width: 20%;
@@ -52,10 +46,16 @@
     background: #1687a7;
 }
 
+.settings__logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30%;
+}
+
 .settings__submit-btn:hover {
     background-color: var(--color-dark);
 }
-
 
 .settings__input {
     height: 4vh;
@@ -63,16 +63,14 @@
 }
 
 .settings__avatar-img {
-    cursor: pointer; 
+    cursor: pointer;
     width: 80px;
     height: 80px;
-    border-radius: 15px; 
+    border-radius: 15px;
     object-fit: cover;
-
 }
 
-
-input[type=file]::file-selector-button {
+input[type='file']::file-selector-button {
     margin-right: 20px;
     height: 4vh;
     border: none;
@@ -82,10 +80,10 @@ input[type=file]::file-selector-button {
     color: #d3e0ea;
     cursor: pointer;
     font-size: 15px;
-    font-family: 'Inter'; 
-    transition: background .2s ease-in-out;
+    font-family: 'Inter';
+    transition: background 0.2s ease-in-out;
 }
-input[type=file]::file-selector-button:hover{
+input[type='file']::file-selector-button:hover {
     background-color: var(--color-dark);
 }
 
@@ -101,25 +99,24 @@ input[type=file]::file-selector-button:hover{
     justify-content: space-between;
 }
 
-
 @media (max-width: 1199px) {
-    .settings__content{
+    .settings__content {
         width: 70%;
     }
-    .settings__file-input-container{
+    .settings__file-input-container {
         width: 100%;
     }
 }
 @media (max-width: 768px) {
-    .settings__content{
+    .settings__content {
         width: 90%;
     }
 }
 @media (max-width: 600px) {
-    .settings__form{
+    .settings__form {
         width: 90%;
     }
-    .settings__content{
+    .settings__content {
         width: 80%;
     }
 }

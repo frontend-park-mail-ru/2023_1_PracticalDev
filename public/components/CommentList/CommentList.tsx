@@ -1,11 +1,12 @@
 import { Component, createElement } from '@t1d333/pickpinlib';
 import { IPin } from '../../models';
-import { Comment as CommentModel, IComment } from '../../models/comment';
+import { Comment as CommentModel } from '../../models/comment';
 import { store } from '../../store/store';
 import './CommentList.css';
 import { Comment } from '../Comment/Comment';
 import { showModal } from '../../actions/modal';
-type CommentListProps = { pin: IPin; onLoadListCallback: Function };
+import { IComment } from '../../models';
+type CommentListProps = { pin: IPin };
 type CommentListState = { comments: IComment[]; profile_image: string };
 
 export class CommentList extends Component<CommentListProps, CommentListState> {
@@ -31,7 +32,6 @@ export class CommentList extends Component<CommentListProps, CommentListState> {
 
     getComments = (id: number) => {
         CommentModel.getComments(id).then((res) => {
-            this.props.onLoadListCallback();
             this.setState((state) => {
                 return {
                     ...state,

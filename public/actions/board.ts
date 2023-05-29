@@ -1,4 +1,5 @@
 import { IBoard } from '../models';
+import Board from '../models/board';
 import { store } from '../store/store';
 
 export const loadBoard = (board: IBoard) => {
@@ -16,4 +17,8 @@ export const saveBoardId = (id: number) => {
 
 export const loadAvailableBoards = (boards: IBoard[]) => {
     store.dispatch({ type: 'loadedAvailableBoards', payload: { boards: boards } });
+};
+
+export const createBoard = (board: IBoard) => {
+    store.dispatch({ type: 'boardCreation', payload: { board: board } });
 };

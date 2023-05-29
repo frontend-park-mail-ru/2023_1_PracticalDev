@@ -2,7 +2,7 @@ import { Component, createElement } from '@t1d333/pickpinlib';
 import Menu from '../Menu/menu';
 import { store } from '../../store/store';
 import User from '../../models/user';
-import { loadUser } from '../../actions/user';
+import { loadUser, logoutUser } from '../../actions/user';
 import { Main } from '../Main/main';
 
 import './settings.css';
@@ -111,8 +111,7 @@ export class SettingsScreen extends Component<SettingsScreenProps, SettingsScree
                 avatarSrc: window.URL.createObjectURL(imgInput.files![0]),
             };
         });
-        
-    }
+    };
 
     componentDidMount(): void {
         this.unsubs.push(store.subscribe(this.userLoadHandler.bind(this)));
@@ -180,11 +179,28 @@ export class SettingsScreen extends Component<SettingsScreenProps, SettingsScree
                             />
 
                             <div className="settings__file-input-container">
-                                <input type="file" id ="input_img" name="image" accept="image/jpeg,image/png" oninput={this.onInputCallback.bind(this)}/>
+                                <input
+                                    type="file"
+                                    id="input_img"
+                                    name="image"
+                                    accept="image/jpeg,image/png"
+                                    oninput={this.onInputCallback.bind(this)}
+                                />
 
-                                <input type="submit" value="save" className="settings__submit-btn"/>
+                                <input type="submit" value="save" className="settings__submit-btn" />
                             </div>
                         </form>
+                        <button
+                            className="settings__submit-btn  settings__logout-btn"
+                            onclick={() => {
+                                User.logout().then(() => {
+                                    logoutUser();
+                                });
+                            }}
+                        >
+                            <span className="material-symbols-outlined md-24">logout</span>
+                            <span>Log out</span>
+                        </button>
                     </div>
                 </div>
             </Main>
