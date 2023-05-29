@@ -5,7 +5,6 @@ import { loadNotifications } from '../../actions/notification';
 import { Notification } from '../../models/notification';
 import { navigate } from '../../actions/navigation';
 import { formatDate } from '../../util/formatDate';
-import User from '../../models/user';
 import { Pin } from '../../models/pin';
 import './NewPinNotification.css';
 type NewPinNotificationProps = { notification: INotification };
@@ -21,10 +20,8 @@ export class NewPinNotification extends Component<NewPinNotificationProps, NewPi
     }
     componentDidMount(): void {
         Pin.getPin(this.props.notification.data.pin_id).then((pin) => {
-            User.getUser(pin.author_id).then((user) => {
-                this.setState(() => {
-                    return { pin: pin, author: user };
-                });
+            this.setState(() => {
+                return { pin: pin, author: pin.author };
             });
         });
     }
@@ -47,6 +44,7 @@ export class NewPinNotification extends Component<NewPinNotificationProps, NewPi
                     }
 
                     navigate(`/pin/${this.props.notification.data.pin_id}`);
+                    store.dispatch({ type: 'updatePin', payload: { pinId: this.props.notification.data.pin_id } });
                 }}
             >
                 <img
