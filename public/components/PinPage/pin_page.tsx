@@ -11,6 +11,7 @@ import './pin_page.css';
 import { CommentList } from '../CommentList/CommentList';
 import { Loader } from '../Loader/Loader';
 import { showModal } from '../../actions/modal';
+import { savePinOnBoard } from '../../actions/pin';
 
 type PinScreenState = {
     pin: IPin | undefined;
@@ -163,7 +164,7 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
     }
 
     private onNewBoard = () => {
-        if (store.getState().type !== 'newBoard') return;
+        if (store.getState().type !== 'showResponsePopup' || store.getState().popupTag !== 'newBoard') return;
         const board = store.getState().newBoard!;
         this.setState((state) => {
             return { ...state, availableBoards: [...state.availableBoards, board] };
@@ -314,7 +315,19 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
                                         >
                                             share
                                         </button>
-                                        <select name="boardName" className="pin-view__board-list">
+                                        <select
+                                            name="boardName"
+                                            className="pin-view__board-list"
+                                            onmousedown={(event: any) => {
+                                                if (this.state.availableBoards.length > 0) return;
+                                                event.preventDefault();
+                                                event.target.focus();
+                                            }}
+                                            onclick={() => {
+                                                if (this.state.availableBoards.length > 0) return;
+                                                savePinOnBoard(404);
+                                            }}
+                                        >
                                             {...this.state.availableBoards.map((board) => {
                                                 return <option value={board.id}>{board.name}</option>;
                                             })}
