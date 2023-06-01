@@ -2,6 +2,7 @@
     font-family: Inter;
     font-size: 18px;
     color: var(--color-dark);
+    text-align: center;
 }
 
 .board-creation-popup__content {

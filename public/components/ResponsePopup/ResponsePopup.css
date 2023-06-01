@@ -1,22 +1,23 @@
 .response-popup {
     position: fixed;
-    left: -2000px;
+    left: 50%;
     margin: 0 auto;
-    transition: top 0.2s ease;
+    transition: opacity 0.2s ease;
     border-radius: 10px;
     border: 2px solid var(--color-primary);
     background: var(--color-light);
     transform: translateX(-50%);
     padding: 10px 30px;
     z-index: 10000;
+    opacity: 0;
     -webkit-box-shadow: 0px 0px 13px 3px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 0px 0px 13px 3px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 0px 13px 3px rgba(0, 0, 0, 0.75);
+    top: 150px;
 }
 
 .response-popup.active {
-    top: 150px;
-    left: 50%;
+    opacity: 1;
 }
 
 .response-popup__content {

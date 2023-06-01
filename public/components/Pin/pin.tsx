@@ -37,6 +37,17 @@ export class Pin extends Component<PinProps, PinState> {
         this.cardSize = this.sizes[Math.floor(Math.random() * this.sizes.length)];
     }
 
+    private onLoadAvailableBoards = () => {
+        if (store.getState().type !== 'loadedAvailableBoards') return;
+        this.setState((state) => {
+            return {
+                ...state,
+                selectedBoardId:
+                    store.getState().availableBoards.length > 0 ? store.getState().availableBoards[0].id : -1,
+            };
+        });
+    };
+
     private onUserLoad = () => {
         if (store.getState().type !== 'updateLikeState') return;
         const pin = store.getState().pins.find((pin) => {
@@ -50,6 +61,14 @@ export class Pin extends Component<PinProps, PinState> {
                 ...state,
                 isLiked: !state.isLiked,
             };
+        });
+    };
+
+    private onNewBoard = () => {
+        if (store.getState().type !== 'showResponsePopup' || store.getState().popupTag !== 'newBoard') return;
+        const board = store.getState().newBoard!;
+        this.setState((state) => {
+            return { ...state, selectedBoardId: board.id };
         });
     };
 
@@ -176,43 +195,24 @@ export class Pin extends Component<PinProps, PinState> {
             return;
         }
 
-        if (this.state.saveState === 'saved') return;
+        if (this.state.selectedBoardId === -1) {
+            savePinOnBoard(404);
+            return;
+        }
 
         Board.addPinToBoard(this.state.selectedBoardId, this.props.pin.id).then((res) => {
             Board.getBoard(this.state.selectedBoardId).then((board) => {
                 savePinOnBoard(res.status, board);
             });
-
-            // switch (res.status) {
-            //     case 204:
-            //         this.setState((state) => {
-            //             return { ...state, saveState: 'saved' };
-            //         });
-            //         break;
-            //     case 409:
-            //         this.setState((state) => {
-            //             return { ...state, saveState: 'saved' };
-            //         });
-            //         break;
-            //
-            //     default:
-            //         this.setState((state) => {
-            //             return { ...state, saveState: 'serverError' };
-            //         });
-            //         break;
-            // }
         });
-
-        setTimeout(() => {
-            this.setState((state) => {
-                return { ...state, saveState: 'notSaved' };
-            });
-        }, 5000);
     };
 
     componentDidMount(): void {
         this.unsubs.push(store.subscribe(this.onPinLoad));
         this.unsubs.push(store.subscribe(this.onUserLoad));
+        this.unsubs.push(store.subscribe(this.onLoadAvailableBoards));
+        this.unsubs.push(store.subscribe(this.onNewBoard));
+
         this.setState((state) => {
             return {
                 ...state,
@@ -255,14 +255,22 @@ export class Pin extends Component<PinProps, PinState> {
                                     };
                                 });
                             }}
+                            onmousedown={(event: any) => {
+                                if (this.props.availableBoards.length > 0) return;
+                                event.preventDefault();
+                                event.target.focus();
+                            }}
                             onclick={(event: any) => {
                                 event.stopPropagation();
+                                if (this.props.availableBoards.length > 0) return;
+                                savePinOnBoard(404);
                             }}
                         >
                             {...this.props.availableBoards.map((board) => {
                                 return <option value={board.id}>{board.name}</option>;
                             })}
                         </select>
+
                         <button
                             className={`pin-view__actions-save-btn ${this.state.saveState === 'saved' ? 'active' : ''}`}
                             onclick={this.onSavePin}

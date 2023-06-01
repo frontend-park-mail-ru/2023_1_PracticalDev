@@ -27,7 +27,7 @@ export default class Feed extends Component<FeedProps, FeedState> {
     };
 
     private onNewBoard = () => {
-        if (store.getState().type !== 'newBoard') return;
+        if (store.getState().type !== 'showResponsePopup' || store.getState().popupTag !== 'newBoard') return;
         const board = store.getState().newBoard!;
         this.setState((state) => {
             return { ...state, availableBoards: [...state.availableBoards, board] };

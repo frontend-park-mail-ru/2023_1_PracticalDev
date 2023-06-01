@@ -5,6 +5,8 @@ type PinSavePopupProps = {};
 type PinSavePopupState = { board: IBoard | undefined; status: number };
 import { navigate } from '../../actions/navigation';
 import { hidePopup } from '../../actions/popup';
+import { showModal } from '../../actions/modal';
+import { connectNotificationWs } from '../../actions/notification';
 
 export class PinSavePopup extends Component<PinSavePopupProps, PinSavePopupState> {
     protected state = {
@@ -55,7 +57,30 @@ export class PinSavePopup extends Component<PinSavePopupProps, PinSavePopupState
                 </div>
             </div>
         ) : (
-            <div className="board-creation-popup"></div>
+            <div className="board-creation-popup">
+                You have not created any boards
+                <hr />
+                <div className="board-creation-popup__footer">
+                    <button
+                        className="board-creation-popup__btn navigate-btn"
+                        onclick={() => {
+                            connectNotificationWs;
+                            hidePopup();
+                            showModal('board-builder');
+                        }}
+                    >
+                        Create board
+                    </button>
+                    <button
+                        className="board-creation-popup__btn close-btn"
+                        onclick={() => {
+                            hidePopup();
+                        }}
+                    >
+                        Close
+                    </button>
+                </div>
+            </div>
         );
     }
 }

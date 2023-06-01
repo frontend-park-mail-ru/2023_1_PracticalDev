@@ -4,7 +4,7 @@ import './ResponsePopup.css';
 import { BoardCreationPopup } from '../BoardCreationPopup/BoardCreationPopup';
 import { PinSavePopup } from '../PinSavePopup/PinSavePopup';
 type ResponsePopupProps = {};
-type ResponsePopupState = { visible: boolean; content: VNode };
+type ResponsePopupState = { visible: boolean; content: VNode; timeoutId: number };
 
 const resolvePopupTag = (tag: string) => {
     switch (tag) {
@@ -21,26 +21,40 @@ export class ResponsePopup extends Component<ResponsePopupProps, ResponsePopupSt
     protected state: ResponsePopupState = {
         visible: false,
         content: <div> </div>,
+        timeoutId: 0,
     };
     unsubs: Function[] = [];
 
     onShow = () => {
         if (store.getState().type !== 'showResponsePopup') return;
-        this.setState(() => {
-            return { visible: true, content: resolvePopupTag(store.getState().popupTag) };
+        this.setState((state) => {
+            return { ...state, visible: true, content: resolvePopupTag(store.getState().popupTag) };
         });
 
-        setTimeout(() => {
-            this.setState(() => {
-                return { content: <div />, visible: false };
-            });
-        }, 3500);
+        const id = Number(
+            setTimeout(() => {
+                this.setState((state) => {
+                    return { ...state, content: <div />, visible: false };
+                });
+            }, 5500),
+        );
+
+        this.setState((state) => {
+            return {
+                ...state,
+                timeoutId: id,
+            };
+        });
     };
 
     onHide = () => {
         if (store.getState().type !== 'hideResponsePopup') return;
+        if (this.state.timeoutId !== -1) {
+            clearTimeout(this.state.timeoutId);
+        }
+
         this.setState(() => {
-            return { content: <div />, visible: false };
+            return { timeoutId: -1, content: <div />, visible: false };
         });
     };
 

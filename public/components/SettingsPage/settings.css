@@ -50,7 +50,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 30%;
+    width: 35%;
 }
 
 .settings__submit-btn:hover {
@@ -110,6 +110,9 @@ input[type='file']::file-selector-button:hover {
 @media (max-width: 768px) {
     .settings__content {
         width: 90%;
+    }
+    .settings__logout-btn {
+        width: 50%;
     }
 }
 @media (max-width: 600px) {
