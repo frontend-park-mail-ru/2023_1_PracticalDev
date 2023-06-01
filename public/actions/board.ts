@@ -1,5 +1,4 @@
 import { IBoard } from '../models';
-import Board from '../models/board';
 import { store } from '../store/store';
 
 export const loadBoard = (board: IBoard) => {

@@ -1,26 +1,38 @@
 import { Component, createElement } from '@t1d333/pickpinlib';
 import { store } from '../../store/store';
 import { IBoard } from '../../models';
-import './BoardCreationPopup.css';
-type BoardCreationPopupProps = {};
-type BoardCreationPopupState = { board: IBoard | undefined };
+type PinSavePopupProps = {};
+type PinSavePopupState = { board: IBoard | undefined; status: number };
 import { navigate } from '../../actions/navigation';
 import { hidePopup } from '../../actions/popup';
 
-export class BoardCreationPopup extends Component<BoardCreationPopupProps, BoardCreationPopupState> {
-    protected state: BoardCreationPopupState = {
-        board: store.getState().newBoard,
+export class PinSavePopup extends Component<PinSavePopupProps, PinSavePopupState> {
+    protected state = {
+        board: store.getState().boardView,
+        status: store.getState().pinSavingStatus,
+    };
+
+    statusToContent = (status: number) => {
+        switch (status) {
+            case 204:
+                return this.state.board
+                    ? `Pin successfully saved on board "${
+                          this.state.board.name.length > 20
+                              ? this.state.board.name.slice(0, 20) + '...'
+                              : this.state.board.name
+                      }"`
+                    : '';
+            case 409:
+                return 'The pin has already been saved on this board';
+            default:
+                return 'The server is currently unavailable';
+        }
     };
 
     render() {
         return this.state.board ? (
             <div className="board-creation-popup">
-                {`Board "${
-                    this.state.board.name.length > 20
-                        ? this.state.board.name.slice(0, 20) + '...'
-                        : this.state.board.name
-                }" successfully created`}
-
+                {this.statusToContent(this.state.status)}
                 <hr />
 
                 <div className="board-creation-popup__footer">

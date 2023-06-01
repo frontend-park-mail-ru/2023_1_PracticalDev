@@ -32,6 +32,7 @@
     overflow: hidden;
     justify-self: center;
     box-shadow: 1px;
+    cursor: pointer;
 }
 
 .card_small {

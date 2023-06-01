@@ -8,6 +8,7 @@ interface StoreState {
     pins: IPin[];
     formData: { [_: string]: any };
     validationErrorMessage: string;
+    pinSavingStatus: number;
     user: IUser | undefined;
     pinCreationErrorMsg: string;
     pinChangingErrorMsg: string;
@@ -33,6 +34,7 @@ interface StoreState {
     feedPos: number;
     newNotification: INotification | undefined;
     notifications: INotification[];
+    popupTag: string;
 }
 
 const initialState: StoreState = {
@@ -43,7 +45,9 @@ const initialState: StoreState = {
     formData: {},
     validationErrorMessage: '',
     user: undefined,
+    pinSavingStatus: 0,
     profilePins: [],
+    popupTag: '',
     profileBoards: [],
     availableBoards: [],
     pinView: undefined,
@@ -77,6 +81,7 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
                 feedPos: action.payload?.feedPos,
                 type: 'safeFeedPos',
             };
+
         case 'navigate':
             if (action.payload?.page === state.page) {
                 return { ...state, type: 'navigate' };
@@ -91,7 +96,17 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
             return {
                 ...state,
                 newBoard: action.payload?.board,
-                type: 'newBoard',
+                popupTag: 'newBoard',
+                type: 'showResponsePopup',
+            };
+
+        case 'savePinOnBoard':
+            return {
+                ...state,
+                boardView: action.payload?.board,
+                popupTag: 'pinSaving',
+                pinSavingStatus: action.payload?.status,
+                type: 'showResponsePopup',
             };
         case 'loadedPins':
             return {
@@ -285,6 +300,13 @@ const reducer: Reducer<StoreState> = (state: StoreState = initialState, action: 
             return {
                 ...state,
                 type: 'hideModal',
+            };
+        }
+
+        case 'hideResponsePopup': {
+            return {
+                ...state,
+                type: 'hideResponsePopup',
             };
         }
 

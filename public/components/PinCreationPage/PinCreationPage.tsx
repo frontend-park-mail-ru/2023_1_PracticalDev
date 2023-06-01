@@ -4,6 +4,7 @@ import { store } from '../../store/store';
 import { Main } from '../Main/main';
 
 import './PinCreationPage.css';
+import { Loader } from '../Loader/Loader';
 import { navigate } from '../../actions/navigation';
 
 type PinCreationScreenState = {
@@ -11,12 +12,19 @@ type PinCreationScreenState = {
     description: string;
     errorMsg: string;
     imgUrl: string | undefined;
+    waitResponse: boolean;
 };
 
 export default class PinCreationScreen extends Component<{}, PinCreationScreenState> {
     constructor() {
         super();
-        this.state = { name: '', description: '', errorMsg: '', imgUrl: undefined };
+        this.state = {
+            name: '',
+            description: '',
+            errorMsg: '',
+            imgUrl: undefined,
+            waitResponse: false,
+        };
     }
     private unsubs: Function[] = [];
     private validate = (title: string, description: string, fl: FileList | null): string => {
@@ -50,7 +58,6 @@ export default class PinCreationScreen extends Component<{}, PinCreationScreenSt
         const fd = new FormData();
         const errMsg = this.validate(form.pinTitle.value, form.pinDescription.value, imgInput.files);
         if (errMsg != '') {
-            //TODO: добавить action
             store.dispatch({ type: 'pinCreationError', payload: { message: errMsg } });
             return;
         }
@@ -59,9 +66,27 @@ export default class PinCreationScreen extends Component<{}, PinCreationScreenSt
         fd.append('title', form.pinTitle.value);
         fd.append('description', form.pinDescription.value);
         fd.append('bytes', imgInput.files![0]);
+        this.setState((state) => {
+            return {
+                ...state,
+                waitResponse: true,
+            };
+        });
         Pin.uploadPin(fd).then((res) => {
+            this.setState((state) => {
+                return {
+                    ...state,
+                    waitResponse: false,
+                };
+            });
+
             if (res.ok) {
                 navigate('/profile');
+            } else {
+                store.dispatch({
+                    type: 'pinCreationError',
+                    payload: { message: 'The server is currently unavailable' },
+                });
             }
         });
     };
@@ -120,8 +145,15 @@ export default class PinCreationScreen extends Component<{}, PinCreationScreenSt
                             </label>
                         </div>
 
-                        <div className="pin-builder__form-container">
-                            <h2 className="pin-builder__header">Create a pin</h2>
+                        <div className={`pin-builder__form-container ${this.state.waitResponse ? 'waiting' : ''}`}>
+                            {this.state.waitResponse ? (
+                                <div className="pin-builder__loader-container">
+                                    <Loader />
+                                </div>
+                            ) : (
+                                ''
+                            )}
+                            <h1 className="pin-builder__header">Create a pin</h1>
                             <div className="pin-builder__inputs-container">
                                 <div className="pin-builder__error-msg-container">{this.state.errorMsg}</div>
                                 <input

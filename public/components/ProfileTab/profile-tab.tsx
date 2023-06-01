@@ -33,7 +33,7 @@ export class ProfileTab extends Component<ProfileTabProps, ProfileTabState> {
                     <Feed pins={this.props.userContent.pins} key="feed" />
                 ) : (
                     <div className="profile-tab__empty">
-                        <h2 className="profile-tab__empty-header">You have not created any pin</h2>
+                        <h2 className="profile-tab__empty-header">You have not created any pins</h2>
                         <button
                             className="profile-tab__create-btn"
                             onclick={() => {

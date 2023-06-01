@@ -9,6 +9,7 @@ import Feed from '../Feed/feed';
 import './pin.css';
 import { loadPinView, loadPins, safeFeedPos } from '../../actions/feed';
 import { showModal } from '../../actions/modal';
+import { savePinOnBoard } from '../../actions/pin';
 
 interface PinState {
     isLiked: boolean;
@@ -178,24 +179,28 @@ export class Pin extends Component<PinProps, PinState> {
         if (this.state.saveState === 'saved') return;
 
         Board.addPinToBoard(this.state.selectedBoardId, this.props.pin.id).then((res) => {
-            switch (res.status) {
-                case 204:
-                    this.setState((state) => {
-                        return { ...state, saveState: 'saved' };
-                    });
-                    break;
-                case 409:
-                    this.setState((state) => {
-                        return { ...state, saveState: 'saved' };
-                    });
-                    break;
+            Board.getBoard(this.state.selectedBoardId).then((board) => {
+                savePinOnBoard(res.status, board);
+            });
 
-                default:
-                    this.setState((state) => {
-                        return { ...state, saveState: 'serverError' };
-                    });
-                    break;
-            }
+            // switch (res.status) {
+            //     case 204:
+            //         this.setState((state) => {
+            //             return { ...state, saveState: 'saved' };
+            //         });
+            //         break;
+            //     case 409:
+            //         this.setState((state) => {
+            //             return { ...state, saveState: 'saved' };
+            //         });
+            //         break;
+            //
+            //     default:
+            //         this.setState((state) => {
+            //             return { ...state, saveState: 'serverError' };
+            //         });
+            //         break;
+            // }
         });
 
         setTimeout(() => {

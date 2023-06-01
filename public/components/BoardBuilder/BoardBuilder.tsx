@@ -41,7 +41,6 @@ export class BoardBuilder extends Component<BoardBuilderProps, BoardBuilderState
             .then((board) => {
                 hideModal();
                 createBoard(board);
-                // navigate(`/board-changing/${board.id}`);
             })
             .catch((res) => {
                 this.setState((s) => {
