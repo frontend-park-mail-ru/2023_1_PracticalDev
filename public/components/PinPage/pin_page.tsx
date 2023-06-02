@@ -347,12 +347,8 @@ export class PinScreen extends Component<PinScreenProps, PinScreenState> {
                                         {this.state.response}
                                     </span>
                                 </div>
-                                <p className="pin-view__title">
-                                    {this.state.pin?.title ? this.state.pin?.title.slice(0, 20) : ''}
-                                </p>
-                                <p className="pin-view__description">
-                                    {this.state.pin?.description ? this.state.pin?.description.slice(0, 40) : ''}
-                                </p>
+                                <p className="pin-view__title">{this.state.pin?.title ?? ''}</p>
+                                <p className="pin-view__description">{this.state.pin?.description ?? ''}</p>
                                 <div className="pin-view__author">
                                     <img
                                         className="pin-view__author-avatar-img"

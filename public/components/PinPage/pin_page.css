@@ -168,6 +168,9 @@
     line-height: 38px;
     font-family: 'Inter', sans-serif;
     text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .pin-view__description {
@@ -179,6 +182,9 @@
     line-height: 20px;
     font-family: 'Inter', sans-serif;
     text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .pin-view__author {
