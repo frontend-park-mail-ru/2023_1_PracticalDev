@@ -262,6 +262,12 @@ export class Pin extends Component<PinProps, PinState> {
                             }}
                             onclick={(event: any) => {
                                 event.stopPropagation();
+
+                                if (!store.getState().user) {
+                                    showModal('login');
+                                    return;
+                                }
+
                                 if (this.props.availableBoards.length > 0) return;
                                 savePinOnBoard(404);
                             }}
