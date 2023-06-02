@@ -171,6 +171,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    min-height: 40px;
 }
 
 .pin-view__description {
@@ -185,6 +186,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    min-height: 25px;
 }
 
 .pin-view__author {
