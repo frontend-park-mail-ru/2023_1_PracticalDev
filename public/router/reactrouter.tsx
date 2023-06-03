@@ -102,7 +102,11 @@ function resolve(path: string = ''): VNode {
                 </AuthChecker>
             );
         default:
-            return <div>404</div>;
+            return (
+                <AuthChecker authRequired={false}>
+                    <MainScreen />
+                </AuthChecker>
+            );
     }
 }
 
